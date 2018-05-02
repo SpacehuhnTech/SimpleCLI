@@ -21,6 +21,12 @@ class Cmd {
       return String(name);
     }
 
+    const char* getNamePtr() {
+      return name;
+    }
+
+    virtual bool equalsName(const char* name) = 0;
+    
     uint8_t equals(String name, int argNum, Arg* firstArg) {
       if (!equalsName(name.c_str())) return WRONG_NAME;
       if (argNum > Cmd::argNum) return TOO_MANY_ARGS;
@@ -57,42 +63,52 @@ class Cmd {
       return OK;
     }
 
-    void addArg(Arg* newArg) {
-      newArg->next = firstArg;
-      firstArg = newArg;
-      argNum++;
+    bool addArg(Arg* newArg) {
+      if(getArg(newArg->getName()) == NULL){
+        newArg->next = firstArg;
+        firstArg = newArg;
+        argNum++;
+        return true;
+      }
+      return false;
     }
 
-    void addArg(Argument* newArg) {
-      addArg(static_cast<Arg*>(newArg));
+    bool addArg(Argument* newArg) {
+      return addArg(static_cast<Arg*>(newArg));
     }
 
-    void addArg(Argument_P* newArg) {
-      addArg(static_cast<Arg*>(newArg));
+    bool addArg(Argument_P* newArg) {
+      if(getArg(newArg->getNamePtr()) == NULL){
+        newArg->next = firstArg;
+        firstArg = static_cast<Arg*>(newArg);
+        argNum++;
+        return true;
+      }
+      return false;
     }
 
-    void addArg(String name, String defaultValue, bool required) {
-      addArg(new Argument(name, defaultValue, required));
+    bool addArg(String name, String defaultValue, bool required) {
+      return addArg(new Argument(name, defaultValue, required));
     }
 
-    void addArg_P(const char* name, const char* defaultValue, bool required) {
-      addArg(new Argument_P(name, defaultValue, required));
+    bool addArg_P(const char* name, const char* defaultValue, bool required) {
+      return addArg(new Argument_P(name, defaultValue, required));
     }
 
-    void addOptArg(String name, String defaultValue) {
-      addArg(name, defaultValue, false);
+    bool addOptArg(String name, String defaultValue) {
+      return addArg(name, defaultValue, false);
     }
 
-    void addOptArg_P(const char* name, const char* defaultValue) {
-      addArg_P(name, defaultValue, false);
+    bool addOptArg_P(const char* name, const char* defaultValue) {
+      return addArg_P(name, defaultValue, false);
     }
 
-    void addReqArg(String name, String defaultValue) {
-      addArg(name, defaultValue, true);
+    bool addReqArg(String name, String defaultValue) {
+      return addArg(name, defaultValue, true);
     }
 
-    void addReqArg_P(const char* name, const char* defaultValue) {
-      addArg_P(name, defaultValue, true);
+    bool addReqArg_P(const char* name, const char* defaultValue) {
+      return addArg_P(name, defaultValue, true);
     }
 
     Arg* getArg(String name) {
@@ -105,12 +121,31 @@ class Cmd {
       return NULL;
     }
 
+    Arg* getArg_P(const char* name) {
+      Arg* h = firstArg;
+      while (h) {
+        if (name == h->getNamePtr())
+          return h;
+        h = h->next;
+      }
+      return NULL;
+    }
+
     bool hasArg(String name) {
       return getArg(name) != NULL;
     }
-
+    
+    bool hasArg_P(const char* name) {
+      return getArg_P(name) != NULL;
+    }
+    
     bool has(String name) {
       Arg* h = getArg(name);
+      return h ? h->isSet() : false;
+    }
+
+    bool has_P(const char* name) {
+      Arg* h = getArg_P(name);
       return h ? h->isSet() : false;
     }
 
@@ -118,7 +153,12 @@ class Cmd {
       Arg* arg = getArg(name);
       return arg ? arg->getValue() : String();
     }
-
+    
+    String value_P(const char* name) {
+      Arg* arg = getArg_P(name);
+      return arg ? arg->getValue() : String();
+    }
+    
     void resetArguments() {
       Arg* h = firstArg;
       while (h) {
@@ -142,15 +182,13 @@ class Cmd {
       }
       return false;
     }
-
+    
   protected:
     char* name = NULL;
     Arg* firstArg = NULL;
     void (*runFnct)(Cmd*) = NULL;
     void (*errorFnct)(uint8_t) = NULL;
     int argNum = 0;
-
-    virtual bool equalsName(const char* name) = 0;
 
     bool equalsKeyword(const char* str, const char* keyword) {
       if (!str) return false;

@@ -11,6 +11,10 @@ class Arg {
     virtual void reset() = 0;
     virtual bool equals(const char* name) = 0;
 
+    bool equals_P(const char* name) {
+      return name == Arg::name;
+    }
+    
     String getName() {
       return String(name);
     }

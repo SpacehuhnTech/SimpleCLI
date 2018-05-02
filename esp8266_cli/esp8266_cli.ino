@@ -45,9 +45,8 @@ void setup() {
     }
     Serial.println();
   }, [](uint8_t error) {
-    Serial.print(String(F("Something went wrong. Did you mean: \"ping -n <num> [-s <str>] [-l]\"?")));
-    Serial.print(String(F("Error Code: ")));
-    Serial.print(error);
+    Serial.print(String(F("Something went wrong. Did you mean: \"ping -n <num> [-s <str>] [-l]\"? Error Code: ")));
+    Serial.println(error);
   });
   ping->addOptArg_P(CLI_LINE, CLI_NULL);
   ping->addOptArg_P(CLI_STR, CLI_PONG);
@@ -66,7 +65,7 @@ void setup() {
   // run tests
   cli->parse("ping");
   cli->parse("ping -n 11");
-  cli->parse("ping -n 11 -s test");
+  cli->parse("ping -n 11 -s test -l");
   cli->parse("ram");
 
   Serial.println("\\o/ STARTED!");

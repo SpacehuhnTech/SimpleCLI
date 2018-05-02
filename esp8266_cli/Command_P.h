@@ -26,30 +26,6 @@ class Command_P: public Cmd {
       delete tmpName;
       return res;
     }
-
-    Arg* getArg_P(const char* name) {
-      Arg* h = firstArg;
-      while (h) {
-        if (h->getNamePtr() == name)
-          return h;
-        h = h->next;
-      }
-      return NULL;
-    }
-
-    bool hasArg_P(const char* name) {
-      return getArg_P(name) != NULL;
-    }
-
-    bool has_P(const char* name) {
-      Arg* h = getArg_P(name);
-      return h ? h->isSet() : false;
-    }
-
-    String value_P(const char* name) {
-      Arg* arg = getArg_P(name);
-      return arg ? arg->getValue() : String();
-    }
 };
 
 #endif

@@ -152,17 +152,49 @@ class CommandParser {
         onNotFound(cmdName);
     }
 
-    void addCommand(Cmd* newCmd) {
-      newCmd->next = firstCmd;
-      firstCmd = newCmd;
+    Cmd* getCommand(String cmdName){
+      Cmd* cmd = firstCmd;
+
+      while (cmd) {
+        if(cmd->equals(cmdName, 0, NULL) != cmd->WRONG_NAME)
+          return cmd;
+        cmd = cmd->next;
+      }
+
+      return NULL;
     }
 
-    void addCommand(Command* newCmd) {
-      addCommand(static_cast<Cmd*>(newCmd));
+    Cmd* getCommand_P(const char* cmdName){
+      Cmd* cmd = firstCmd;
+
+      while (cmd) {
+        if(cmd->getNamePtr() == cmdName)
+          return cmd;
+        cmd = cmd->next;
+      }
+
+      return NULL;
+    }
+    
+    bool addCommand(Cmd* newCmd) {
+      if(getCommand(newCmd->getName()) == NULL){
+        newCmd->next = firstCmd;
+        firstCmd = newCmd;
+        return true;
+      }
     }
 
-    void addCommand(Command_P* newCmd) {
-      addCommand(static_cast<Cmd*>(newCmd));
+    bool addCommand(Command* newCmd) {
+      return addCommand(static_cast<Cmd*>(newCmd));
+    }
+
+    bool addCommand(Command_P* newCmd) {
+      if(getCommand_P(newCmd->getNamePtr()) == NULL){
+        newCmd->next = firstCmd;
+        firstCmd = static_cast<Cmd*>(newCmd);
+        return true;
+      }
+      return false;
     }
   private:
     Cmd* firstCmd = NULL;
