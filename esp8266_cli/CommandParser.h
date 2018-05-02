@@ -7,6 +7,9 @@
 #include "Cmd.h"
 #include "Arg.h"
 #include "Argument.h"
+#include "Argument_P.h"
+#include "Command.h"
+#include "Command_P.h"
 
 class CommandParser {
   public:
