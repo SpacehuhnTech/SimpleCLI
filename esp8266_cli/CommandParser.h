@@ -1,9 +1,10 @@
 #ifndef CommandParser_h
 #define CommandParser_h
 
-#include <stddef.h>
-#include <stddef.h>
-#include <functional>
+#include "Arduino.h"
+extern "C" {
+  #include "user_interface.h"
+}
 
 #include "Arg.h"
 #include "Argument.h"
@@ -12,6 +13,8 @@
 #include "Cmd.h"
 #include "Command.h"
 #include "Command_P.h"
+
+static const char EMPTY_PROGMEM_STRING[] PROGMEM = " ";
 
 class CommandParser {
   public:

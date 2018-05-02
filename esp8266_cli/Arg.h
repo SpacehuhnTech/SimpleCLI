@@ -1,6 +1,11 @@
 #ifndef Arg_h
 #define Arg_h
 
+#include "Arduino.h"
+extern "C" {
+  #include "user_interface.h"
+}
+
 class Arg {
   public:
     Arg* next = NULL;
@@ -11,8 +16,8 @@ class Arg {
     virtual void reset() = 0;
     virtual bool equals(const char* name) = 0;
 
-    bool equals_P(const char* name) {
-      return name == Arg::name;
+    bool equals(String name){
+      return equals(name.c_str());
     }
     
     String getName() {
@@ -25,6 +30,10 @@ class Arg {
 
     String getValue() {
       return String(value);
+    }
+
+    const char* getValuePtr() {
+      return value;
     }
 
     bool isSet() {
@@ -45,6 +54,8 @@ class Arg {
     bool equalsKeyword(const char* str, const char* keyword) {
       if (!str) return false;
       if (!keyword) return false;
+
+      if(str == keyword) return true;
 
       int lenStr = strlen(str);
       int lenKeyword = strlen(keyword);

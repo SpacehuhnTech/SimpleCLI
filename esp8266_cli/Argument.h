@@ -61,7 +61,7 @@ class Argument: public Arg {
     }
 
     bool equals(const char* name) {
-      equalsKeyword(name, Argument::name);
+      return equalsKeyword(name, Argument::name);
     }
 
     void setValue(String value) {

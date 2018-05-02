@@ -3,14 +3,19 @@
 
 #include "Arg.h"
 
+extern const char EMPTY_PROGMEM_STRING[] PROGMEM;
+
 class Argument_P: public Arg {
   public:
+    
     Argument_P(const char* name, const char* defaultValue, bool required) {
+      if(!name) name = EMPTY_PROGMEM_STRING;
+      if(!defaultValue) defaultValue = EMPTY_PROGMEM_STRING;
+      
       Argument_P::name = const_cast<char*>(name);
-      if(defaultValue) Argument_P::defaultValue = const_cast<char*>(defaultValue);
+      Argument_P::defaultValue = const_cast<char*>(defaultValue);
       Argument_P::required = required;
-
-      // load defaults
+      
       reset();
     }
 
@@ -43,12 +48,10 @@ class Argument_P: public Arg {
     void reset() {
       if (value) delete value;
       
-      if (defaultValue){
-        int strLen = strlen_P(defaultValue);
-        value = new char[strLen + 1];
-        strcpy_P(value, defaultValue);
-        value[strLen] = '\0';
-      }
+      int strLen = strlen_P(defaultValue);
+      value = new char[strLen + 1];
+      strcpy_P(value, defaultValue);
+      value[strLen] = '\0';
       
       set = false;
     }

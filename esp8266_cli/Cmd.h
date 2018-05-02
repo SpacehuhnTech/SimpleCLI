@@ -1,8 +1,10 @@
 #ifndef Cmd_h
 #define Cmd_h
 
-#include <stddef.h>
-#include <functional>
+#include "Arduino.h"
+extern "C" {
+  #include "user_interface.h"
+}
 
 class Cmd {
   public:
