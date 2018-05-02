@@ -5,25 +5,25 @@
 
 class Argument: public Arg {
   public:
-    Argument(const char* name, const char* defaultValue, bool required){
+    Argument(const char* name, const char* defaultValue, bool required) {
       // copy name
-      if(name){
+      if (name) {
         int strLen = strlen(name);
-        Argument::name = new char[strLen+1];
+        Argument::name = new char[strLen + 1];
         strcpy(Argument::name, name);
         Argument::name[strLen] = '\0';
-      }else{
+      } else {
         Argument::name = new char[1];
         Argument::name[0] = '\0';
       }
-      
+
       // copy defaultValue
-      if(defaultValue){
+      if (defaultValue) {
         int strLen = strlen(defaultValue);
-        Argument::defaultValue = new char[strLen+1];
+        Argument::defaultValue = new char[strLen + 1];
         strcpy(Argument::defaultValue, defaultValue);
         Argument::defaultValue[strLen] = '\0';
-      }else{
+      } else {
         Argument::defaultValue = new char[1];
         Argument::defaultValue[0] = '\0';
       }
@@ -35,14 +35,14 @@ class Argument: public Arg {
       reset();
     }
 
-    Argument(String name, String defaultValue, bool required){
+    Argument(String name, String defaultValue, bool required) {
       int strLen;
-      
-      strLen = name.length()+1;
+
+      strLen = name.length() + 1;
       Argument::name = new char[strLen];
       name.toCharArray(Argument::name, strLen);
-      
-      strLen = defaultValue.length()+1;
+
+      strLen = defaultValue.length() + 1;
       Argument::defaultValue = new char[strLen];
       defaultValue.toCharArray(Argument::defaultValue, strLen);
 
@@ -52,33 +52,33 @@ class Argument: public Arg {
       // load defaults
       reset();
     }
-    
-    ~Argument(){
+
+    ~Argument() {
       delete name;
       delete defaultValue;
-      if(value) delete value;
-      if(next) delete next;
+      if (value) delete value;
+      if (next) delete next;
     }
 
-    bool equals(const char* name){
+    bool equals(const char* name) {
       equalsKeyword(name, Argument::name);
     }
-    
-    void setValue(String value){
-      if(Argument::value) delete Argument::value;
 
-      int strLen = value.length()+1;
+    void setValue(String value) {
+      if (Argument::value) delete Argument::value;
+
+      int strLen = value.length() + 1;
       Argument::value = new char[strLen];
       value.toCharArray(Argument::value, strLen);
 
       set = true;
     }
- 
-    void reset(){
-      if(value) delete value;
-      
+
+    void reset() {
+      if (value) delete value;
+
       int strLen = strlen(defaultValue);
-      value = new char[strLen+1];
+      value = new char[strLen + 1];
       strcpy(value, defaultValue);
       value[strLen] = '\0';
 
@@ -87,3 +87,4 @@ class Argument: public Arg {
 };
 
 #endif
+
