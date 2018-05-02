@@ -25,14 +25,31 @@ class Argument_P: public Arg {
     }
 
     bool equals(const char* name) {
-      int tmpNameLen = strlen_P(Argument_P::name);
-      char* tmpName = new char[tmpNameLen + 1];
-      strcpy_P(tmpName, Argument_P::name);
-      tmpName[tmpNameLen] = '\0';
+      if(!name) return false;
+      if(name == Argument_P::name) return true;
+      
+      int strLen;
 
-      bool res = Arg::equalsKeyword(name, tmpName);
-      delete tmpName;
-      return res;
+      strLen = strlen_P(name);
+      char tmpName[strLen + 1];
+      strcpy_P(tmpName, name);
+      tmpName[strLen] = '\0';
+
+      strLen = strlen_P(Argument_P::name);
+      char tmpKeyword[strLen + 1];
+      strcpy_P(tmpKeyword, Argument_P::name);
+      tmpKeyword[strLen] = '\0';
+
+      return equalsKeyword(tmpName, tmpKeyword);
+    }
+
+    bool equals(String name) {
+      int strLen = strlen_P(Argument_P::name);
+      char tmpKeyword[strLen + 1];
+      strcpy_P(tmpKeyword, Argument_P::name);
+      tmpKeyword[strLen] = '\0';
+
+      return equalsKeyword(name.c_str(), tmpKeyword);
     }
 
     void setValue(String value) {

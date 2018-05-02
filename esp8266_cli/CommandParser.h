@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 extern "C" {
-  #include "user_interface.h"
+#include "user_interface.h"
 }
 
 #include "Arg.h"
@@ -14,7 +14,50 @@ extern "C" {
 #include "Command.h"
 #include "Command_P.h"
 
-static const char EMPTY_PROGMEM_STRING[] PROGMEM = " ";
+const char EMPTY_PROGMEM_STRING[] PROGMEM = " ";
+bool equalsKeyword(const char* str, const char* keyword) {
+  if (!str) return false;
+  if (!keyword) return false;
+
+  int lenStr = strlen(str);
+  int lenKeyword = strlen(keyword);
+
+  // string can't be longer than keyword (but can be smaller because of '/' and ',')
+  if (lenStr > lenKeyword)
+    return false;
+
+  if (lenStr == lenKeyword)
+    return strcmp(str, keyword) == 0;
+
+  int a = 0;
+  int b = 0;
+  bool result = true;
+
+  while (a < lenStr && b < lenKeyword) {
+    if (keyword[b] == '/') {
+      b++;
+    } else if (keyword[b] == ',') {
+      b++;
+      a = 0;
+    }
+
+    if (tolower(str[a]) != tolower(keyword[b])) {
+      result = false;
+    }
+
+    // fast forward to next comma
+    if ((a == lenStr && !result) || !result) {
+      while (b < lenKeyword && keyword[b] != ',') b++;
+      result = true;
+    } else {
+      a++;
+      b++;
+    }
+  }
+  // comparison correct AND string checked until the end AND keyword checked until the end
+  result = result && a == lenStr && (keyword[b] == ',' || keyword[b] == '/' || keyword[b] == '\0');
+  return result;
+}
 
 class CommandParser {
   public:
@@ -36,6 +79,22 @@ class CommandParser {
 
       const char* str = input.c_str();
 
+      parseLines(str, strLen);
+    }
+
+    void parse(const char* input) {
+      int strLen = strlen_P(input);
+
+      if (strLen == 0) return;
+
+      char tmpInput[strLen + 1];
+      strcpy_P(tmpInput, input);
+      tmpInput[strLen] = '\0';
+
+      parseLines(tmpInput, strLen);
+    }
+
+    void parseLines(const char* str, int strLen) {
       int h = 1;
       int i = 0;
 
@@ -60,7 +119,7 @@ class CommandParser {
       if (h > 0) parseLine(&str[i - h], h);
     }
 
-    void parseLine(const char* str, int length) {
+    void parseLine(const char* str, int strLen) {
       Arg* argList = NULL;
       int argNum = 0;
 
@@ -73,8 +132,8 @@ class CommandParser {
       String tmpStr = String();
       String cmdName = String();
 
-      for (int i = 0; i <= length; i++) {
-        if (i < length) tmpChar = str[i];
+      for (int i = 0; i <= strLen; i++) {
+        if (i < strLen) tmpChar = str[i];
         else tmpChar = '\0';
 
         // escape character BACKSLASH
@@ -139,12 +198,13 @@ class CommandParser {
 
       while (cmd && !found) {
         uint8_t res = cmd->equals(cmdName, argNum, argList);
-        if (res == cmd->OK) {
-          cmd->run(cmd);
+        if (res != cmd->WRONG_NAME) {
           found = true;
-        } else if (res != cmd->WRONG_NAME) {
-          cmd->error(res);
-          found = true;
+          
+          if(res == cmd->OK)
+            cmd->run(cmd);
+          else
+            cmd->error(res);
         }
         cmd = cmd->next;
       }
@@ -155,11 +215,11 @@ class CommandParser {
         onNotFound(cmdName);
     }
 
-    Cmd* getCommand(String cmdName){
+    Cmd* getCommand(String cmdName) {
       Cmd* cmd = firstCmd;
 
       while (cmd) {
-        if(cmd->equals(cmdName, 0, NULL) != cmd->WRONG_NAME)
+        if (cmd->equals(cmdName, 0, NULL) != cmd->WRONG_NAME)
           return cmd;
         cmd = cmd->next;
       }
@@ -167,20 +227,20 @@ class CommandParser {
       return NULL;
     }
 
-    Cmd* getCommand_P(const char* cmdName){
+    Cmd* getCommand_P(const char* cmdName) {
       Cmd* cmd = firstCmd;
 
       while (cmd) {
-        if(cmd->getNamePtr() == cmdName)
+        if (cmd->getNamePtr() == cmdName)
           return cmd;
         cmd = cmd->next;
       }
 
       return NULL;
     }
-    
+
     bool addCommand(Cmd* newCmd) {
-      if(getCommand(newCmd->getName()) == NULL){
+      if (getCommand(newCmd->getName()) == NULL) {
         newCmd->next = firstCmd;
         firstCmd = newCmd;
         return true;
@@ -192,7 +252,7 @@ class CommandParser {
     }
 
     bool addCommand(Command_P* newCmd) {
-      if(getCommand_P(newCmd->getNamePtr()) == NULL){
+      if (getCommand_P(newCmd->getNamePtr()) == NULL) {
         newCmd->next = firstCmd;
         firstCmd = static_cast<Cmd*>(newCmd);
         return true;

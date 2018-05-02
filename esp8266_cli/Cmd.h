@@ -6,6 +6,8 @@ extern "C" {
   #include "user_interface.h"
 }
 
+extern bool equalsKeyword(const char* str, const char* keyword);
+
 class Cmd {
   public:
     Cmd* next = NULL;
@@ -19,50 +21,15 @@ class Cmd {
     static const uint8_t DUPLICATE_ARG = 4;
     static const uint8_t INVALID_ARG = 5;
 
+    virtual uint8_t equals(const char* name, int argNum, Arg* firstArg) = 0;
+    virtual uint8_t equals(String name, int argNum, Arg* firstArg) = 0;
+    
     String getName() {
       return String(name);
     }
 
     const char* getNamePtr() {
       return name;
-    }
-
-    virtual bool equalsName(const char* name) = 0;
-    
-    uint8_t equals(String name, int argNum, Arg* firstArg) {
-      if (!equalsName(name.c_str())) return WRONG_NAME;
-      if (argNum > Cmd::argNum) return TOO_MANY_ARGS;
-
-      resetArguments();
-
-      // check and set argument values
-      Arg* h = firstArg;
-      Arg* tmp;
-      while (h != NULL) {
-        tmp = getArg(h->getName());
-
-        if (tmp) {
-          if (!tmp->isSet()) {
-            tmp->setValue(h->getValue());
-          } else {
-            return DUPLICATE_ARG; // argument twice in the list
-          }
-        } else {
-          return INVALID_ARG; // argument not found
-        }
-
-        h = h->next;
-      }
-
-      // check for all required arguments
-      h = Cmd::firstArg;
-      while (h != NULL) {
-        if (h->isRequired() && !h->isSet())
-          return MISSING_ARGS;
-        h = h->next;
-      }
-
-      return OK;
     }
 
     bool addArg(Arg* newArg) {
@@ -80,13 +47,7 @@ class Cmd {
     }
 
     bool addArg(Argument_P* newArg) {
-      if(getArg(newArg->getNamePtr()) == NULL){
-        newArg->next = firstArg;
-        firstArg = static_cast<Arg*>(newArg);
-        argNum++;
-        return true;
-      }
-      return false;
+      return addArg(static_cast<Arg*>(newArg));
     }
 
     bool addArg(String name, String defaultValue, bool required) {
@@ -116,17 +77,17 @@ class Cmd {
     Arg* getArg(String name) {
       Arg* h = firstArg;
       while (h) {
-        if (h->equals(name.c_str()))
+        if (h->equals(name))
           return h;
         h = h->next;
       }
       return NULL;
     }
 
-    Arg* getArg_P(const char* name) {
+    Arg* getArg(const char* name) {
       Arg* h = firstArg;
       while (h) {
-        if (name == h->getNamePtr())
+        if (h->equals(name))
           return h;
         h = h->next;
       }
@@ -137,8 +98,8 @@ class Cmd {
       return getArg(name) != NULL;
     }
     
-    bool hasArg_P(const char* name) {
-      return getArg_P(name) != NULL;
+    bool hasArg(const char* name) {
+      return getArg(name) != NULL;
     }
     
     bool has(String name) {
@@ -146,8 +107,8 @@ class Cmd {
       return h ? h->isSet() : false;
     }
 
-    bool has_P(const char* name) {
-      Arg* h = getArg_P(name);
+    bool has(const char* name) {
+      Arg* h = getArg(name);
       return h ? h->isSet() : false;
     }
 
@@ -156,8 +117,8 @@ class Cmd {
       return arg ? arg->getValue() : String();
     }
     
-    String value_P(const char* name) {
-      Arg* arg = getArg_P(name);
+    String value(const char* name) {
+      Arg* arg = getArg(name);
       return arg ? arg->getValue() : String();
     }
     
@@ -192,48 +153,39 @@ class Cmd {
     void (*errorFnct)(uint8_t) = NULL;
     int argNum = 0;
 
-    bool equalsKeyword(const char* str, const char* keyword) {
-      if (!str) return false;
-      if (!keyword) return false;
+    uint8_t parse(int argNum, Arg* firstArg) {
+      if (argNum > Cmd::argNum) return TOO_MANY_ARGS;
 
-      int lenStr = strlen(str);
-      int lenKeyword = strlen(keyword);
+      resetArguments();
 
-      // string can't be longer than keyword (but can be smaller because of '/' and ',')
-      if (lenStr > lenKeyword)
-        return false;
+      // check and set argument values
+      Arg* h = firstArg;
+      Arg* tmp;
+      while (h != NULL) {
+        tmp = getArg(h->getName());
 
-      if (lenStr == lenKeyword)
-        return strcmp(str, keyword) == 0;
-
-      int a = 0;
-      int b = 0;
-      bool result = true;
-
-      while (a < lenStr && b < lenKeyword) {
-        if (keyword[b] == '/') {
-          b++;
-        } else if (keyword[b] == ',') {
-          b++;
-          a = 0;
-        }
-
-        if (tolower(str[a]) != tolower(keyword[b])) {
-          result = false;
-        }
-
-        // fast forward to next comma
-        if ((a == lenStr && !result) || !result) {
-          while (b < lenKeyword && keyword[b] != ',') b++;
-          result = true;
+        if (tmp) {
+          if (!tmp->isSet()) {
+            tmp->setValue(h->getValue());
+          } else {
+            return DUPLICATE_ARG; // argument twice in the list
+          }
         } else {
-          a++;
-          b++;
+          return INVALID_ARG; // argument not found
         }
+
+        h = h->next;
       }
-      // comparison correct AND string checked until the end AND keyword checked until the end
-      result = result && a == lenStr && (keyword[b] == ',' || keyword[b] == '/' || keyword[b] == '\0');
-      return result;
+
+      // check for all required arguments
+      h = Cmd::firstArg;
+      while (h != NULL) {
+        if (h->isRequired() && !h->isSet())
+          return MISSING_ARGS;
+        h = h->next;
+      }
+
+      return OK;
     }
 };
 

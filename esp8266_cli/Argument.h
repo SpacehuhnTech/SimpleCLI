@@ -10,7 +10,7 @@ class Argument: public Arg {
       if (name) {
         int strLen = strlen(name);
         Argument::name = new char[strLen + 1];
-        strcpy(Argument::name, name);
+        strcpy_P(Argument::name, name);
         Argument::name[strLen] = '\0';
       } else {
         Argument::name = new char[1];
@@ -21,7 +21,7 @@ class Argument: public Arg {
       if (defaultValue) {
         int strLen = strlen(defaultValue);
         Argument::defaultValue = new char[strLen + 1];
-        strcpy(Argument::defaultValue, defaultValue);
+        strcpy_P(Argument::defaultValue, defaultValue);
         Argument::defaultValue[strLen] = '\0';
       } else {
         Argument::defaultValue = new char[1];
@@ -61,7 +61,21 @@ class Argument: public Arg {
     }
 
     bool equals(const char* name) {
-      return equalsKeyword(name, Argument::name);
+      if(!name) return false;
+      if(name == Argument::name) return true;
+      
+      int strLen;
+
+      strLen = strlen_P(name);
+      char tmpName[strLen + 1];
+      strcpy_P(tmpName, name);
+      tmpName[strLen] = '\0';
+
+      return equalsKeyword(tmpName, Argument::name);
+    }
+
+    bool equals(String name) {
+      return equalsKeyword(name.c_str(), Argument::name);
     }
 
     void setValue(String value) {

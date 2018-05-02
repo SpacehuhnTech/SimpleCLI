@@ -4,6 +4,8 @@ extern "C" {
 #include "user_interface.h"
 }
 
+#define SERIAL_BUFFER_SIZE 1024
+
 const char CLI_NULL[] PROGMEM = " ";
 
 const char CLI_PING[] PROGMEM = "p,ping/s";
@@ -13,12 +15,13 @@ const char CLI_NUM[] PROGMEM = "n,number";
 const char CLI_STR[] PROGMEM = "s,str/ing";
 
 CommandParser* cli;
-String tmpInput;
+char* serialBuffer;
 
 void setup() {
   Serial.begin(115200);
 
   // =========== Create CommandParser =========== //
+  serialBuffer = new char[SERIAL_BUFFER_SIZE];
   cli = new CommandParser();
   cli->onNotFound = [](String cmdName) {
     Serial.println(cmdName + " not found");
@@ -32,15 +35,15 @@ void setup() {
   // =========== Add ping command =========== //
   Command_P* ping = new Command_P(CLI_PING, [](Cmd * command) {
     Command_P* cmd = static_cast<Command_P*>(command);
-    int h = cmd->value_P(CLI_NUM).toInt();
+    int h = cmd->value(CLI_NUM).toInt();
 
-    if (cmd->has_P(CLI_LINE)) {
+    if (cmd->has(CLI_LINE)) {
       for (int i = 0; i < h; i++) {
-        Serial.println(cmd->value_P(CLI_STR));
+        Serial.println(cmd->value(CLI_STR));
       }
     } else {
       for (int i = 0; i < h; i++) {
-        Serial.print(cmd->value_P(CLI_STR));
+        Serial.print(cmd->value(CLI_STR));
       }
     }
     Serial.println();
@@ -74,11 +77,11 @@ void setup() {
 void loop() {
   // Read serial and parse it
   if (Serial.available()) {
-    tmpInput = Serial.readStringUntil('\n');
+    memset(serialBuffer, '\0', SERIAL_BUFFER_SIZE);
+    Serial.readBytesUntil('\n', serialBuffer, SERIAL_BUFFER_SIZE);
     Serial.print("# ");
-    Serial.println(tmpInput);
-    cli->parse(tmpInput);
-    tmpInput = String();
+    Serial.println(serialBuffer);
+    cli->parse(serialBuffer);
   }
 }
 
