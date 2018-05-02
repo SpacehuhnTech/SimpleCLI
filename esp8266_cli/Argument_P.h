@@ -7,7 +7,7 @@ class Argument_P: public Arg {
   public:
     Argument_P(const char* name, const char* defaultValue, bool required) {
       Argument_P::name = const_cast<char*>(name);
-      Argument_P::defaultValue = const_cast<char*>(defaultValue);
+      if(defaultValue) Argument_P::defaultValue = const_cast<char*>(defaultValue);
       Argument_P::required = required;
 
       // load defaults
@@ -42,12 +42,14 @@ class Argument_P: public Arg {
 
     void reset() {
       if (value) delete value;
-
-      int strLen = strlen_P(defaultValue);
-      value = new char[strLen + 1];
-      strcpy_P(value, defaultValue);
-      value[strLen] = '\0';
-
+      
+      if (defaultValue){
+        int strLen = strlen_P(defaultValue);
+        value = new char[strLen + 1];
+        strcpy_P(value, defaultValue);
+        value[strLen] = '\0';
+      }
+      
       set = false;
     }
 };
