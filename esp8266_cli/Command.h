@@ -5,7 +5,7 @@
 
 class Command: public Cmd {
   public:
-    Command(const char* name, std::function<void(Cmd* cmd)> runFnct, std::function<void(uint8_t error)> errorFnct){
+    Command(const char* name, void(*runFnct)(Cmd*), void(*errorFnct)(uint8_t)){
       // copy name
       if(name){
         int strLen = strlen(name);
@@ -21,7 +21,7 @@ class Command: public Cmd {
       Command::errorFnct = errorFnct;
     }
     
-    Command(String name, std::function<void(Cmd* cmd)> runFnct, std::function<void(uint8_t error)> errorFnct){   
+    Command(String name, void(*runFnct)(Cmd*), void(*errorFnct)(uint8_t)){   
       int strLen = name.length()+1;
       Command::name = new char[strLen];
       name.toCharArray(Command::name, strLen);

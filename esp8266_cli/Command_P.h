@@ -5,7 +5,7 @@
 
 class Command_P: public Cmd {
   public:
-    Command_P(const char* name, std::function<void(Cmd* cmd)> runFnct, std::function<void(uint8_t error)> errorFnct){
+    Command_P(const char* name, void(*runFnct)(Cmd*), void(*errorFnct)(uint8_t) ){
       Command_P::runFnct = runFnct;
       Command_P::errorFnct = errorFnct;
       Command_P::name = const_cast<char*>(name);

@@ -146,8 +146,10 @@ class Cmd {
   protected:
     char* name = NULL;
     Arg* firstArg = NULL;
-    std::function<void(Cmd* cmd)> runFnct = NULL;
-    std::function<void(uint8_t error)> errorFnct = NULL;
+    void (*runFnct)(Cmd*) = NULL;
+    void (*errorFnct)(uint8_t) = NULL;
+    //std::function<void(Cmd* cmd)> runFnct = NULL;
+    //std::function<void(uint8_t error)> errorFnct = NULL;
     int argNum = 0;
 
     virtual bool equalsName(const char* name) = 0;

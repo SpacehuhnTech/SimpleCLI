@@ -31,24 +31,6 @@ void setup() {
     Serial.println(cmdName+" not found");  
   };
 
-   for(int i=0;i<100;i++){
-    
-    Cmd* test = new Command("test",[](Cmd* cmd){
-      Serial.println(String(F("test")));
-    },[](uint8_t error){
-      Serial.println(String(F("test")));
-    });
-    //delete test;
-    cli->addCommand(test);/*
-    Cmd* test2 = new Command_P(CLI_NULL,[](Cmd* cmd){
-      Serial.println("test");
-    },[](uint8_t error){
-      Serial.println("test");
-    });
-    test2->next = test;
-    delete test2;*/
-  }
-  
   Command_P* ping = new Command_P(CLI_PING,[](Cmd* command){
     Command_P* cmd = static_cast<Command_P*>(command);
     int h = cmd->value_P(CLI_NUM).toInt();
@@ -81,6 +63,7 @@ void setup() {
   cli->parse("ping");
   cli->parse("ping -n 11");
   cli->parse("ping -n 11 -s test");
+  cli->parse("ram");
 }
 
 void loop() {

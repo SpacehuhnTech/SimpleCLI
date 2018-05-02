@@ -13,8 +13,8 @@
 
 class CommandParser {
   public:
-    std::function<void(String cmdName)> onNotFound = NULL;
-    std::function<void(String invalidArgument)> onParseError = NULL;
+    void(*onNotFound)(String cmdName) = NULL;
+    void(*onParseError)(String invalidArgument) = NULL;
     
     CommandParser(){
       
@@ -145,16 +145,16 @@ class CommandParser {
         }
         cmd = cmd->next;
       }
+
+      delete argList;
       
       if(!found && onNotFound)
         onNotFound(cmdName);
-
-      delete argList;
     }
     
     void addCommand(Cmd* newCmd){
-      Cmd* cmd = firstCmd;
-      bool found = false;
+      newCmd->next = firstCmd;
+      firstCmd = newCmd;
     }
 
     void addCommand(Command* newCmd){
