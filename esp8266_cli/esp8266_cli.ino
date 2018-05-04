@@ -17,6 +17,12 @@ const char CLI_STR[] PROGMEM = "s,str/ing";
 CommandParser* cli;
 char* serialBuffer;
 
+/*
+ToDo:
+  - make everything c++ string complient
+  - make better examples
+  - make it into a library
+*/
 void setup() {
   Serial.begin(115200);
 

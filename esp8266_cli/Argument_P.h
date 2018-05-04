@@ -24,6 +24,10 @@ class Argument_P: public Arg {
       if (next) delete next;
     }
 
+    bool needsValue(){
+      return true;
+    }
+
     bool equals(const char* name) {
       if(!name) return false;
       if(name == Argument_P::name) return true;

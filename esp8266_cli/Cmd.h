@@ -23,6 +23,10 @@ class Cmd {
 
     virtual uint8_t equals(const char* name, int argNum, Arg* firstArg) = 0;
     virtual uint8_t equals(String name, int argNum, Arg* firstArg) = 0;
+
+    int args(){
+      return argNum;
+    }
     
     String getName() {
       return String(name);
@@ -34,8 +38,9 @@ class Cmd {
 
     bool addArg(Arg* newArg) {
       if(getArg(newArg->getName()) == NULL){
-        newArg->next = firstArg;
-        firstArg = newArg;
+        if(lastArg) lastArg->next = newArg;
+        if(!firstArg) firstArg = newArg;
+        lastArg = newArg;
         argNum++;
         return true;
       }
@@ -73,7 +78,7 @@ class Cmd {
     bool addReqArg_P(const char* name, const char* defaultValue) {
       return addArg_P(name, defaultValue, true);
     }
-
+    
     Arg* getArg(String name) {
       Arg* h = firstArg;
       while (h) {
@@ -93,13 +98,27 @@ class Cmd {
       }
       return NULL;
     }
-
+    
+    Arg* getArg(int i) {
+      Arg* h = firstArg;
+      int j=0;
+      while (h && j<i) {
+        h = h->next;
+        j++;
+      }
+      return h;
+    }
+    
     bool hasArg(String name) {
       return getArg(name) != NULL;
     }
     
     bool hasArg(const char* name) {
       return getArg(name) != NULL;
+    }
+
+    bool hasArg(int i) {
+      return getArg(i) != NULL;
     }
     
     bool has(String name) {
@@ -112,6 +131,11 @@ class Cmd {
       return h ? h->isSet() : false;
     }
 
+    bool has(int i) {
+      Arg* h = getArg(i);
+      return h ? h->isSet() : false;
+    }
+
     String value(String name) {
       Arg* arg = getArg(name);
       return arg ? arg->getValue() : String();
@@ -119,6 +143,11 @@ class Cmd {
     
     String value(const char* name) {
       Arg* arg = getArg(name);
+      return arg ? arg->getValue() : String();
+    }
+
+    String value(int i) {
+      Arg* arg = getArg(i);
       return arg ? arg->getValue() : String();
     }
     
@@ -149,6 +178,7 @@ class Cmd {
   protected:
     char* name = NULL;
     Arg* firstArg = NULL;
+    Arg* lastArg = NULL;
     void (*runFnct)(Cmd*) = NULL;
     void (*errorFnct)(uint8_t) = NULL;
     int argNum = 0;
