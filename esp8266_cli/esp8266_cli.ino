@@ -1,3 +1,7 @@
+extern "C" {
+  #include "user_interface.h"
+}
+
 #include "CommandParser.h"
 
 CommandParser* cli;

@@ -1,11 +1,6 @@
 #ifndef CommandParser_h
 #define CommandParser_h
 
-#include "Arduino.h"
-extern "C" {
-  #include "user_interface.h"
-}
-
 #include "Arg.h"
 #include "Cmd.h"
 #include "BoundlessCmd.h"
