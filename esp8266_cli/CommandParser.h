@@ -3,31 +3,28 @@
 
 #include "Arduino.h"
 extern "C" {
-#include "user_interface.h"
+  #include "user_interface.h"
 }
 
 #include "Arg.h"
-#include "Argument.h"
-#include "Argument_P.h"
-
 #include "Cmd.h"
+#include "BoundlessCmd.h"
+#include "BoundlessCmd_P.h"
 #include "Command.h"
 #include "Command_P.h"
+#include "EmptyCmd.h"
+#include "EmptyCmd_P.h"
 
-const char EMPTY_PROGMEM_STRING[] PROGMEM = " ";
 bool equalsKeyword(const char* str, const char* keyword) {
-  if (!str) return false;
-  if (!keyword) return false;
+  if (!str || !keyword) return false;
 
   int lenStr = strlen(str);
   int lenKeyword = strlen(keyword);
 
   // string can't be longer than keyword (but can be smaller because of '/' and ',')
-  if (lenStr > lenKeyword)
-    return false;
+  if (lenStr > lenKeyword) return false;
 
-  if (lenStr == lenKeyword)
-    return strcmp(str, keyword) == 0;
+  if (lenStr == lenKeyword) return strcmp(str, keyword) == 0;
 
   int a = 0;
   int b = 0;
@@ -41,9 +38,7 @@ bool equalsKeyword(const char* str, const char* keyword) {
       a = 0;
     }
 
-    if (tolower(str[a]) != tolower(keyword[b])) {
-      result = false;
-    }
+    if (tolower(str[a]) != tolower(keyword[b])) result = false;
 
     // fast forward to next comma
     if ((a == lenStr && !result) || !result) {
@@ -55,15 +50,13 @@ bool equalsKeyword(const char* str, const char* keyword) {
     }
   }
   // comparison correct AND string checked until the end AND keyword checked until the end
-  result = result && a == lenStr && (keyword[b] == ',' || keyword[b] == '/' || keyword[b] == '\0');
-  return result;
+  return result && a == lenStr && (keyword[b] == ',' || keyword[b] == '/' || keyword[b] == '\0');;
 }
 
 class CommandParser {
   public:
     void(*onNotFound)(String cmdName) = NULL;
-    void(*onParseError)(String invalidArgument) = NULL;
-
+    
     CommandParser() {
 
     }
@@ -74,12 +67,8 @@ class CommandParser {
 
     void parse(String input) {
       int strLen = input.length();
-
       if (strLen == 0) return;
-
-      const char* str = input.c_str();
-
-      parseLines(str, strLen);
+      parseLines(input.c_str(), strLen);
     }
 
     void parse(const char* input) {
@@ -119,15 +108,17 @@ class CommandParser {
       if (h > 0) parseLine(&str[i - h], h);
     }
 
+
+    
+
     void parseLine(const char* str, int strLen) {
-      Arg* argList = NULL;
-      int argNum = 0;
+      Arg* firstArg = NULL;
+      Arg* lastArg = NULL;
 
       bool escaped = false;
       bool inQuotes = false;
 
       char tmpChar;
-      Argument* tmpArg = NULL;
 
       String tmpStr = String();
       String cmdName = String();
@@ -161,21 +152,24 @@ class CommandParser {
 
             // add argument to list
             if (tmpStr.charAt(0) == '-') {
-              tmpArg = new Argument(tmpStr.substring(1), String(), false);
-              tmpArg->next = argList;
-              argList = tmpArg;
-              argNum++;
+              Arg* tmpArg = new OptArg(tmpStr.substring(1), String());
+              if(lastArg) lastArg->next = tmpArg;
+              else firstArg = tmpArg;
+              lastArg = tmpArg;
             }
 
             // add value to argument
             else {
-              if (tmpArg == NULL) {
-                if (onParseError) {
-                  onParseError(tmpStr);
-                }
-              } else {
+              bool set = lastArg ? lastArg->isSet() : true;
+              
+              if(set){
+                Arg* tmpArg = new OptArg(String(), String());
+                if(lastArg) lastArg->next = tmpArg;
+                else firstArg = tmpArg;
+                lastArg = tmpArg;
                 tmpArg->setValue(tmpStr);
-                tmpArg = NULL; // prevent overwrite of arg value
+              }else{
+                lastArg->setValue(tmpStr);
               }
             }
 
@@ -191,76 +185,80 @@ class CommandParser {
         }
 
       }
+      
+      /*Arg* h = firstArg;
+      while(h){
+        Serial.println("\""+h->getName()+"\":\""+h->getValue()+"\"");
+        h = h->next;
+      }*/
 
-      // go through list to find command
       Cmd* cmd = firstCmd;
       bool found = false;
-
+      
       while (cmd && !found) {
-        uint8_t res = cmd->equals(cmdName, argNum, argList);
-        if (res != cmd->WRONG_NAME) {
-          found = true;
-          
-          if(res == cmd->OK)
+        if(equalsKeyword(cmdName.c_str(), cmd->getName().c_str())){
+          Arg* hArg = firstArg;
+          while(hArg){
+            cmd->parse(hArg->getName(), hArg->getValue());
+            hArg = hArg->next;
+          }
+          if(cmd->isSet()){
             cmd->run(cmd);
-          else
-            cmd->error(res);
+            found = true;
+          }
+          cmd->reset();
         }
         cmd = cmd->next;
       }
 
-      delete argList;
+      delete firstArg;
 
       if (!found && onNotFound)
         onNotFound(cmdName);
     }
 
+
+    Cmd* getCommand(int i) {
+      Cmd* h = firstCmd;
+      int j = 0;
+      while(h && j<i){
+        h = h->next;
+        j++;
+      }
+      return h;
+    }
+
     Cmd* getCommand(String cmdName) {
-      Cmd* cmd = firstCmd;
-
-      while (cmd) {
-        if (cmd->equals(cmdName, 0, NULL) != cmd->WRONG_NAME)
-          return cmd;
-        cmd = cmd->next;
+      Cmd* h = firstCmd;
+      while(h){
+        if(equalsKeyword(cmdName.c_str(), h->getName().c_str()))
+          return h;
+        h = h->next;
       }
-
-      return NULL;
+      return h;
     }
 
-    Cmd* getCommand_P(const char* cmdName) {
-      Cmd* cmd = firstCmd;
-
-      while (cmd) {
-        if (cmd->getNamePtr() == cmdName)
-          return cmd;
-        cmd = cmd->next;
-      }
-
-      return NULL;
+    Cmd* getCommand(const char* cmdName) {
+      return getCommand(String(cmdName));
     }
-
-    bool addCommand(Cmd* newCmd) {
-      if (getCommand(newCmd->getName()) == NULL) {
-        newCmd->next = firstCmd;
-        firstCmd = newCmd;
-        return true;
-      }
+    
+    void addCommand(Cmd* newCmd) {
+      if(lastCmd) lastCmd->next = newCmd;
+      if(!firstCmd) firstCmd = newCmd;
+      lastCmd = newCmd;
+      cmdNum++;
     }
-
-    bool addCommand(Command* newCmd) {
-      return addCommand(static_cast<Cmd*>(newCmd));
-    }
-
-    bool addCommand(Command_P* newCmd) {
-      if (getCommand_P(newCmd->getNamePtr()) == NULL) {
-        newCmd->next = firstCmd;
-        firstCmd = static_cast<Cmd*>(newCmd);
-        return true;
-      }
-      return false;
-    }
+    
+    void addCommand(Command* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
+    void addCommand(Command_P* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
+    void addCommand(BoundlessCmd* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
+    void addCommand(BoundlessCmd_P* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
+    void addCommand(EmptyCmd* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
+    void addCommand(EmptyCmd_P* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
   private:
+    int cmdNum = 0;
     Cmd* firstCmd = NULL;
+    Cmd* lastCmd = NULL;
 };
 
 #endif

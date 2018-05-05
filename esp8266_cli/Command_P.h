@@ -2,57 +2,165 @@
 #define Command_P_h
 
 #include "Cmd.h"
-
-extern const char EMPTY_PROGMEM_STRING[] PROGMEM;
+#include "Arg.h"
+#include "ReqArg.h"
+#include "ReqArg_P.h"
+#include "OptArg.h"
+#include "OptArg_P.h"
+#include "EmptyArg.h"
+#include "EmptyArg_P.h"
+#include "AnonymReqArg.h"
+#include "AnonymOptArg.h"
+#include "AnonymOptArg_P.h"
+#include "TemplateReqArg.h"
+#include "TemplateReqArg_P.h"
+#include "TemplateOptArg.h"
+#include "TemplateOptArg_P.h"
 
 class Command_P: public Cmd {
   public:
-    Command_P(const char* name, void(*runFnct)(Cmd*), void(*errorFnct)(uint8_t) ) {
-      if(!name) name = EMPTY_PROGMEM_STRING;
-      
+    Command_P(const char* name, void (*runFnct)(Cmd*)){
       Command_P::runFnct = runFnct;
-      Command_P::errorFnct = errorFnct;
-      Command_P::name = const_cast<char*>(name);
-    }
-
-    ~Command_P() {
-      if (firstArg) delete firstArg;
-      if (next) delete next;
-    }
-
-    uint8_t equals(const char* name, int argNum, Arg* firstArg){
-      bool res;
-      int strLen;
       
-      strLen = strlen_P(name);
-      char tmpName[strLen + 1];
-      strcpy_P(tmpName, name);
-      tmpName[strLen] = '\0';
-
-      strLen = strlen_P(Command_P::name);
-      char tmpKeyword[strLen + 1];
-      strcpy_P(tmpKeyword, Command_P::name);
-      tmpKeyword[strLen] = '\0';
-
-      if(!equalsKeyword(tmpName, tmpKeyword))
-        return Cmd::WRONG_NAME;
-      
-      return parse(argNum, firstArg);     
+      Command_P::name = name;
+      reset();
     }
     
-    uint8_t equals(String name, int argNum, Arg* firstArg){
-      bool res;
-      
-      int strLen = strlen_P(Command_P::name);
-      char tmpKeyword[strLen + 1];
-      strcpy_P(tmpKeyword, Command_P::name);
-      tmpKeyword[strLen] = '\0';
-
-      if(!equalsKeyword(name.c_str(), tmpKeyword))
-        return Cmd::WRONG_NAME;
-
-      return parse(argNum, firstArg);
+    ~Command_P(){
+      if(firstArg) delete firstArg;
+      if(next) delete next;
     }
+    
+    String getName(){
+      int strLen = strlen_P(name);
+      char tmpName[strLen+1];
+      strcpy_P(tmpName, name);
+      tmpName[strLen] = '\0';
+      return String(tmpName);
+    }
+    
+    void reset(){
+      Arg* h = firstArg;
+      while(h){
+        h->reset();
+        h = h->next;
+      }
+    }
+    
+    bool parse(String arg, String value){
+      Arg* h = firstArg;
+      while(h){
+        if(h->equals(arg)){
+          if(!h->isSet()){
+            h->setValue(value);
+            return h->isSet();
+          }
+        }
+        h = h->next;
+      }
+      return false;
+    }
+    
+    int argNum(){
+      return args;
+    }
+    
+    Arg* getArg(int i){
+      int j = 0;
+      Arg* h = firstArg;
+      while(j<i && h){
+        j++;
+        h = h->next;
+      }
+      return h;
+    }
+    
+    Arg* getArg(const char* name){
+      Arg* h = firstArg;
+      while(h){
+        if(h->equals(name))
+          return h;
+        h = h->next;
+      }
+      return h;
+    }
+    
+    Arg* getArg(String name){
+      Arg* h = firstArg;
+      while(h){
+        if(h->equals(name))
+          return h;
+        h = h->next;
+      }
+      return h;
+    }
+
+    bool isSet(int i){
+      Arg* h = getArg(i);
+      return h ? h->isSet() : false;
+    }
+    
+    bool isSet(const char* name){
+      Arg* h = getArg(name);
+      return h ? h->isSet() : false;
+    }
+    
+    bool isSet(String name){
+      Arg* h = getArg(name);
+      return h ? h->isSet() : false;
+    }
+    
+    String value(int i){
+      Arg* h = getArg(i);
+      return h ? h->getValue() : String();
+    }
+    
+    String value(const char* name){
+      Arg* h = getArg(name);
+      return h ? h->getValue() : String();
+    }
+    
+    String value(String name){
+      Arg* h = getArg(name);
+      return h ? h->getValue() : String();
+    }
+
+    void addArg(Arg* newArg){
+      if(lastArg) lastArg->next = newArg;
+      if(!firstArg) firstArg = newArg;
+      lastArg = newArg;
+      args++;
+    }
+
+    void addArg(ReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(ReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(OptArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(OptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(EmptyArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(EmptyArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(AnonymReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(AnonymOptArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(AnonymOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(TemplateReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(TemplateReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(TemplateOptArg* newArg){addArg( static_cast<Arg*>(newArg)); }
+    void addArg(TemplateOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    
+    bool isSet(){
+      Arg* h = firstArg;
+      while(h){
+        if(h->isRequired() && !h->isSet())
+          return false;
+        h = h->next;
+      }
+      return true;
+    }
+    
+  private:
+    const char* name = NULL;
+    int args = 0;
+    Arg* firstArg = NULL;
+    Arg* lastArg = NULL;
 };
 
 #endif

@@ -1,10 +1,21 @@
 #ifndef Cmd_h
 #define Cmd_h
 
-#include "Arduino.h"
-extern "C" {
-  #include "user_interface.h"
-}
+#include "Arg.h"
+
+#include "ReqArg.h"
+#include "ReqArg_P.h"
+#include "OptArg.h"
+#include "OptArg_P.h"
+#include "EmptyArg.h"
+#include "EmptyArg_P.h"
+#include "AnonymReqArg.h"
+#include "AnonymOptArg.h"
+#include "AnonymOptArg_P.h"
+#include "TemplateReqArg.h"
+#include "TemplateReqArg_P.h"
+#include "TemplateOptArg.h"
+#include "TemplateOptArg_P.h"
 
 extern bool equalsKeyword(const char* str, const char* keyword);
 
@@ -13,152 +24,26 @@ class Cmd {
     Cmd* next = NULL;
 
     virtual ~Cmd() = default;
-
-    static const uint8_t OK = 0;
-    static const uint8_t WRONG_NAME = 1;
-    static const uint8_t TOO_MANY_ARGS = 2;
-    static const uint8_t MISSING_ARGS = 3;
-    static const uint8_t DUPLICATE_ARG = 4;
-    static const uint8_t INVALID_ARG = 5;
-
-    virtual uint8_t equals(const char* name, int argNum, Arg* firstArg) = 0;
-    virtual uint8_t equals(String name, int argNum, Arg* firstArg) = 0;
-
-    int args(){
-      return argNum;
-    }
     
-    String getName() {
-      return String(name);
-    }
-
-    const char* getNamePtr() {
-      return name;
-    }
-
-    bool addArg(Arg* newArg) {
-      if(getArg(newArg->getName()) == NULL){
-        if(lastArg) lastArg->next = newArg;
-        if(!firstArg) firstArg = newArg;
-        lastArg = newArg;
-        argNum++;
-        return true;
-      }
-      return false;
-    }
-
-    bool addArg(Argument* newArg) {
-      return addArg(static_cast<Arg*>(newArg));
-    }
-
-    bool addArg(Argument_P* newArg) {
-      return addArg(static_cast<Arg*>(newArg));
-    }
-
-    bool addArg(String name, String defaultValue, bool required) {
-      return addArg(new Argument(name, defaultValue, required));
-    }
-
-    bool addArg_P(const char* name, const char* defaultValue, bool required) {
-      return addArg(new Argument_P(name, defaultValue, required));
-    }
-
-    bool addOptArg(String name, String defaultValue) {
-      return addArg(name, defaultValue, false);
-    }
-
-    bool addOptArg_P(const char* name, const char* defaultValue) {
-      return addArg_P(name, defaultValue, false);
-    }
-
-    bool addReqArg(String name, String defaultValue) {
-      return addArg(name, defaultValue, true);
-    }
-
-    bool addReqArg_P(const char* name, const char* defaultValue) {
-      return addArg_P(name, defaultValue, true);
-    }
+    virtual String getName() = 0;
+    virtual void reset() = 0;
+    virtual bool parse(String arg, String value) = 0;
+    virtual int argNum() = 0;
     
-    Arg* getArg(String name) {
-      Arg* h = firstArg;
-      while (h) {
-        if (h->equals(name))
-          return h;
-        h = h->next;
-      }
-      return NULL;
-    }
+    virtual Arg* getArg(int i) = 0;
+    virtual Arg* getArg(const char* name) = 0;
+    virtual Arg* getArg(String name) = 0;
 
-    Arg* getArg(const char* name) {
-      Arg* h = firstArg;
-      while (h) {
-        if (h->equals(name))
-          return h;
-        h = h->next;
-      }
-      return NULL;
-    }
+    virtual bool isSet(int i) = 0;
+    virtual bool isSet(const char* name) = 0;
+    virtual bool isSet(String name) = 0;
     
-    Arg* getArg(int i) {
-      Arg* h = firstArg;
-      int j=0;
-      while (h && j<i) {
-        h = h->next;
-        j++;
-      }
-      return h;
-    }
+    virtual String value(int i) = 0;
+    virtual String value(const char* name) = 0;
+    virtual String value(String name) = 0;
+
+    virtual bool isSet() = 0;
     
-    bool hasArg(String name) {
-      return getArg(name) != NULL;
-    }
-    
-    bool hasArg(const char* name) {
-      return getArg(name) != NULL;
-    }
-
-    bool hasArg(int i) {
-      return getArg(i) != NULL;
-    }
-    
-    bool has(String name) {
-      Arg* h = getArg(name);
-      return h ? h->isSet() : false;
-    }
-
-    bool has(const char* name) {
-      Arg* h = getArg(name);
-      return h ? h->isSet() : false;
-    }
-
-    bool has(int i) {
-      Arg* h = getArg(i);
-      return h ? h->isSet() : false;
-    }
-
-    String value(String name) {
-      Arg* arg = getArg(name);
-      return arg ? arg->getValue() : String();
-    }
-    
-    String value(const char* name) {
-      Arg* arg = getArg(name);
-      return arg ? arg->getValue() : String();
-    }
-
-    String value(int i) {
-      Arg* arg = getArg(i);
-      return arg ? arg->getValue() : String();
-    }
-    
-    void resetArguments() {
-      Arg* h = firstArg;
-      while (h) {
-        h->reset();
-        h = h->next;
-      }
-    }
-
     bool run(Cmd* cmd) {
       if (runFnct) {
         runFnct(cmd);
@@ -166,57 +51,8 @@ class Cmd {
       }
       return false;
     }
-
-    bool error(uint8_t error) {
-      if (errorFnct) {
-        errorFnct(error);
-        return true;
-      }
-      return false;
-    }
-    
   protected:
-    char* name = NULL;
-    Arg* firstArg = NULL;
-    Arg* lastArg = NULL;
     void (*runFnct)(Cmd*) = NULL;
-    void (*errorFnct)(uint8_t) = NULL;
-    int argNum = 0;
-
-    uint8_t parse(int argNum, Arg* firstArg) {
-      if (argNum > Cmd::argNum) return TOO_MANY_ARGS;
-
-      resetArguments();
-
-      // check and set argument values
-      Arg* h = firstArg;
-      Arg* tmp;
-      while (h != NULL) {
-        tmp = getArg(h->getName());
-
-        if (tmp) {
-          if (!tmp->isSet()) {
-            tmp->setValue(h->getValue());
-          } else {
-            return DUPLICATE_ARG; // argument twice in the list
-          }
-        } else {
-          return INVALID_ARG; // argument not found
-        }
-
-        h = h->next;
-      }
-
-      // check for all required arguments
-      h = Cmd::firstArg;
-      while (h != NULL) {
-        if (h->isRequired() && !h->isSet())
-          return MISSING_ARGS;
-        h = h->next;
-      }
-
-      return OK;
-    }
 };
 
 #endif
