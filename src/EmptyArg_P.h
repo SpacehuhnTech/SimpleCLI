@@ -31,7 +31,7 @@ class EmptyArg_P: public Arg {
       strcpy_P(tmpKeyword, EmptyArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return equalsKeyword(tmpName, tmpKeyword);
+      return cli_helper::equals(tmpName, tmpKeyword);
     }
 
     bool equals(String name) {
@@ -42,7 +42,7 @@ class EmptyArg_P: public Arg {
       strcpy_P(tmpKeyword, EmptyArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return equalsKeyword(name.c_str(), tmpKeyword);
+      return cli_helper::equals(name.c_str(), tmpKeyword);
     }
 
     void setValue() {

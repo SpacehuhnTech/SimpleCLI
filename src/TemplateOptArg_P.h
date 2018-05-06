@@ -35,7 +35,7 @@ class TemplateOptArg_P: public Arg {
           tmpTemplate[strLen] = '\0';
         }
 
-        if (equalsKeyword(value.c_str(), tmpTemplate)) {
+        if (cli_helper::equals(value.c_str(), tmpTemplate)) {
           if (TemplateOptArg_P::value) delete TemplateOptArg_P::value;
 
           int strLen = value.length() + 1;

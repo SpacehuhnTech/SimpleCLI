@@ -1,7 +1,7 @@
 #ifndef Arg_h
 #define Arg_h
 
-extern bool equalsKeyword(const char* str, const char* keyword);
+#include "cli_helper.h"
 
 class Arg {
   public:

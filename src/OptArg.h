@@ -54,11 +54,11 @@ class OptArg: public Arg {
       strcpy_P(tmpName, name);
       tmpName[strLen] = '\0';
 
-      return equalsKeyword(tmpName, OptArg::name);
+      return cli_helper::equals(tmpName, OptArg::name);
     }
 
     bool equals(String name) {
-      return equalsKeyword(name.c_str(), OptArg::name);
+      return cli_helper::equals(name.c_str(), OptArg::name);
     }
 
     void setValue(String value) {

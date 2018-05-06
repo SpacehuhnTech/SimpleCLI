@@ -51,7 +51,7 @@ class TemplateOptArg: public Arg {
 
     void setValue(String value) {
       if (value.length() > 0) {
-        if (equalsKeyword(value.c_str(), _template)) {
+        if (cli_helper::equals(value.c_str(), _template)) {
           if (TemplateOptArg::value) delete TemplateOptArg::value;
 
           int strLen = value.length() + 1;

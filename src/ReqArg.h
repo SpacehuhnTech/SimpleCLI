@@ -41,11 +41,11 @@ class ReqArg: public Arg {
       strcpy_P(tmpName, name);
       tmpName[strLen] = '\0';
 
-      return equalsKeyword(tmpName, ReqArg::name);
+      return cli_helper::equals(tmpName, ReqArg::name);
     }
 
     bool equals(String name) {
-      return equalsKeyword(name.c_str(), ReqArg::name);
+      return cli_helper::equals(name.c_str(), ReqArg::name);
     }
 
     void setValue(String value) {

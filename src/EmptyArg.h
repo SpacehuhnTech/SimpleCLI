@@ -39,11 +39,11 @@ class EmptyArg: public Arg {
       strcpy_P(tmpName, name);
       tmpName[strLen] = '\0';
 
-      return equalsKeyword(tmpName, EmptyArg::name);
+      return cli_helper::equals(tmpName, EmptyArg::name);
     }
 
     bool equals(String name) {
-      return equalsKeyword(name.c_str(), EmptyArg::name);
+      return cli_helper::equals(name.c_str(), EmptyArg::name);
     }
 
     void setValue() {

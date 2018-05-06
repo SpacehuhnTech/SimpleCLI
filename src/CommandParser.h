@@ -1,6 +1,7 @@
 #ifndef CommandParser_h
 #define CommandParser_h
 
+#include "cli_helper.h"
 #include "Arg.h"
 #include "Cmd.h"
 #include "BoundlessCmd.h"
@@ -9,44 +10,6 @@
 #include "Command_P.h"
 #include "EmptyCmd.h"
 #include "EmptyCmd_P.h"
-
-bool equalsKeyword(const char* str, const char* keyword) {
-  if (!str || !keyword) return false;
-
-  int lenStr = strlen(str);
-  int lenKeyword = strlen(keyword);
-
-  // string can't be longer than keyword (but can be smaller because of '/' and ',')
-  if (lenStr > lenKeyword) return false;
-
-  if (lenStr == lenKeyword) return strcmp(str, keyword) == 0;
-
-  int a = 0;
-  int b = 0;
-  bool result = true;
-
-  while (a < lenStr && b < lenKeyword) {
-    if (keyword[b] == '/') {
-      b++;
-    } else if (keyword[b] == ',') {
-      b++;
-      a = 0;
-    }
-
-    if (tolower(str[a]) != tolower(keyword[b])) result = false;
-
-    // fast forward to next comma
-    if ((a == lenStr && !result) || !result) {
-      while (b < lenKeyword && keyword[b] != ',') b++;
-      result = true;
-    } else {
-      a++;
-      b++;
-    }
-  }
-  // comparison correct AND string checked until the end AND keyword checked until the end
-  return result && a == lenStr && (keyword[b] == ',' || keyword[b] == '/' || keyword[b] == '\0');;
-}
 
 class CommandParser {
   public:
@@ -191,7 +154,7 @@ class CommandParser {
       bool found = false;
       
       while (cmd && !found) {
-        if(equalsKeyword(cmdName.c_str(), cmd->getName().c_str())){
+        if(cli_helper::equals(cmdName.c_str(), cmd->getName().c_str())){
           Arg* hArg = firstArg;
           while(hArg){
             cmd->parse(hArg->getName(), hArg->getValue());
@@ -226,7 +189,7 @@ class CommandParser {
     Cmd* getCommand(String cmdName) {
       Cmd* h = firstCmd;
       while(h){
-        if(equalsKeyword(cmdName.c_str(), h->getName().c_str()))
+        if(cli_helper::equals(cmdName.c_str(), h->getName().c_str()))
           return h;
         h = h->next;
       }

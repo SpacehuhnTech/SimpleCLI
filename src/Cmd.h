@@ -1,6 +1,8 @@
 #ifndef Cmd_h
 #define Cmd_h
 
+#include "cli_helper.h"
+
 #include "Arg.h"
 
 #include "ReqArg.h"
@@ -16,8 +18,6 @@
 #include "TemplateReqArg_P.h"
 #include "TemplateOptArg.h"
 #include "TemplateOptArg_P.h"
-
-extern bool equalsKeyword(const char* str, const char* keyword);
 
 class Cmd {
   public:

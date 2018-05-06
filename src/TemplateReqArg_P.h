@@ -34,7 +34,7 @@ class TemplateReqArg_P: public Arg {
           tmpTemplate[strLen] = '\0';
         }
 
-        if (equalsKeyword(value.c_str(), tmpTemplate)) {
+        if (cli_helper::equals(value.c_str(), tmpTemplate)) {
           if (TemplateReqArg_P::value) delete TemplateReqArg_P::value;
 
           int strLen = value.length() + 1;
