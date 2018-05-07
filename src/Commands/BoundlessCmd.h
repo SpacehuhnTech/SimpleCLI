@@ -9,9 +9,9 @@ class BoundlessCmd: public Cmd {
       BoundlessCmd::runFnct = runFnct;
 
       if(name){
-        int strLen = strlen_P(name);
+        int strLen = strlen(name);
         BoundlessCmd::name = new char[strLen+1];
-        strcpy_P(BoundlessCmd::name, name);
+        strcpy(BoundlessCmd::name, name);
         BoundlessCmd::name[strLen] = '\0';
       }
       reset();

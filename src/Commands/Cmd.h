@@ -4,20 +4,22 @@
 #include "cli_helper.h"
 
 #include "Arguments/Arg.h"
-
 #include "Arguments/ReqArg.h"
-#include "Arguments/ReqArg_P.h"
 #include "Arguments/OptArg.h"
-#include "Arguments/OptArg_P.h"
 #include "Arguments/EmptyArg.h"
-#include "Arguments/EmptyArg_P.h"
 #include "Arguments/AnonymReqArg.h"
 #include "Arguments/AnonymOptArg.h"
-#include "Arguments/AnonymOptArg_P.h"
 #include "Arguments/TemplateReqArg.h"
-#include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg.h"
+
+#if defined(ESP8266) || defined(ESP32)
+#include "Arguments/OptArg_P.h"
+#include "Arguments/ReqArg_P.h"
+#include "Arguments/EmptyArg_P.h"
+#include "Arguments/AnonymOptArg_P.h"
+#include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg_P.h"
+#endif
 
 class Cmd {
   public:

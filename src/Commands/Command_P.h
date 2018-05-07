@@ -119,18 +119,20 @@ class Command_P: public Cmd {
     }
 
     void addArg(ReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(ReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(OptArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(OptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(EmptyArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(EmptyArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(AnonymReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(AnonymOptArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(AnonymOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(TemplateReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(TemplateReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(TemplateOptArg* newArg){addArg( static_cast<Arg*>(newArg)); }
+#if defined(ESP8266) || defined(ESP32)
+    void addArg(ReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(OptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(EmptyArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(AnonymOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+    void addArg(TemplateReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(TemplateOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
+#endif
 
     bool isSet(){
       Arg* h = firstArg;

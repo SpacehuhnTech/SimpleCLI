@@ -3,13 +3,17 @@
 
 #include "cli_helper.h"
 #include "Arguments/Arg.h"
+
 #include "Commands/Cmd.h"
 #include "Commands/BoundlessCmd.h"
-#include "Commands/BoundlessCmd_P.h"
 #include "Commands/Command.h"
-#include "Commands/Command_P.h"
 #include "Commands/EmptyCmd.h"
+
+#if defined(ESP8266) || defined(ESP32)
+#include "Commands/BoundlessCmd_P.h"
+#include "Commands/Command_P.h"
 #include "Commands/EmptyCmd_P.h"
+#endif
 
 class CommandParser {
   public:
@@ -30,15 +34,9 @@ class CommandParser {
     }
 
     void parse(const char* input) {
-      int strLen = strlen_P(input);
-
+      int strLen = strlen(input);
       if (strLen == 0) return;
-
-      char tmpInput[strLen + 1];
-      strcpy_P(tmpInput, input);
-      tmpInput[strLen] = '\0';
-
-      parseLines(tmpInput, strLen);
+      parseLines(input, strLen);
     }
 
     void parseLines(const char* str, int strLen) {
@@ -65,9 +63,6 @@ class CommandParser {
 
       if (h > 0) parseLine(&str[i - h], h);
     }
-
-
-
 
     void parseLine(const char* str, int strLen) {
       Arg* firstArg = NULL;
@@ -144,11 +139,11 @@ class CommandParser {
 
       }
 
-      /*Arg* h = firstArg;
+      Arg* h = firstArg;
       while(h){
         Serial.println("\""+h->getName()+"\":\""+h->getValue()+"\"");
         h = h->next;
-      }*/
+      }
 
       Cmd* cmd = firstCmd;
       bool found = false;
@@ -165,6 +160,8 @@ class CommandParser {
             found = true;
           }
           cmd->reset();
+        }else{
+          Serial.println(cmdName+" != "+cmd->getName());
         }
         cmd = cmd->next;
       }
@@ -206,13 +203,14 @@ class CommandParser {
       lastCmd = newCmd;
       cmdNum++;
     }
-
+#if defined(ESP8266) || defined(ESP32)
     void addCommand(Command* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
     void addCommand(Command_P* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
     void addCommand(BoundlessCmd* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
     void addCommand(BoundlessCmd_P* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
     void addCommand(EmptyCmd* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
     void addCommand(EmptyCmd_P* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
+#endif
   private:
     int cmdNum = 0;
     Cmd* firstCmd = NULL;
