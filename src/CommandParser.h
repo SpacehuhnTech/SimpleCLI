@@ -14,7 +14,7 @@
 class CommandParser {
   public:
     void(*onNotFound)(String cmdName) = NULL;
-    
+
     CommandParser() {
 
     }
@@ -67,7 +67,7 @@ class CommandParser {
     }
 
 
-    
+
 
     void parseLine(const char* str, int strLen) {
       Arg* firstArg = NULL;
@@ -119,7 +119,7 @@ class CommandParser {
             // add value to argument
             else {
               bool set = lastArg ? lastArg->isSet() : true;
-              
+
               if(set){
                 Arg* tmpArg = new OptArg(String(), String());
                 if(lastArg) lastArg->next = tmpArg;
@@ -143,7 +143,7 @@ class CommandParser {
         }
 
       }
-      
+
       /*Arg* h = firstArg;
       while(h){
         Serial.println("\""+h->getName()+"\":\""+h->getValue()+"\"");
@@ -152,9 +152,9 @@ class CommandParser {
 
       Cmd* cmd = firstCmd;
       bool found = false;
-      
+
       while (cmd && !found) {
-        if(cli_helper::equals(cmdName.c_str(), cmd->getName().c_str())){
+        if(cli_helper::equals(cmdName.c_str(), cmd->getName().c_str()) >= 0 ){
           Arg* hArg = firstArg;
           while(hArg){
             cmd->parse(hArg->getName(), hArg->getValue());
@@ -189,7 +189,7 @@ class CommandParser {
     Cmd* getCommand(String cmdName) {
       Cmd* h = firstCmd;
       while(h){
-        if(cli_helper::equals(cmdName.c_str(), h->getName().c_str()))
+        if(cli_helper::equals(cmdName.c_str(), h->getName().c_str()) >= 0)
           return h;
         h = h->next;
       }
@@ -199,14 +199,14 @@ class CommandParser {
     Cmd* getCommand(const char* cmdName) {
       return getCommand(String(cmdName));
     }
-    
+
     void addCommand(Cmd* newCmd) {
       if(lastCmd) lastCmd->next = newCmd;
       if(!firstCmd) firstCmd = newCmd;
       lastCmd = newCmd;
       cmdNum++;
     }
-    
+
     void addCommand(Command* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
     void addCommand(Command_P* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
     void addCommand(BoundlessCmd* newCmd){ addCommand(static_cast<Cmd*>(newCmd)); }
@@ -220,4 +220,3 @@ class CommandParser {
 };
 
 #endif
-

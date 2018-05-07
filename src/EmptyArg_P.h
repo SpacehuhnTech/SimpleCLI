@@ -7,7 +7,7 @@ class EmptyArg_P: public Arg {
   public:
     EmptyArg_P(const char* name) {
       EmptyArg_P::name = name;
-      
+
       reset();
     }
 
@@ -31,18 +31,18 @@ class EmptyArg_P: public Arg {
       strcpy_P(tmpKeyword, EmptyArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return cli_helper::equals(tmpName, tmpKeyword);
+      return cli_helper::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool equals(String name) {
       if(!EmptyArg_P::name) return false;
-      
+
       int strLen = strlen_P(EmptyArg_P::name);
       char tmpKeyword[strLen + 1];
       strcpy_P(tmpKeyword, EmptyArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return cli_helper::equals(name.c_str(), tmpKeyword);
+      return cli_helper::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void setValue() {
@@ -52,15 +52,15 @@ class EmptyArg_P: public Arg {
     void setValue(String value) {
       setValue();
     }
-    
+
     String getName(){
       if(!name) return String();
-      
+
       int strLen = strlen_P(name);
       char tmpName[strLen + 1];
       strcpy_P(tmpName, name);
       tmpName[strLen] = '\0';
-      
+
       return String(tmpName);
     }
 
@@ -73,4 +73,3 @@ class EmptyArg_P: public Arg {
 };
 
 #endif
-

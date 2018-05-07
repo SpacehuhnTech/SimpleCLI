@@ -49,9 +49,14 @@ class TemplateOptArg: public Arg {
       return false;
     }
 
+    int getValueIndex(){
+      return index;
+    }
+
     void setValue(String value) {
       if (value.length() > 0) {
-        if (cli_helper::equals(value.c_str(), _template)) {
+        index = cli_helper::equals(value.c_str(), _template);
+        if (index >= 0) {
           if (TemplateOptArg::value) delete TemplateOptArg::value;
 
           int strLen = value.length() + 1;
@@ -71,6 +76,8 @@ class TemplateOptArg: public Arg {
       strcpy(value, defaultValue);
       value[strLen] = '\0';
 
+      index = 0;
+
       Arg::reset();
     }
 
@@ -86,7 +93,7 @@ class TemplateOptArg: public Arg {
     char* value = NULL;
     char* defaultValue = NULL;
     char* _template = NULL;
+    int index = 0;
 };
 
 #endif
-

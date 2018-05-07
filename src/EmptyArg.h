@@ -12,7 +12,7 @@ class EmptyArg: public Arg {
         strcpy_P(EmptyArg::name, name);
         EmptyArg::name[strLen] = '\0';
       }
-      
+
       reset();
     }
 
@@ -39,11 +39,11 @@ class EmptyArg: public Arg {
       strcpy_P(tmpName, name);
       tmpName[strLen] = '\0';
 
-      return cli_helper::equals(tmpName, EmptyArg::name);
+      return cli_helper::equals(tmpName, EmptyArg::name) >= 0;
     }
 
     bool equals(String name) {
-      return cli_helper::equals(name.c_str(), EmptyArg::name);
+      return cli_helper::equals(name.c_str(), EmptyArg::name) >= 0;
     }
 
     void setValue() {
@@ -57,7 +57,7 @@ class EmptyArg: public Arg {
     String getName(){
       return name ? String(name) : String();
     }
-    
+
     bool isRequired(){
       return false;
     }
@@ -66,4 +66,3 @@ class EmptyArg: public Arg {
 };
 
 #endif
-

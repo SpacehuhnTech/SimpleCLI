@@ -41,11 +41,11 @@ class ReqArg: public Arg {
       strcpy_P(tmpName, name);
       tmpName[strLen] = '\0';
 
-      return cli_helper::equals(tmpName, ReqArg::name);
+      return cli_helper::equals(tmpName, ReqArg::name) >= 0;
     }
 
     bool equals(String name) {
-      return cli_helper::equals(name.c_str(), ReqArg::name);
+      return cli_helper::equals(name.c_str(), ReqArg::name) >= 0;
     }
 
     void setValue(String value) {
@@ -84,4 +84,3 @@ class ReqArg: public Arg {
 };
 
 #endif
-

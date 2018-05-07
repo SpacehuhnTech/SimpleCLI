@@ -33,7 +33,7 @@ class OptArg_P: public Arg {
       strcpy_P(tmpKeyword, OptArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return cli_helper::equals(tmpName, tmpKeyword);
+      return cli_helper::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool equals(String name) {
@@ -44,7 +44,7 @@ class OptArg_P: public Arg {
       strcpy_P(tmpKeyword, OptArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return cli_helper::equals(name.c_str(), tmpKeyword);
+      return cli_helper::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void setValue(String value) {
@@ -95,4 +95,3 @@ class OptArg_P: public Arg {
 };
 
 #endif
-

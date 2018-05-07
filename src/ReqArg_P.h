@@ -30,7 +30,7 @@ class ReqArg_P: public Arg {
       strcpy_P(tmpKeyword, ReqArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return cli_helper::equals(tmpName, tmpKeyword);
+      return cli_helper::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool equals(String name) {
@@ -41,7 +41,7 @@ class ReqArg_P: public Arg {
       strcpy_P(tmpKeyword, ReqArg_P::name);
       tmpKeyword[strLen] = '\0';
 
-      return cli_helper::equals(name.c_str(), tmpKeyword);
+      return cli_helper::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void setValue(String value) {
@@ -80,4 +80,3 @@ class ReqArg_P: public Arg {
 };
 
 #endif
-

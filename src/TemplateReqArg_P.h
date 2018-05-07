@@ -34,7 +34,8 @@ class TemplateReqArg_P: public Arg {
           tmpTemplate[strLen] = '\0';
         }
 
-        if (cli_helper::equals(value.c_str(), tmpTemplate)) {
+        index = cli_helper::equals(value.c_str(), tmpTemplate);
+        if (index >= 0) {
           if (TemplateReqArg_P::value) delete TemplateReqArg_P::value;
 
           int strLen = value.length() + 1;
@@ -51,6 +52,8 @@ class TemplateReqArg_P: public Arg {
     void reset() {
       if (value) delete value;
 
+      index = 0;
+
       Arg::reset();
     }
 
@@ -62,10 +65,14 @@ class TemplateReqArg_P: public Arg {
       return true;
     }
 
+    int getValueIndex(){
+      return index;
+    }
+
   private:
     char* value = NULL;
     const char* _template = NULL;
+    int index = 0;
 };
 
 #endif
-

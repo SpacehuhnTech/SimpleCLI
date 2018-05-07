@@ -39,7 +39,9 @@ class TemplateReqArg: public Arg {
 
     void setValue(String value) {
       if (value.length() > 0) {
-        if (cli_helper::equals(value.c_str(), _template)) {
+
+        index = cli_helper::equals(value.c_str(), _template);
+        if (index >= 0) {
           if (TemplateReqArg::value) delete TemplateReqArg::value;
 
           int strLen = value.length() + 1;
@@ -65,10 +67,14 @@ class TemplateReqArg: public Arg {
       return true;
     }
 
+    int getValueIndex(){
+      return index;
+    }
+
   private:
     char* value = NULL;
     char* _template = NULL;
+    int index = 0;
 };
 
 #endif
-
