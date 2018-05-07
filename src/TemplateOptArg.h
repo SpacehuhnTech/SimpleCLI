@@ -5,7 +5,7 @@
 
 class TemplateOptArg: public Arg {
   public:
-    TemplateOptArg(const char* _template, const char* defaultValue) {
+    TemplateOptArg(const char* _template) {
       if (_template) {
         int strLen = strlen_P(_template);
         TemplateOptArg::_template = new char[strLen + 1];
@@ -13,44 +13,28 @@ class TemplateOptArg: public Arg {
         TemplateOptArg::_template[strLen] = '\0';
       }
 
-      if (defaultValue) {
-        int strLen = strlen_P(defaultValue);
-        TemplateOptArg::defaultValue = new char[strLen + 1];
-        strcpy_P(TemplateOptArg::defaultValue, defaultValue);
-        TemplateOptArg::defaultValue[strLen] = '\0';
-      }
       reset();
     }
 
-    TemplateOptArg(String _template, String defaultValue) {
+    TemplateOptArg(String _template) {
       int strLen = _template.length() + 1;
       TemplateOptArg::_template = new char[strLen];
       _template.toCharArray(TemplateOptArg::_template, strLen);
-
-      strLen = defaultValue.length() + 1;
-      TemplateOptArg::defaultValue = new char[strLen];
-      _template.toCharArray(TemplateOptArg::defaultValue, strLen);
-
       reset();
     }
 
     ~TemplateOptArg() {
       if (_template) delete _template;
-      if (defaultValue) delete defaultValue;
       if (value) delete value;
       if (next) delete next;
     }
 
     bool equals(const char* name) {
-      return false;
+      return strlen(name) == 0;
     }
 
     bool equals(String name) {
-      return false;
-    }
-
-    int getValueIndex(){
-      return index;
+      return name.length() == 0;
     }
 
     void setValue(String value) {
@@ -69,31 +53,30 @@ class TemplateOptArg: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
-
-      int strLen = strlen(defaultValue);
-      value = new char[strLen + 1];
-      strcpy(value, defaultValue);
-      value[strLen] = '\0';
-
-      index = 0;
-
+      if (value){
+        delete value;
+        value = NULL;
+      }
+      index = -1;
       Arg::reset();
     }
 
     String getValue() {
-      return value ? String(value) : String();
+      return value ? String(value) : cli_helper::readTemplate(_template);
     }
 
     bool isRequired() {
       return false;
     }
 
+    int getValueIndex(){
+      return index >= 0 ? index : 0;
+    }
+
   private:
     char* value = NULL;
-    char* defaultValue = NULL;
     char* _template = NULL;
-    int index = 0;
+    int index = -1;
 };
 
 #endif

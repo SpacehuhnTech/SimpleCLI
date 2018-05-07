@@ -57,7 +57,10 @@ class ReqArg_P: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
+      if (value){
+        delete value;
+        value = NULL;
+      }
 
       Arg::reset();
     }

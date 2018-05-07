@@ -5,9 +5,8 @@
 
 class TemplateOptArg_P: public Arg {
   public:
-    TemplateOptArg_P(const char* _template, const char* defaultValue) {
+    TemplateOptArg_P(const char* _template) {
       TemplateOptArg_P::_template = _template;
-      TemplateOptArg_P::defaultValue = defaultValue;
       reset();
     }
 
@@ -17,15 +16,11 @@ class TemplateOptArg_P: public Arg {
     }
 
     bool equals(const char* name) {
-      return false;
+      return strlen_P(name) == 0;
     }
 
     bool equals(String name) {
-      return false;
-    }
-
-    int getValueIndex(){
-      return index;
+      return name.length() == 0;
     }
 
     void setValue(String value) {
@@ -55,31 +50,28 @@ class TemplateOptArg_P: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
-
-      if (defaultValue) {
-        int strLen = strlen_P(defaultValue);
-        value = new char[strLen + 1];
-        strcpy_P(value, defaultValue);
-        value[strLen] = '\0';
+      if (value){
+        delete value;
+        value = NULL;
       }
-
-      index = 0;
-
+      index = -1;
       Arg::reset();
     }
 
     String getValue() {
-      return value ? String(value) : String();
+      return value ? String(value) : cli_helper::readTemplate(_template);
     }
 
     bool isRequired() {
       return false;
     }
 
+    int getValueIndex(){
+      return index >= 0 ? index : 0;
+    }
+
   private:
     char* value = NULL;
-    const char* defaultValue = NULL;
     const char* _template = NULL;
     int index = -1;
 };

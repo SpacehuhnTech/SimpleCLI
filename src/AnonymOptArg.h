@@ -31,11 +31,11 @@ class AnonymOptArg: public Arg {
     }
 
     bool equals(const char* name) {
-      return false;
+      return strlen(name) == 0;
     }
 
     bool equals(String name) {
-      return false;
+      return name.length() == 0;
     }
 
     void setValue(String value) {
@@ -51,7 +51,10 @@ class AnonymOptArg: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
+      if (value){
+        delete value;
+        value = NULL;
+      }
 
       if (defaultValue) {
         int strLen = strlen(defaultValue);
@@ -76,4 +79,3 @@ class AnonymOptArg: public Arg {
 };
 
 #endif
-

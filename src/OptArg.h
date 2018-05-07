@@ -74,7 +74,10 @@ class OptArg: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
+      if (value){
+        delete value;
+        value = NULL;
+      }
 
       if (defaultValue) {
         int strLen = strlen(defaultValue);

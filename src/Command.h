@@ -21,7 +21,7 @@ class Command: public Cmd {
   public:
     Command(const char* name, void (*runFnct)(Cmd*)){
       Command::runFnct = runFnct;
-      
+
       if(name){
         int strLen = strlen_P(name);
         Command::name = new char[strLen+1];
@@ -30,26 +30,26 @@ class Command: public Cmd {
       }
       reset();
     }
-    
+
     Command(String name, void (*runFnct)(Cmd*)){
       Command::runFnct = runFnct;
-      
+
       int strLen = name.length()+1;
       Command::name = new char[strLen];
       name.toCharArray(Command::name, strLen);
       reset();
     }
-    
+
     ~Command(){
       if(name) delete name;
       if(firstArg) delete firstArg;
       if(next) delete next;
     }
-    
+
     String getName(){
       return String(name);
     }
-    
+
     void reset(){
       Arg* h = firstArg;
       while(h){
@@ -57,7 +57,7 @@ class Command: public Cmd {
         h = h->next;
       }
     }
-    
+
     bool parse(String arg, String value){
       Arg* h = firstArg;
       while(h){
@@ -71,11 +71,11 @@ class Command: public Cmd {
       }
       return false;
     }
-    
+
     int argNum(){
       return args;
     }
-    
+
     Arg* getArg(int i){
       int j = 0;
       Arg* h = firstArg;
@@ -85,7 +85,7 @@ class Command: public Cmd {
       }
       return h;
     }
-    
+
     Arg* getArg(const char* name){
       Arg* h = firstArg;
       while(h){
@@ -95,7 +95,7 @@ class Command: public Cmd {
       }
       return h;
     }
-    
+
     Arg* getArg(String name){
       Arg* h = firstArg;
       while(h){
@@ -110,27 +110,27 @@ class Command: public Cmd {
       Arg* h = getArg(i);
       return h ? h->isSet() : false;
     }
-    
+
     bool isSet(const char* name){
       Arg* h = getArg(name);
       return h ? h->isSet() : false;
     }
-    
+
     bool isSet(String name){
       Arg* h = getArg(name);
       return h ? h->isSet() : false;
     }
-    
+
     String value(int i){
       Arg* h = getArg(i);
       return h ? h->getValue() : String();
     }
-    
+
     String value(const char* name){
       Arg* h = getArg(name);
       return h ? h->getValue() : String();
     }
-    
+
     String value(String name){
       Arg* h = getArg(name);
       return h ? h->getValue() : String();
@@ -166,7 +166,7 @@ class Command: public Cmd {
       }
       return true;
     }
-    
+
   private:
     char* name = NULL;
     int args = 0;
@@ -175,4 +175,3 @@ class Command: public Cmd {
 };
 
 #endif
-

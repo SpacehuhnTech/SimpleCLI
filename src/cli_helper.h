@@ -46,6 +46,19 @@ namespace cli_helper {
         else
           return -1;
     }
+
+    inline String readTemplate(const char* _template){
+      String str = String();
+      int len = strlen(_template);
+      int i = 0;
+
+      while(i<len && _template[i] != '/' && _template[i] != ','){
+        str += _template[i];
+        i++;
+      }
+
+      return str;
+    }
 }
 
 #endif

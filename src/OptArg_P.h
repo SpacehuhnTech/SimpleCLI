@@ -60,7 +60,10 @@ class OptArg_P: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
+      if (value){
+        delete value;
+        value = NULL;
+      }
 
       int strLen = strlen_P(defaultValue);
       value = new char[strLen + 1];
@@ -84,6 +87,7 @@ class OptArg_P: public Arg {
     String getValue() {
       return value ? String(value) : String();
     }
+
     bool isRequired() {
       return false;
     }

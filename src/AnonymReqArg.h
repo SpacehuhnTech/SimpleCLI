@@ -15,11 +15,11 @@ class AnonymReqArg: public Arg {
     }
 
     bool equals(const char* name) {
-      return false;
+      return strlen(name) == 0;
     }
 
     bool equals(String name) {
-      return false;
+      return name.length() == 0;
     }
 
     void setValue(String value) {
@@ -35,7 +35,10 @@ class AnonymReqArg: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
+      if (value){
+        delete value;
+        value = NULL;
+      }
 
       Arg::reset();
     }
@@ -53,4 +56,3 @@ class AnonymReqArg: public Arg {
 };
 
 #endif
-

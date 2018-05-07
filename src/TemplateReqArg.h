@@ -30,11 +30,11 @@ class TemplateReqArg: public Arg {
     }
 
     bool equals(const char* name) {
-      return false;
+      return strlen_P(name) == 0;
     }
 
     bool equals(String name) {
-      return false;
+      return name.length() == 0;
     }
 
     void setValue(String value) {
@@ -54,8 +54,11 @@ class TemplateReqArg: public Arg {
     }
 
     void reset() {
-      if (value) delete value;
-
+      if (value){
+        delete value;
+        value = NULL;
+      }
+      index = -1;
       Arg::reset();
     }
 
@@ -74,7 +77,7 @@ class TemplateReqArg: public Arg {
   private:
     char* value = NULL;
     char* _template = NULL;
-    int index = 0;
+    int index = -1;
 };
 
 #endif
