@@ -2,14 +2,14 @@
 #define CommandParser_h
 
 #include "cli_helper.h"
-#include "Arg.h"
-#include "Cmd.h"
-#include "BoundlessCmd.h"
-#include "BoundlessCmd_P.h"
-#include "Command.h"
-#include "Command_P.h"
-#include "EmptyCmd.h"
-#include "EmptyCmd_P.h"
+#include "Arguments/Arg.h"
+#include "Commands/Cmd.h"
+#include "Commands/BoundlessCmd.h"
+#include "Commands/BoundlessCmd_P.h"
+#include "Commands/Command.h"
+#include "Commands/Command_P.h"
+#include "Commands/EmptyCmd.h"
+#include "Commands/EmptyCmd_P.h"
 
 class CommandParser {
   public:

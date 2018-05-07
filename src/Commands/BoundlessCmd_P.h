@@ -2,22 +2,21 @@
 #define BoundlessCmd_P_h
 
 #include "Cmd.h"
-#include "AnonymOptArg.h"
 
 class BoundlessCmd_P: public Cmd {
   public:
     BoundlessCmd_P(const char* name, void (*runFnct)(Cmd*)){
       BoundlessCmd_P::runFnct = runFnct;
-      
+
       BoundlessCmd_P::name = name;
       reset();
     }
-    
+
     ~BoundlessCmd_P(){
       if(firstArg) delete firstArg;
       if(next) delete next;
     }
-    
+
     String getName(){
       int strLen = strlen_P(name);
       char tmpName[strLen+1];
@@ -25,17 +24,17 @@ class BoundlessCmd_P: public Cmd {
       tmpName[strLen] = '\0';
       return String(tmpName);
     }
-    
+
     void reset(){
       if(firstArg) delete firstArg;
       firstArg = NULL;
       lastArg = NULL;
       args = 0;
     }
-    
+
     bool parse(String arg, String value){
       bool success = false;
-      
+
       if(arg.length() > 0){
         Arg* newArg = new AnonymReqArg();
         newArg->setValue(arg);
@@ -46,7 +45,7 @@ class BoundlessCmd_P: public Cmd {
 
         success = true;
       }
-      
+
       if(value.length() > 0){
         Arg* newArg = new AnonymReqArg();
         newArg->setValue(value);
@@ -60,11 +59,11 @@ class BoundlessCmd_P: public Cmd {
 
       return success;
     }
-    
+
     int argNum(){
       return args;
     }
-    
+
     Arg* getArg(int i){
       int j = 0;
       Arg* h = firstArg;
@@ -74,7 +73,7 @@ class BoundlessCmd_P: public Cmd {
       }
       return h;
     }
-    
+
     Arg* getArg(const char* name){
       Arg* h = firstArg;
       while(h){
@@ -84,7 +83,7 @@ class BoundlessCmd_P: public Cmd {
       }
       return h;
     }
-    
+
     Arg* getArg(String name){
       Arg* h = firstArg;
       while(h){
@@ -99,36 +98,36 @@ class BoundlessCmd_P: public Cmd {
       Arg* h = getArg(i);
       return h ? h->isSet() : false;
     }
-    
+
     bool isSet(const char* name){
       Arg* h = getArg(name);
       return h ? h->isSet() : false;
     }
-    
+
     bool isSet(String name){
       Arg* h = getArg(name);
       return h ? h->isSet() : false;
     }
-    
+
     String value(int i){
       Arg* h = getArg(i);
       return h ? h->getValue() : String();
     }
-    
+
     String value(const char* name){
       Arg* h = getArg(name);
       return h ? h->getValue() : String();
     }
-    
+
     String value(String name){
       Arg* h = getArg(name);
       return h ? h->getValue() : String();
     }
-    
+
     bool isSet(){
       return true;
     }
-    
+
   private:
     const char* name = NULL;
     int args = 0;
@@ -137,4 +136,3 @@ class BoundlessCmd_P: public Cmd {
 };
 
 #endif
-

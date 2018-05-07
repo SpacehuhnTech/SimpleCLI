@@ -1,44 +1,41 @@
-#ifndef Command_P_h
-#define Command_P_h
+#ifndef Command_h
+#define Command_h
 
 #include "Cmd.h"
-#include "Arg.h"
-#include "ReqArg.h"
-#include "ReqArg_P.h"
-#include "OptArg.h"
-#include "OptArg_P.h"
-#include "EmptyArg.h"
-#include "EmptyArg_P.h"
-#include "AnonymReqArg.h"
-#include "AnonymOptArg.h"
-#include "AnonymOptArg_P.h"
-#include "TemplateReqArg.h"
-#include "TemplateReqArg_P.h"
-#include "TemplateOptArg.h"
-#include "TemplateOptArg_P.h"
 
-class Command_P: public Cmd {
+class Command: public Cmd {
   public:
-    Command_P(const char* name, void (*runFnct)(Cmd*)){
-      Command_P::runFnct = runFnct;
-      
-      Command_P::name = name;
+    Command(const char* name, void (*runFnct)(Cmd*)){
+      Command::runFnct = runFnct;
+
+      if(name){
+        int strLen = strlen_P(name);
+        Command::name = new char[strLen+1];
+        strcpy_P(Command::name, name);
+        Command::name[strLen] = '\0';
+      }
       reset();
     }
-    
-    ~Command_P(){
+
+    Command(String name, void (*runFnct)(Cmd*)){
+      Command::runFnct = runFnct;
+
+      int strLen = name.length()+1;
+      Command::name = new char[strLen];
+      name.toCharArray(Command::name, strLen);
+      reset();
+    }
+
+    ~Command(){
+      if(name) delete name;
       if(firstArg) delete firstArg;
       if(next) delete next;
     }
-    
+
     String getName(){
-      int strLen = strlen_P(name);
-      char tmpName[strLen+1];
-      strcpy_P(tmpName, name);
-      tmpName[strLen] = '\0';
-      return String(tmpName);
+      return String(name);
     }
-    
+
     void reset(){
       Arg* h = firstArg;
       while(h){
@@ -46,7 +43,7 @@ class Command_P: public Cmd {
         h = h->next;
       }
     }
-    
+
     bool parse(String arg, String value){
       Arg* h = firstArg;
       while(h){
@@ -60,11 +57,11 @@ class Command_P: public Cmd {
       }
       return false;
     }
-    
+
     int argNum(){
       return args;
     }
-    
+
     Arg* getArg(int i){
       int j = 0;
       Arg* h = firstArg;
@@ -74,7 +71,7 @@ class Command_P: public Cmd {
       }
       return h;
     }
-    
+
     Arg* getArg(const char* name){
       Arg* h = firstArg;
       while(h){
@@ -84,7 +81,7 @@ class Command_P: public Cmd {
       }
       return h;
     }
-    
+
     Arg* getArg(String name){
       Arg* h = firstArg;
       while(h){
@@ -99,27 +96,27 @@ class Command_P: public Cmd {
       Arg* h = getArg(i);
       return h ? h->isSet() : false;
     }
-    
+
     bool isSet(const char* name){
       Arg* h = getArg(name);
       return h ? h->isSet() : false;
     }
-    
+
     bool isSet(String name){
       Arg* h = getArg(name);
       return h ? h->isSet() : false;
     }
-    
+
     String value(int i){
       Arg* h = getArg(i);
       return h ? h->getValue() : String();
     }
-    
+
     String value(const char* name){
       Arg* h = getArg(name);
       return h ? h->getValue() : String();
     }
-    
+
     String value(String name){
       Arg* h = getArg(name);
       return h ? h->getValue() : String();
@@ -145,7 +142,7 @@ class Command_P: public Cmd {
     void addArg(TemplateReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
     void addArg(TemplateOptArg* newArg){addArg( static_cast<Arg*>(newArg)); }
     void addArg(TemplateOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    
+
     bool isSet(){
       Arg* h = firstArg;
       while(h){
@@ -155,13 +152,12 @@ class Command_P: public Cmd {
       }
       return true;
     }
-    
+
   private:
-    const char* name = NULL;
+    char* name = NULL;
     int args = 0;
     Arg* firstArg = NULL;
     Arg* lastArg = NULL;
 };
 
 #endif
-

@@ -1,53 +1,28 @@
-#ifndef Command_h
-#define Command_h
+#ifndef Command_P_h
+#define Command_P_h
 
 #include "Cmd.h"
-#include "Arg.h"
-#include "ReqArg.h"
-#include "ReqArg_P.h"
-#include "OptArg.h"
-#include "OptArg_P.h"
-#include "EmptyArg.h"
-#include "EmptyArg_P.h"
-#include "AnonymReqArg.h"
-#include "AnonymOptArg.h"
-#include "AnonymOptArg_P.h"
-#include "TemplateReqArg.h"
-#include "TemplateReqArg_P.h"
-#include "TemplateOptArg.h"
-#include "TemplateOptArg_P.h"
 
-class Command: public Cmd {
+class Command_P: public Cmd {
   public:
-    Command(const char* name, void (*runFnct)(Cmd*)){
-      Command::runFnct = runFnct;
+    Command_P(const char* name, void (*runFnct)(Cmd*)){
+      Command_P::runFnct = runFnct;
 
-      if(name){
-        int strLen = strlen_P(name);
-        Command::name = new char[strLen+1];
-        strcpy_P(Command::name, name);
-        Command::name[strLen] = '\0';
-      }
+      Command_P::name = name;
       reset();
     }
 
-    Command(String name, void (*runFnct)(Cmd*)){
-      Command::runFnct = runFnct;
-
-      int strLen = name.length()+1;
-      Command::name = new char[strLen];
-      name.toCharArray(Command::name, strLen);
-      reset();
-    }
-
-    ~Command(){
-      if(name) delete name;
+    ~Command_P(){
       if(firstArg) delete firstArg;
       if(next) delete next;
     }
 
     String getName(){
-      return String(name);
+      int strLen = strlen_P(name);
+      char tmpName[strLen+1];
+      strcpy_P(tmpName, name);
+      tmpName[strLen] = '\0';
+      return String(tmpName);
     }
 
     void reset(){
@@ -168,7 +143,7 @@ class Command: public Cmd {
     }
 
   private:
-    char* name = NULL;
+    const char* name = NULL;
     int args = 0;
     Arg* firstArg = NULL;
     Arg* lastArg = NULL;
