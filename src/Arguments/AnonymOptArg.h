@@ -9,7 +9,7 @@ class AnonymOptArg: public Arg {
       if (defaultValue) {
         int strLen = strlen(defaultValue);
         AnonymOptArg::defaultValue = new char[strLen + 1];
-        strcpy_P(AnonymOptArg::defaultValue, defaultValue);
+        strcpy(AnonymOptArg::defaultValue, defaultValue);
         AnonymOptArg::defaultValue[strLen] = '\0';
       }
 

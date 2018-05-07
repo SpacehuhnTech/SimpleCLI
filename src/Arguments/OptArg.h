@@ -9,14 +9,14 @@ class OptArg: public Arg {
       if (name) {
         int strLen = strlen(name);
         OptArg::name = new char[strLen + 1];
-        strcpy_P(OptArg::name, name);
+        strcpy(OptArg::name, name);
         OptArg::name[strLen] = '\0';
       }
 
       if (defaultValue) {
         int strLen = strlen(defaultValue);
         OptArg::defaultValue = new char[strLen + 1];
-        strcpy_P(OptArg::defaultValue, defaultValue);
+        strcpy(OptArg::defaultValue, defaultValue);
         OptArg::defaultValue[strLen] = '\0';
       }
 
@@ -49,12 +49,7 @@ class OptArg: public Arg {
       if (!OptArg::name) return false;
       if (name == OptArg::name) return true;
 
-      int strLen = strlen_P(name);
-      char tmpName[strLen + 1];
-      strcpy_P(tmpName, name);
-      tmpName[strLen] = '\0';
-
-      return cli_helper::equals(tmpName, OptArg::name) >= 0;
+      return cli_helper::equals(name, OptArg::name) >= 0;
     }
 
     bool equals(String name) {

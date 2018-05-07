@@ -7,9 +7,9 @@ class TemplateOptArg: public Arg {
   public:
     TemplateOptArg(const char* _template) {
       if (_template) {
-        int strLen = strlen_P(_template);
+        int strLen = strlen(_template);
         TemplateOptArg::_template = new char[strLen + 1];
-        strcpy_P(TemplateOptArg::_template, _template);
+        strcpy(TemplateOptArg::_template, _template);
         TemplateOptArg::_template[strLen] = '\0';
       }
 

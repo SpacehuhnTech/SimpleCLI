@@ -7,9 +7,9 @@ class TemplateReqArg: public Arg {
   public:
     TemplateReqArg(const char* _template) {
       if (_template) {
-        int strLen = strlen_P(_template);
+        int strLen = strlen(_template);
         TemplateReqArg::_template = new char[strLen + 1];
-        strcpy_P(TemplateReqArg::_template, _template);
+        strcpy(TemplateReqArg::_template, _template);
         TemplateReqArg::_template[strLen] = '\0';
       }
       reset();
@@ -30,7 +30,7 @@ class TemplateReqArg: public Arg {
     }
 
     bool equals(const char* name) {
-      return strlen_P(name) == 0;
+      return strlen(name) == 0;
     }
 
     bool equals(String name) {

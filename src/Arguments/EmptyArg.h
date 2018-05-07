@@ -9,7 +9,7 @@ class EmptyArg: public Arg {
       if (name) {
         int strLen = strlen(name);
         EmptyArg::name = new char[strLen + 1];
-        strcpy_P(EmptyArg::name, name);
+        strcpy(EmptyArg::name, name);
         EmptyArg::name[strLen] = '\0';
       }
 
@@ -33,13 +33,7 @@ class EmptyArg: public Arg {
       if(!EmptyArg::name) return false;
       if(name == EmptyArg::name) return true;
 
-      int strLen;
-      strLen = strlen_P(name);
-      char tmpName[strLen + 1];
-      strcpy_P(tmpName, name);
-      tmpName[strLen] = '\0';
-
-      return cli_helper::equals(tmpName, EmptyArg::name) >= 0;
+      return cli_helper::equals(name, EmptyArg::name) >= 0;
     }
 
     bool equals(String name) {

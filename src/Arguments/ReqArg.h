@@ -10,7 +10,7 @@ class ReqArg: public Arg {
       if (name) {
         int strLen = strlen(name);
         ReqArg::name = new char[strLen + 1];
-        strcpy_P(ReqArg::name, name);
+        strcpy(ReqArg::name, name);
         ReqArg::name[strLen] = '\0';
       }
 
@@ -36,12 +36,7 @@ class ReqArg: public Arg {
       if (!ReqArg::name) return false;
       if (name == ReqArg::name) return true;
 
-      int strLen = strlen_P(name);
-      char tmpName[strLen + 1];
-      strcpy_P(tmpName, name);
-      tmpName[strLen] = '\0';
-
-      return cli_helper::equals(tmpName, ReqArg::name) >= 0;
+      return cli_helper::equals(name, ReqArg::name) >= 0;
     }
 
     bool equals(String name) {
