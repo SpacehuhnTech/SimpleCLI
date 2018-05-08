@@ -3,60 +3,22 @@
 
 #include "Arg.h"
 
-class EmptyArg: public Arg {
-  public:
-    EmptyArg(const char* name, const char* defaultValue) {
-      if (name) {
-        int strLen = strlen(name);
-        EmptyArg::name = new char[strLen + 1];
-        strcpy(EmptyArg::name, name);
-        EmptyArg::name[strLen] = '\0';
-      }
+namespace arduino_cli {
+    class EmptyArg : public Arg {
+        public:
+            EmptyArg(const char *name, const char *defaultValue);
+            EmptyArg(String name);
+            ~EmptyArg();
 
-      reset();
-    }
+            bool equals(const char *name);
+            bool equals(String name);
+            void setValue();
+            void setValue(String value);
+            String getName();
+            bool isRequired();
 
-    EmptyArg(String name) {
-      int strLen = name.length() + 1;
-      EmptyArg::name = new char[strLen];
-      name.toCharArray(EmptyArg::name, strLen);
-      reset();
-    }
-
-    ~EmptyArg() {
-      if(name) delete name;
-      if (next) delete next;
-    }
-
-    bool equals(const char* name) {
-      if(!name) return false;
-      if(!EmptyArg::name) return false;
-      if(name == EmptyArg::name) return true;
-
-      return cli_helper::equals(name, EmptyArg::name) >= 0;
-    }
-
-    bool equals(String name) {
-      return cli_helper::equals(name.c_str(), EmptyArg::name) >= 0;
-    }
-
-    void setValue() {
-      set = true;
-    }
-
-    void setValue(String value) {
-      setValue();
-    }
-
-    String getName(){
-      return name ? String(name) : String();
-    }
-
-    bool isRequired(){
-      return false;
-    }
-  private:
-    char* name = NULL;
-};
-
-#endif
+        private:
+            char *name = NULL;
+    };
+}
+#endif // ifndef EmptyArg_h

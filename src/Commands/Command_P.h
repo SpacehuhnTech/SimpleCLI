@@ -3,152 +3,55 @@
 
 #include "Cmd.h"
 
-class Command_P: public Cmd {
-  public:
-    Command_P(const char* name, void (*runFnct)(Cmd*)){
-      Command_P::runFnct = runFnct;
+namespace arduino_cli {
+    class Command_P : public Cmd {
+        public:
+            Command_P(const char *name, void(*runFnct)(Cmd *));
+            ~Command_P();
 
-      Command_P::name = name;
-      reset();
-    }
+            String getName();
+            void reset();
+            bool parse(String arg, String value);
+            int argNum();
 
-    ~Command_P(){
-      if(firstArg) delete firstArg;
-      if(next) delete next;
-    }
+            Arg* getArg(int i);
+            Arg* getArg(const char *name);
+            Arg* getArg(String name);
 
-    String getName(){
-      int strLen = strlen_P(name);
-      char tmpName[strLen+1];
-      strcpy_P(tmpName, name);
-      tmpName[strLen] = '\0';
-      return String(tmpName);
-    }
+            bool isSet(int i);
+            bool isSet(const char *name);
+            bool isSet(String name);
 
-    void reset(){
-      Arg* h = firstArg;
-      while(h){
-        h->reset();
-        h = h->next;
-      }
-    }
+            String value(int i);
+            String value(const char *name);
+            String value(String name);
 
-    bool parse(String arg, String value){
-      Arg* h = firstArg;
-      while(h){
-        if(h->equals(arg)){
-          if(!h->isSet()){
-            h->setValue(value);
-            return h->isSet();
-          }
-        }
-        h = h->next;
-      }
-      return false;
-    }
+            void addArg(Arg *newArg);
+            void addArg(ReqArg *newArg);
+            void addArg(OptArg *newArg);
+            void addArg(EmptyArg *newArg);
+            void addArg(AnonymReqArg *newArg);
+            void addArg(AnonymOptArg *newArg);
+            void addArg(TemplateReqArg *newArg);
+            void addArg(TemplateOptArg *newArg);
 
-    int argNum(){
-      return args;
-    }
+            bool isSet();
 
-    Arg* getArg(int i){
-      int j = 0;
-      Arg* h = firstArg;
-      while(j<i && h){
-        j++;
-        h = h->next;
-      }
-      return h;
-    }
-
-    Arg* getArg(const char* name){
-      Arg* h = firstArg;
-      while(h){
-        if(h->equals(name))
-          return h;
-        h = h->next;
-      }
-      return h;
-    }
-
-    Arg* getArg(String name){
-      Arg* h = firstArg;
-      while(h){
-        if(h->equals(name))
-          return h;
-        h = h->next;
-      }
-      return h;
-    }
-
-    bool isSet(int i){
-      Arg* h = getArg(i);
-      return h ? h->isSet() : false;
-    }
-
-    bool isSet(const char* name){
-      Arg* h = getArg(name);
-      return h ? h->isSet() : false;
-    }
-
-    bool isSet(String name){
-      Arg* h = getArg(name);
-      return h ? h->isSet() : false;
-    }
-
-    String value(int i){
-      Arg* h = getArg(i);
-      return h ? h->getValue() : String();
-    }
-
-    String value(const char* name){
-      Arg* h = getArg(name);
-      return h ? h->getValue() : String();
-    }
-
-    String value(String name){
-      Arg* h = getArg(name);
-      return h ? h->getValue() : String();
-    }
-
-    void addArg(Arg* newArg){
-      if(lastArg) lastArg->next = newArg;
-      if(!firstArg) firstArg = newArg;
-      lastArg = newArg;
-      args++;
-    }
-
-    void addArg(ReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(OptArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(EmptyArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(AnonymReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(AnonymOptArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(TemplateReqArg* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(TemplateOptArg* newArg){addArg( static_cast<Arg*>(newArg)); }
 #if defined(ESP8266) || defined(ESP32)
-    void addArg(ReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(OptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(EmptyArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(AnonymOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(TemplateReqArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
-    void addArg(TemplateOptArg_P* newArg){ addArg(static_cast<Arg*>(newArg)); }
-#endif
+            void addArg(ReqArg_P *newArg);
+            void addArg(OptArg_P *newArg);
+            void addArg(EmptyArg_P *newArg);
+            void addArg(AnonymOptArg_P *newArg);
+            void addArg(TemplateReqArg_P *newArg);
+            void addArg(TemplateOptArg_P *newArg);
 
-    bool isSet(){
-      Arg* h = firstArg;
-      while(h){
-        if(h->isRequired() && !h->isSet())
-          return false;
-        h = h->next;
-      }
-      return true;
-    }
+#endif // if defined(ESP8266) || defined(ESP32)
 
-  private:
-    const char* name = NULL;
-    int args = 0;
-    Arg* firstArg = NULL;
-    Arg* lastArg = NULL;
-};
-
-#endif
+        private:
+            const char *name = NULL;
+            int args         = 0;
+            Arg *firstArg    = NULL;
+            Arg *lastArg     = NULL;
+    };
+}
+#endif // ifndef Command_P_h

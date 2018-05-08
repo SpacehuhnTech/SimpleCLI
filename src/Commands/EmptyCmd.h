@@ -3,92 +3,34 @@
 
 #include "Cmd.h"
 
-class EmptyCmd: public Cmd {
-  public:
-    EmptyCmd(const char* name, void (*runFnct)(Cmd*)){
-      EmptyCmd::runFnct = runFnct;
+namespace arduino_cli {
+    class EmptyCmd : public Cmd {
+        public:
+            EmptyCmd(const char *name, void(*runFnct)(Cmd *));
+            EmptyCmd(String name, void(*runFnct)(Cmd *));
+            ~EmptyCmd();
 
-      if(name){
-        int strLen = strlen(name);
-        EmptyCmd::name = new char[strLen+1];
-        strcpy(EmptyCmd::name, name);
-        EmptyCmd::name[strLen] = '\0';
-      }
-      reset();
-    }
+            String getName();
+            void reset();
+            bool parse(String arg, String value);
+            int argNum();
 
-    EmptyCmd(String name, void (*runFnct)(Cmd*)){
-      EmptyCmd::runFnct = runFnct;
+            Arg* getArg(int i);
+            Arg* getArg(const char *name);
+            Arg* getArg(String name);
 
-      int strLen = name.length()+1;
-      EmptyCmd::name = new char[strLen];
-      name.toCharArray(EmptyCmd::name, strLen);
-      reset();
-    }
+            bool isSet(int i);
+            bool isSet(const char *name);
+            bool isSet(String name);
 
-    ~EmptyCmd(){
-      if(name) delete name;
-      if(next) delete next;
-    }
+            String value(int i);
+            String value(const char *name);
+            String value(String name);
 
-    String getName(){
-      return String(name);
-    }
+            bool isSet();
 
-    void reset(){
-
-    }
-
-    bool parse(String arg, String value){
-      return true;
-    }
-
-    int argNum(){
-      return 0;
-    }
-
-    Arg* getArg(int i){
-      return NULL;
-    }
-
-    Arg* getArg(const char* name){
-      return NULL;
-    }
-
-    Arg* getArg(String name){
-      return NULL;
-    }
-
-    bool isSet(int i){
-      return false;
-    }
-
-    bool isSet(const char* name){
-      return false;
-    }
-
-    bool isSet(String name){
-      return false;
-    }
-
-    String value(int i){
-      return String();
-    }
-
-    String value(const char* name){
-      return String();
-    }
-
-    String value(String name){
-      return String();
-    }
-
-    bool isSet(){
-      return true;
-    }
-
-  private:
-    char* name = NULL;
-};
-
-#endif
+        private:
+            char *name = NULL;
+    };
+}
+#endif // ifndef EmptyCmd_h

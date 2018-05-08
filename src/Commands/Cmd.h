@@ -1,7 +1,8 @@
 #ifndef Cmd_h
 #define Cmd_h
 
-#include "cli_helper.h"
+#include "Arduino.h"
+#include "helper_functions.h"
 
 #include "Arguments/Arg.h"
 #include "Arguments/ReqArg.h"
@@ -19,42 +20,45 @@
 #include "Arguments/AnonymOptArg_P.h"
 #include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg_P.h"
-#endif
+#endif // if defined(ESP8266) || defined(ESP32)
 
-class Cmd {
-  public:
-    Cmd* next = NULL;
+namespace arduino_cli {
+    class Cmd {
+        public:
+            Cmd *next = NULL;
 
-    virtual ~Cmd() = default;
+            virtual ~Cmd() = default;
 
-    virtual String getName() = 0;
-    virtual void reset() = 0;
-    virtual bool parse(String arg, String value) = 0;
-    virtual int argNum() = 0;
+            virtual String getName() = 0;
+            virtual void   reset()   = 0;
+            virtual bool   parse(String arg, String value) = 0;
+            virtual int    argNum() = 0;
 
-    virtual Arg* getArg(int i) = 0;
-    virtual Arg* getArg(const char* name) = 0;
-    virtual Arg* getArg(String name) = 0;
+            virtual Arg* getArg(int i)            = 0;
+            virtual Arg* getArg(const char *name) = 0;
+            virtual Arg* getArg(String name)      = 0;
 
-    virtual bool isSet(int i) = 0;
-    virtual bool isSet(const char* name) = 0;
-    virtual bool isSet(String name) = 0;
+            virtual bool   isSet(int i)            = 0;
+            virtual bool   isSet(const char *name) = 0;
+            virtual bool   isSet(String name)      = 0;
 
-    virtual String value(int i) = 0;
-    virtual String value(const char* name) = 0;
-    virtual String value(String name) = 0;
+            virtual String value(int i)            = 0;
+            virtual String value(const char *name) = 0;
+            virtual String value(String name)      = 0;
 
-    virtual bool isSet() = 0;
+            virtual bool   isSet() = 0;
 
-    bool run(Cmd* cmd) {
-      if (runFnct) {
-        runFnct(cmd);
-        return true;
-      }
-      return false;
-    }
-  protected:
-    void (*runFnct)(Cmd*) = NULL;
-};
+            virtual inline bool run(Cmd *cmd) {
+                if (runFnct) {
+                    runFnct(cmd);
+                    return true;
+                }
+                return false;
+            }
 
-#endif
+        protected:
+            void (*runFnct)(Cmd *) = NULL;
+    };
+}
+
+#endif // ifndef Cmd_h

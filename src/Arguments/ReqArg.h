@@ -3,82 +3,89 @@
 
 #include "Arg.h"
 
-class ReqArg: public Arg {
-  public:
-    ReqArg(const char* name) {
-      // copy name
-      if (name) {
-        int strLen = strlen(name);
-        ReqArg::name = new char[strLen + 1];
-        strcpy(ReqArg::name, name);
-        ReqArg::name[strLen] = '\0';
-      }
+namespace arduino_cli {
+    class ReqArg : public Arg {
+        public:
+            ReqArg(const char *name) {
+                // copy name
+                if (name) {
+                    int strLen = strlen(name);
+                    ReqArg::name = new char[strLen + 1];
+                    strcpy(ReqArg::name, name);
+                    ReqArg::name[strLen] = '\0';
+                }
 
-      reset();
-    }
+                reset();
+            }
 
-    ReqArg(String name) {
-      int strLen = name.length() + 1;
-      ReqArg::name = new char[strLen];
-      name.toCharArray(ReqArg::name, strLen);
+            ReqArg(String name) {
+                int strLen = name.length() + 1;
 
-      reset();
-    }
+                ReqArg::name = new char[strLen];
+                name.toCharArray(ReqArg::name, strLen);
 
-    ~ReqArg() {
-      if (name) delete name;
-      if (value) delete value;
-      if (next) delete next;
-    }
+                reset();
+            }
 
-    bool equals(const char* name) {
-      if (!name) return false;
-      if (!ReqArg::name) return false;
-      if (name == ReqArg::name) return true;
+            ~ReqArg() {
+                if (name) delete name;
 
-      return cli_helper::equals(name, ReqArg::name) >= 0;
-    }
+                if (value) delete value;
 
-    bool equals(String name) {
-      return cli_helper::equals(name.c_str(), ReqArg::name) >= 0;
-    }
+                if (next) delete next;
+            }
 
-    void setValue(String value) {
-      if (value.length() > 0) {
-        if (ReqArg::value) delete ReqArg::value;
+            bool equals(const char *name) {
+                if (!name) return false;
 
-        int strLen = value.length() + 1;
-        ReqArg::value = new char[strLen];
-        value.toCharArray(ReqArg::value, strLen);
+                if (!ReqArg::name) return false;
 
-        set = true;
-      }
-    }
+                if (name == ReqArg::name) return true;
 
-    void reset() {
-      if (value){
-        delete value;
-        value = NULL;
-      }
+                return arduino_cli::equals(name, ReqArg::name) >= 0;
+            }
 
-      Arg::reset();
-    }
+            bool equals(String name) {
+                return arduino_cli::equals(name.c_str(), ReqArg::name) >= 0;
+            }
 
-    String getName() {
-      return name ? String(name) : String();
-    }
+            void setValue(String value) {
+                if (value.length() > 0) {
+                    if (ReqArg::value) delete ReqArg::value;
 
-    String getValue() {
-      return value ? String(value) : String();
-    }
+                    int strLen = value.length() + 1;
+                    ReqArg::value = new char[strLen];
+                    value.toCharArray(ReqArg::value, strLen);
 
-    bool isRequired() {
-      return true;
-    }
+                    set = true;
+                }
+            }
 
-  private:
-    char* name = NULL;
-    char* value = NULL;
-};
+            void reset() {
+                if (value) {
+                    delete value;
+                    value = NULL;
+                }
 
-#endif
+                Arg::reset();
+            }
+
+            String getName() {
+                return name ? String(name) : String();
+            }
+
+            String getValue() {
+                return value ? String(value) : String();
+            }
+
+            bool isRequired() {
+                return true;
+            }
+
+        private:
+            char *name  = NULL;
+            char *value = NULL;
+    };
+}
+
+#endif // ifndef ReqArg_h

@@ -1,15 +1,13 @@
 {
-  "name": "ESP-CLI",
+  "name": "Arduino-CLI",
   "version": "1.0.0",
   "keywords": "esp8266, esp32, cli, parser, command, line, interface",
   "description": "Add a command line interface to your project the easy way",
-  "repository":
-  {
+  "repository":  {
     "type": "git",
-    "url": "https://github.com/spacehuhn/esp-cli.git"
+    "url": "https://github.com/spacehuhn/Arduino_CLI.git"
   },
-  "authors":
-  [
+  "authors":  [
     {
         "name": "Stefan Kremser, Spacehuhn",
         "email": "mail@spacehuhn.com",
