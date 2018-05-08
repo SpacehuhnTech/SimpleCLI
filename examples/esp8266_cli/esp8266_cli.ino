@@ -6,7 +6,7 @@ extern "C" {
 
 using namespace arduino_cli;
 
-Arduino_CLI *cli;
+Arduino_CLI* cli;
 
 const char CLI_PING[] PROGMEM = "p,ping/s";
 const char CLI_PONG[] PROGMEM = "pong!";
@@ -35,7 +35,7 @@ void setup() {
 
 
     // =========== Add ram command =========== //
-    cli->addCommand(new Command("ram", [](Cmd *cmd) {
+    cli->addCommand(new Command("ram", [](Cmd* cmd) {
         Serial.printf("RAM usage: %u bytes used [%d%%], %u bytes free [%d%%], %u bytes in total\r\n",
                       81920 - system_get_free_heap_size(), 100 - system_get_free_heap_size() / (81920 / 100),
                       system_get_free_heap_size(), system_get_free_heap_size() / (81920 / 100), 81920);
@@ -44,7 +44,7 @@ void setup() {
 
 
     // =========== Add ping command =========== //
-    Command_P *ping = new Command_P(CLI_PING, [](Cmd *cmd) {
+    Command_P* ping = new Command_P(CLI_PING, [](Cmd* cmd) {
         int h = cmd->value(CLI_NUM).toInt();
 
         if (cmd->isSet(CLI_LINE)) {
