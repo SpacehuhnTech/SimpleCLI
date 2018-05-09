@@ -1,5 +1,8 @@
-extern "C" {
-  #include "user_interface.h"
+int freeRam() {
+    extern int __heap_start, * __brkval;
+    int v;
+
+    return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 }
 
 #include "Arduino_CLI.h"
@@ -20,10 +23,7 @@ void setup() {
 
     delay(200);
 
-    Serial.printf(String(F("RAM usage: %u bytes used [%d%%], %u bytes free [%d%%], %u bytes in total\r\n")).c_str(),
-                  81920 - system_get_free_heap_size(),
-                  100 - system_get_free_heap_size() / (81920 / 100), system_get_free_heap_size(),
-                  system_get_free_heap_size() / (81920 / 100), 81920);
+    Serial.println(freeRam());
 
     // =========== Create CommandParser =========== //
     cli = new Arduino_CLI();
@@ -36,9 +36,7 @@ void setup() {
 
     // =========== Add ram command =========== //
     cli->addCommand(new Command("ram", [](Cmd* cmd) {
-        Serial.printf("RAM usage: %u bytes used [%d%%], %u bytes free [%d%%], %u bytes in total\r\n",
-                      81920 - system_get_free_heap_size(), 100 - system_get_free_heap_size() / (81920 / 100),
-                      system_get_free_heap_size(), system_get_free_heap_size() / (81920 / 100), 81920);
+        Serial.println(freeRam());
     }));
     // ======================================= //
 

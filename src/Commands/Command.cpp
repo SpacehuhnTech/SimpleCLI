@@ -1,7 +1,7 @@
 #include "Command.h"
 
 namespace arduino_cli {
-    Command::Command(const char *name, void (*runFnct)(Cmd *)) {
+    Command::Command(const char* name, void (*runFnct)(Cmd *)) {
         Command::runFnct = runFnct;
 
         if (name) {
@@ -36,7 +36,7 @@ namespace arduino_cli {
     }
 
     void Command::reset() {
-        Arg *h = firstArg;
+        Arg* h = firstArg;
 
         while (h) {
             h->reset();
@@ -45,7 +45,7 @@ namespace arduino_cli {
     }
 
     bool Command::parse(String arg, String value) {
-        Arg *h = firstArg;
+        Arg* h = firstArg;
 
         while (h) {
             if (h->equals(arg)) {
@@ -65,7 +65,7 @@ namespace arduino_cli {
 
     Arg * Command::getArg(int i) {
         int  j = 0;
-        Arg *h = firstArg;
+        Arg* h = firstArg;
 
         while (j < i && h) {
             j++;
@@ -74,8 +74,8 @@ namespace arduino_cli {
         return h;
     }
 
-    Arg * Command::getArg(const char *name) {
-        Arg *h = firstArg;
+    Arg * Command::getArg(const char* name) {
+        Arg* h = firstArg;
 
         while (h) {
             if (h->equals(name)) return h;
@@ -86,7 +86,7 @@ namespace arduino_cli {
     }
 
     Arg * Command::getArg(String name) {
-        Arg *h = firstArg;
+        Arg* h = firstArg;
 
         while (h) {
             if (h->equals(name)) return h;
@@ -97,42 +97,42 @@ namespace arduino_cli {
     }
 
     bool Command::isSet(int i) {
-        Arg *h = getArg(i);
+        Arg* h = getArg(i);
 
         return h ? h->isSet() : false;
     }
 
-    bool Command::isSet(const char *name) {
-        Arg *h = getArg(name);
+    bool Command::isSet(const char* name) {
+        Arg* h = getArg(name);
 
         return h ? h->isSet() : false;
     }
 
     bool Command::isSet(String name) {
-        Arg *h = getArg(name);
+        Arg* h = getArg(name);
 
         return h ? h->isSet() : false;
     }
 
     String Command::value(int i) {
-        Arg *h = getArg(i);
+        Arg* h = getArg(i);
 
         return h ? h->getValue() : String();
     }
 
-    String Command::value(const char *name) {
-        Arg *h = getArg(name);
+    String Command::value(const char* name) {
+        Arg* h = getArg(name);
 
         return h ? h->getValue() : String();
     }
 
     String Command::value(String name) {
-        Arg *h = getArg(name);
+        Arg* h = getArg(name);
 
         return h ? h->getValue() : String();
     }
 
-    void Command::addArg(Arg *newArg) {
+    void Command::addArg(Arg* newArg) {
         if (lastArg) lastArg->next = newArg;
 
         if (!firstArg) firstArg = newArg;
@@ -140,36 +140,36 @@ namespace arduino_cli {
         args++;
     }
 
-    void Command::addArg(ReqArg *newArg) {
+    void Command::addArg(ReqArg* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(OptArg *newArg) {
+    void Command::addArg(OptArg* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(EmptyArg *newArg) {
+    void Command::addArg(EmptyArg* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(AnonymReqArg *newArg) {
+    void Command::addArg(AnonymReqArg* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(AnonymOptArg *newArg) {
+    void Command::addArg(AnonymOptArg* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(TemplateReqArg *newArg) {
+    void Command::addArg(TemplateReqArg* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(TemplateOptArg *newArg) {
+    void Command::addArg(TemplateOptArg* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
     bool Command::isSet() {
-        Arg *h = firstArg;
+        Arg* h = firstArg;
 
         while (h) {
             if (h->isRequired() && !h->isSet()) return false;
@@ -179,30 +179,27 @@ namespace arduino_cli {
         return true;
     }
 
-#if defined(ESP8266) || defined(ESP32)
-    void Command::addArg(ReqArg_P *newArg) {
+    void Command::addArg(ReqArg_P* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(OptArg_P *newArg) {
+    void Command::addArg(OptArg_P* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(EmptyArg_P *newArg) {
+    void Command::addArg(EmptyArg_P* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(AnonymOptArg_P *newArg) {
+    void Command::addArg(AnonymOptArg_P* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(TemplateReqArg_P *newArg) {
+    void Command::addArg(TemplateReqArg_P* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
 
-    void Command::addArg(TemplateOptArg_P *newArg) {
+    void Command::addArg(TemplateOptArg_P* newArg) {
         addArg(static_cast<Arg *>(newArg));
     }
-
-#endif // if defined(ESP8266) || defined(ESP32)
 }

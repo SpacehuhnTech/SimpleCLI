@@ -15,7 +15,7 @@ namespace arduino_cli {
         parseLines(input.c_str(), strLen);
     }
 
-    void Arduino_CLI::parse(const char *input) {
+    void Arduino_CLI::parse(const char* input) {
         int strLen = strlen(input);
 
         if (strLen == 0) return;
@@ -23,7 +23,7 @@ namespace arduino_cli {
         parseLines(input, strLen);
     }
 
-    void Arduino_CLI::parseLines(const char *str, int strLen) {
+    void Arduino_CLI::parseLines(const char* str, int strLen) {
         int h = 1;
         int i = 0;
 
@@ -48,9 +48,9 @@ namespace arduino_cli {
         if (h > 0) parseLine(&str[i - h], h);
     }
 
-    void Arduino_CLI::parseLine(const char *str, int strLen) {
-        Arg *firstArg = NULL;
-        Arg *lastArg  = NULL;
+    void Arduino_CLI::parseLine(const char* str, int strLen) {
+        Arg* firstArg = NULL;
+        Arg* lastArg  = NULL;
 
         bool escaped  = false;
         bool inQuotes = false;
@@ -91,7 +91,7 @@ namespace arduino_cli {
                 else {
                     // add argument to list
                     if (tmpStr.charAt(0) == '-') {
-                        Arg *tmpArg = new OptArg(tmpStr.substring(1), String());
+                        Arg* tmpArg = new OptArg(tmpStr.substring(1), String());
 
                         if (lastArg) lastArg->next = tmpArg;
                         else firstArg = tmpArg;
@@ -103,7 +103,7 @@ namespace arduino_cli {
                         bool set = lastArg ? lastArg->isSet() : true;
 
                         if (set) {
-                            Arg *tmpArg = new OptArg(String(), String());
+                            Arg* tmpArg = new OptArg(String(), String());
 
                             if (lastArg) lastArg->next = tmpArg;
                             else firstArg = tmpArg;
@@ -135,13 +135,13 @@ namespace arduino_cli {
            }
          */
 
-        Cmd *cmd   = firstCmd;
+        Cmd* cmd   = firstCmd;
         bool found = false;
 
         while (cmd && !found) {
             if (equals(cmdName.c_str(),
                        cmd->getName().c_str()) >= 0) {
-                Arg *hArg = firstArg;
+                Arg* hArg = firstArg;
 
                 while (hArg) {
                     cmd->parse(hArg->getName(), hArg->getValue());
@@ -163,7 +163,7 @@ namespace arduino_cli {
     }
 
     Cmd * Arduino_CLI::getCommand(int i) {
-        Cmd *h = firstCmd;
+        Cmd* h = firstCmd;
         int  j = 0;
 
         while (h && j < i) {
@@ -174,7 +174,7 @@ namespace arduino_cli {
     }
 
     Cmd * Arduino_CLI::getCommand(String cmdName) {
-        Cmd *h = firstCmd;
+        Cmd* h = firstCmd;
 
         while (h) {
             if (equals(cmdName.c_str(),
@@ -185,11 +185,11 @@ namespace arduino_cli {
         return h;
     }
 
-    Cmd * Arduino_CLI::getCommand(const char *cmdName) {
+    Cmd * Arduino_CLI::getCommand(const char* cmdName) {
         return getCommand(String(cmdName));
     }
 
-    void Arduino_CLI::addCommand(Cmd *newCmd) {
+    void Arduino_CLI::addCommand(Cmd* newCmd) {
         if (lastCmd) lastCmd->next = newCmd;
 
         if (!firstCmd) firstCmd = newCmd;
@@ -197,30 +197,27 @@ namespace arduino_cli {
         cmdNum++;
     }
 
-#if defined(ESP8266) || defined(ESP32)
-    void Arduino_CLI::addCommand(Command *newCmd) {
+    void Arduino_CLI::addCommand(Command* newCmd) {
         addCommand(static_cast<Cmd *>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(Command_P *newCmd) {
+    void Arduino_CLI::addCommand(Command_P* newCmd) {
         addCommand(static_cast<Cmd *>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(BoundlessCmd *newCmd) {
+    void Arduino_CLI::addCommand(BoundlessCmd* newCmd) {
         addCommand(static_cast<Cmd *>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(BoundlessCmd_P *newCmd) {
+    void Arduino_CLI::addCommand(BoundlessCmd_P* newCmd) {
         addCommand(static_cast<Cmd *>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(EmptyCmd *newCmd) {
+    void Arduino_CLI::addCommand(EmptyCmd* newCmd) {
         addCommand(static_cast<Cmd *>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(EmptyCmd_P *newCmd) {
+    void Arduino_CLI::addCommand(EmptyCmd_P* newCmd) {
         addCommand(static_cast<Cmd *>(newCmd));
     }
-
-#endif // if defined(ESP8266) || defined(ESP32)
 }

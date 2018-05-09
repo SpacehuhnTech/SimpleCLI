@@ -12,20 +12,17 @@
 #include "Arguments/AnonymOptArg.h"
 #include "Arguments/TemplateReqArg.h"
 #include "Arguments/TemplateOptArg.h"
-
-#if defined(ESP8266) || defined(ESP32)
 #include "Arguments/OptArg_P.h"
 #include "Arguments/ReqArg_P.h"
 #include "Arguments/EmptyArg_P.h"
 #include "Arguments/AnonymOptArg_P.h"
 #include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg_P.h"
-#endif // if defined(ESP8266) || defined(ESP32)
 
 namespace arduino_cli {
     class Cmd {
         public:
-            Cmd *next = NULL;
+            Cmd* next = NULL;
 
             virtual ~Cmd() = default;
 
@@ -35,20 +32,20 @@ namespace arduino_cli {
             virtual int    argNum() = 0;
 
             virtual Arg* getArg(int i)            = 0;
-            virtual Arg* getArg(const char *name) = 0;
+            virtual Arg* getArg(const char* name) = 0;
             virtual Arg* getArg(String name)      = 0;
 
             virtual bool   isSet(int i)            = 0;
-            virtual bool   isSet(const char *name) = 0;
+            virtual bool   isSet(const char* name) = 0;
             virtual bool   isSet(String name)      = 0;
 
             virtual String value(int i)            = 0;
-            virtual String value(const char *name) = 0;
+            virtual String value(const char* name) = 0;
             virtual String value(String name)      = 0;
 
             virtual bool   isSet() = 0;
 
-            virtual inline bool run(Cmd *cmd) {
+            virtual inline bool run(Cmd* cmd) {
                 if (runFnct) {
                     runFnct(cmd);
                     return true;

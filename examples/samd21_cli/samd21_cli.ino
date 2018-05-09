@@ -1,7 +1,3 @@
-extern "C" {
-  #include "user_interface.h"
-}
-
 #include "Arduino_CLI.h"
 
 using namespace arduino_cli;
@@ -20,11 +16,6 @@ void setup() {
 
     delay(200);
 
-    Serial.printf(String(F("RAM usage: %u bytes used [%d%%], %u bytes free [%d%%], %u bytes in total\r\n")).c_str(),
-                  81920 - system_get_free_heap_size(),
-                  100 - system_get_free_heap_size() / (81920 / 100), system_get_free_heap_size(),
-                  system_get_free_heap_size() / (81920 / 100), 81920);
-
     // =========== Create CommandParser =========== //
     cli = new Arduino_CLI();
 
@@ -36,9 +27,7 @@ void setup() {
 
     // =========== Add ram command =========== //
     cli->addCommand(new Command("ram", [](Cmd* cmd) {
-        Serial.printf("RAM usage: %u bytes used [%d%%], %u bytes free [%d%%], %u bytes in total\r\n",
-                      81920 - system_get_free_heap_size(), 100 - system_get_free_heap_size() / (81920 / 100),
-                      system_get_free_heap_size(), system_get_free_heap_size() / (81920 / 100), 81920);
+        Serial.println("I couldn't find a quick way to read out the RAM usage for the SAMD21 chips - sorry :(");
     }));
     // ======================================= //
 
