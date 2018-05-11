@@ -2,6 +2,8 @@
 #define helper_functions_h
 
 namespace arduino_cli {
+    static bool caseSensetive = false;
+
     inline int equals(const char* str, const char* keyword) {
         // null check string pointers
         if (!str || !keyword) return -3;
@@ -33,7 +35,11 @@ namespace arduino_cli {
             }
 
             // compare character
-            if (tolower(str[a]) != tolower(keyword[b])) result = false;
+            if (arduino_cli::caseSensetive) {
+                if (str[a] != keyword[b]) result = false;
+            } else {
+                if (tolower(str[a]) != tolower(keyword[b])) result = false;
+            }
 
             if (((a == lenStr) && !result) || !result) {
                 // fast forward to next comma

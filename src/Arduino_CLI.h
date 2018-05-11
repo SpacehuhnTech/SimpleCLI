@@ -38,6 +38,8 @@ namespace arduino_cli {
             void addCommand(EmptyCmd* newCmd);
             void addCommand(EmptyCmd_P* newCmd);
 
+            void setCaseSensetive();
+
         private:
             int cmdNum    = 0;
             Cmd* firstCmd = NULL;

@@ -220,4 +220,8 @@ namespace arduino_cli {
     void Arduino_CLI::addCommand(EmptyCmd_P* newCmd) {
         addCommand(static_cast<Cmd *>(newCmd));
     }
+
+    void Arduino_CLI::setCaseSensetive() {
+        caseSensetive = true;
+    }
 }
