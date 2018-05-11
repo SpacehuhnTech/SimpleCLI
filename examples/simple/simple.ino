@@ -1,10 +1,3 @@
-int freeRam() {
-    extern int __heap_start, * __brkval;
-    int v;
-
-    return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
-}
-
 #include "Arduino_CLI.h"
 
 using namespace arduino_cli;
@@ -17,13 +10,11 @@ const char CLI_LINE[] PROGMEM = "l,line";
 const char CLI_NUM[] PROGMEM = "n,number";
 const char CLI_STR[] PROGMEM = "s,str/ing";
 
+// #define Serial SERIAL_PORT_USBVIRTUAL // for the SAMD21 chips
+
 void setup() {
     Serial.begin(115200);
     Serial.println();
-
-    delay(200);
-
-    Serial.println(freeRam());
 
     // =========== Create CommandParser =========== //
     cli = new Arduino_CLI();
@@ -33,15 +24,19 @@ void setup() {
                       };
     // ============================================ //
 
+    // =========== Add hello command ========== //
+    Command* hello = new Command("hello", [](Cmd* cmd) {
+        String from = cmd->value(0);
 
-    // =========== Add ram command =========== //
-    cli->addCommand(new Command("ram", [](Cmd* cmd) {
-        Serial.println(freeRam());
-    }));
-    // ======================================= //
-
+        if (from.length() > 0) Serial.println("hi from the " + from);
+        else Serial.println("hi");
+    });
+    hello->addArg(new AnonymOptArg(""));
+    cli->addCommand(hello);
+    // ======================================== //
 
     // =========== Add ping command =========== //
+    // here using progmem strings to save RAM
     Command_P* ping = new Command_P(CLI_PING, [](Cmd* cmd) {
         int h = cmd->value(CLI_NUM).toInt();
 
@@ -62,12 +57,12 @@ void setup() {
     cli->addCommand(ping);
     // ======================================== //
 
-
     // run tests
     cli->parse("ping");
     cli->parse("ping -n 11");
     cli->parse("ping -n 11 -s test -l");
-    cli->parse("ram");
+    cli->parse("hello world");
+    cli->parse("hello toaster");
 
     Serial.println("\\o/ STARTED!");
 }
