@@ -13,7 +13,16 @@ namespace arduino_cli {
         int lenKeyword = strlen(keyword);
 
         // when same length, it there is no need to check for slashes or commas
-        if (lenStr == lenKeyword) return strcmp(str, keyword) == 0 ? 0 : -1;
+        if (lenStr == lenKeyword) {
+            for (int i = 0; i < lenKeyword; i++) {
+                if (arduino_cli::caseSensetive) {
+                    if (str[i] != keyword[i]) return -1;
+                } else {
+                    if (tolower(str[i]) != tolower(keyword[i])) return -1;
+                }
+            }
+            return 0;
+        }
 
         // string can't be longer than keyword (but can be smaller because of  '/' and ',')
         if (lenStr > lenKeyword) return -2;
