@@ -9,10 +9,12 @@
 #include "Commands/BoundlessCmd.h"
 #include "Commands/Command.h"
 #include "Commands/EmptyCmd.h"
+// #include "Commands/SingleArgCmd.h"
 
 #include "Commands/BoundlessCmd_P.h"
 #include "Commands/Command_P.h"
 #include "Commands/EmptyCmd_P.h"
+// #include "Commands/SingleArgCmd_P.h"
 
 namespace arduino_cli {
     class Arduino_CLI {
@@ -37,6 +39,9 @@ namespace arduino_cli {
             void addCommand(BoundlessCmd_P* newCmd);
             void addCommand(EmptyCmd* newCmd);
             void addCommand(EmptyCmd_P* newCmd);
+
+            /*void addCommand(SingleArgCmd* newCmd);
+               void addCommand(SingleArgCmd_P* newCmd);*/
 
             void setCaseSensetive();
 

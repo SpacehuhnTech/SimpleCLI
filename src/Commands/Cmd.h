@@ -28,7 +28,7 @@ namespace arduino_cli {
 
             virtual String getName() = 0;
             virtual void   reset()   = 0;
-            virtual bool   parse(String arg, String value) = 0;
+            virtual bool   parse(String argName, String argValue) = 0;
             virtual int    argNum() = 0;
 
             virtual Arg* getArg(int i)            = 0;

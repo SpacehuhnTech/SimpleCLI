@@ -221,6 +221,15 @@ namespace arduino_cli {
         addCommand(static_cast<Cmd *>(newCmd));
     }
 
+    /*
+        void Arduino_CLI::addCommand(SingleArgCmd* newCmd) {
+            addCommand(static_cast<Cmd *>(newCmd));
+        }
+
+        void Arduino_CLI::addCommand(SingleArgCmd_P* newCmd) {
+            addCommand(static_cast<Cmd *>(newCmd));
+        }
+     */
     void Arduino_CLI::setCaseSensetive() {
         caseSensetive = true;
     }
