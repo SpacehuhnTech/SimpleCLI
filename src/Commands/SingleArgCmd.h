@@ -1,5 +1,5 @@
-#ifndef BoundlessCmd_h
-#define BoundlessCmd_h
+#ifndef SingleArgCmd_h
+#define SingleArgCmd_h
 
 #include "Cmd.h"
 
@@ -27,7 +27,7 @@ namespace arduino_cli {
 
         private:
             char* name = NULL;
-            Arg* arg   = NULL;
+            char* val  = NULL;
     };
 }
-#endif // ifndef BoundlessCmd_h
+#endif // ifndef SingleArgCmd_h

@@ -24,13 +24,15 @@ namespace arduino_cli {
     }
 
     void Arduino_CLI::parseLines(const char* str, int strLen) {
-        int h = 1;
+        if (strLen == 0) return;
+
+        int h = 0;
         int i = 0;
 
         char prevChar;
-        char curChar = str[i];
+        char curChar;
 
-        while (++i < strLen) {
+        while (i < strLen) {
             prevChar = curChar;
             curChar  = str[i];
 
@@ -43,24 +45,56 @@ namespace arduino_cli {
             } else {
                 h++;
             }
+
+            i++;
         }
 
         if (h > 0) parseLine(&str[i - h], h);
     }
 
     void Arduino_CLI::parseLine(const char* str, int strLen) {
+        if (strLen == 0) return;
+
         Arg* firstArg = NULL;
         Arg* lastArg  = NULL;
 
         bool escaped  = false;
         bool inQuotes = false;
 
-        char tmpChar;
+        char tmpChar = str[0];
 
         String tmpStr  = String();
         String cmdName = String();
 
-        for (int i = 0; i <= strLen; i++) {
+        int i = 0;
+
+        // get cmdName
+        while (tmpChar != ' ' && i < strLen) {
+            tmpChar = str[i];
+
+            if (tmpChar != ' ') cmdName += String(tmpChar);
+            i++;
+        }
+
+        // search for command with given name
+        Cmd* cmd = getNextCommand(firstCmd, cmdName);
+
+        // when no command found, quick exit
+        if (!cmd) {
+            if (onNotFound) onNotFound(cmdName);
+            return;
+        }
+
+        // check for SingleArgCmd's
+        if (cmd->argNum() == -1) {
+            cmd->parse(String(), String(&str[i]));
+            cmd->run(cmd);
+            cmd->reset();
+            return;
+        }
+
+        // get arguments
+        while (i <= strLen) {
             if (i < strLen) tmpChar = str[i];
             else tmpChar = '\0';
 
@@ -78,19 +112,10 @@ namespace arduino_cli {
             }
 
             if (!escaped && !inQuotes &&
-                ((tmpChar == ' ') || (tmpChar == '\r') || (tmpChar == '\n') ||
-                 (tmpChar == '\0'))) {
-                if (tmpStr.length() == 0) continue;
-
-                // save command name
-                if (cmdName.length() == 0) {
-                    cmdName = tmpStr;
-                }
-
-                // add argument
-                else {
+                ((tmpChar == ' ') || (tmpChar == '\r') || (tmpChar == '\n') || (tmpChar == '\0'))) {
+                if (tmpStr.length() > 0) {
                     // add argument to list
-                    if (tmpStr.charAt(0) == '-') {
+                    if ((tmpStr.charAt(0) == '-') && (tmpStr.length() > 1)) {
                         Arg* tmpArg = new OptArg(tmpStr.substring(1), String());
 
                         if (lastArg) lastArg->next = tmpArg;
@@ -113,16 +138,18 @@ namespace arduino_cli {
                             lastArg->setValue(tmpStr);
                         }
                     }
-                }
 
-                tmpStr = String();
+                    tmpStr = String();
+                }
             }
 
             // add chars to temp-string
             else {
-                tmpStr += tmpChar;
+                tmpStr += String(tmpChar);
                 escaped = false;
             }
+
+            i++;
         }
 
         /*
@@ -135,34 +162,31 @@ namespace arduino_cli {
            }
          */
 
-        Cmd* cmd   = firstCmd;
         bool found = false;
 
-        while (cmd && !found) {
-            if (equals(cmdName.c_str(),
-                       cmd->getName().c_str()) >= 0) {
-                Arg* hArg = firstArg;
+        do {
+            Arg* hArg = firstArg;
 
-                while (hArg) {
-                    cmd->parse(hArg->getName(), hArg->getValue());
-                    hArg = hArg->next;
-                }
-
-                if (cmd->isSet()) {
-                    cmd->run(cmd);
-                    found = true;
-                }
-                cmd->reset();
+            while (hArg) {
+                cmd->parse(hArg->getName(), hArg->getValue());
+                hArg = hArg->next;
             }
-            cmd = cmd->next;
-        }
+
+            if (cmd->isSet()) {
+                cmd->run(cmd);
+                found = true;
+            }
+            cmd->reset();
+
+            cmd = getNextCommand(cmd->next, cmdName);
+        } while (!found && cmd);
 
         delete firstArg;
 
         if (!found && onNotFound) onNotFound(cmdName);
     }
 
-    Cmd * Arduino_CLI::getCommand(int i) {
+    Cmd* Arduino_CLI::getCommand(int i) {
         Cmd* h = firstCmd;
         int  j = 0;
 
@@ -173,20 +197,34 @@ namespace arduino_cli {
         return h;
     }
 
-    Cmd * Arduino_CLI::getCommand(String cmdName) {
-        Cmd* h = firstCmd;
+    Cmd* Arduino_CLI::getCommand(String cmdName) {
+        return getNextCommand(firstCmd, cmdName);
+    }
+
+    Cmd* Arduino_CLI::getNextCommand(Cmd* begin, String cmdName) {
+        Cmd* h = begin;
 
         while (h) {
-            if (equals(cmdName.c_str(),
-                       h->getName().c_str()) >= 0) return h;
+            if (equals(cmdName.c_str(), h->getName().c_str()) >= 0) return h;
 
             h = h->next;
         }
         return h;
     }
 
-    Cmd * Arduino_CLI::getCommand(const char* cmdName) {
-        return getCommand(String(cmdName));
+    Cmd* Arduino_CLI::getCommand(const char* cmdName) {
+        return getNextCommand(firstCmd, cmdName);
+    }
+
+    Cmd* Arduino_CLI::getNextCommand(Cmd* begin, const char* cmdName) {
+        Cmd* h = begin;
+
+        while (h) {
+            if (equals(cmdName, h->getName().c_str()) >= 0) return h;
+
+            h = h->next;
+        }
+        return h;
     }
 
     void Arduino_CLI::addCommand(Cmd* newCmd) {
@@ -198,39 +236,38 @@ namespace arduino_cli {
     }
 
     void Arduino_CLI::addCommand(Command* newCmd) {
-        addCommand(static_cast<Cmd *>(newCmd));
+        addCommand(static_cast<Cmd*>(newCmd));
     }
 
     void Arduino_CLI::addCommand(Command_P* newCmd) {
-        addCommand(static_cast<Cmd *>(newCmd));
+        addCommand(static_cast<Cmd*>(newCmd));
     }
 
     void Arduino_CLI::addCommand(BoundlessCmd* newCmd) {
-        addCommand(static_cast<Cmd *>(newCmd));
+        addCommand(static_cast<Cmd*>(newCmd));
     }
 
     void Arduino_CLI::addCommand(BoundlessCmd_P* newCmd) {
-        addCommand(static_cast<Cmd *>(newCmd));
+        addCommand(static_cast<Cmd*>(newCmd));
     }
 
     void Arduino_CLI::addCommand(EmptyCmd* newCmd) {
-        addCommand(static_cast<Cmd *>(newCmd));
+        addCommand(static_cast<Cmd*>(newCmd));
     }
 
     void Arduino_CLI::addCommand(EmptyCmd_P* newCmd) {
-        addCommand(static_cast<Cmd *>(newCmd));
+        addCommand(static_cast<Cmd*>(newCmd));
     }
 
-    /*
-        void Arduino_CLI::addCommand(SingleArgCmd* newCmd) {
-            addCommand(static_cast<Cmd *>(newCmd));
-        }
+    void Arduino_CLI::addCommand(SingleArgCmd* newCmd) {
+        addCommand(static_cast<Cmd*>(newCmd));
+    }
 
-        void Arduino_CLI::addCommand(SingleArgCmd_P* newCmd) {
-            addCommand(static_cast<Cmd *>(newCmd));
-        }
-     */
+    void Arduino_CLI::addCommand(SingleArgCmd_P* newCmd) {
+        addCommand(static_cast<Cmd*>(newCmd));
+    }
+
     void Arduino_CLI::setCaseSensetive() {
-        caseSensetive = true;
+        arduino_cli::caseSensetive = true;
     }
 }

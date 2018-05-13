@@ -9,12 +9,12 @@
 #include "Commands/BoundlessCmd.h"
 #include "Commands/Command.h"
 #include "Commands/EmptyCmd.h"
-// #include "Commands/SingleArgCmd.h"
+ #include "Commands/SingleArgCmd.h"
 
 #include "Commands/BoundlessCmd_P.h"
 #include "Commands/Command_P.h"
 #include "Commands/EmptyCmd_P.h"
-// #include "Commands/SingleArgCmd_P.h"
+ #include "Commands/SingleArgCmd_P.h"
 
 namespace arduino_cli {
     class Arduino_CLI {
@@ -31,6 +31,8 @@ namespace arduino_cli {
             Cmd* getCommand(int i);
             Cmd* getCommand(String cmdName);
             Cmd* getCommand(const char* cmdName);
+            Cmd* getNextCommand(Cmd* begin, String cmdName);
+            Cmd* getNextCommand(Cmd* begin, const char* cmdName);
             void addCommand(Cmd* newCmd);
 
             void addCommand(Command* newCmd);
@@ -40,8 +42,8 @@ namespace arduino_cli {
             void addCommand(EmptyCmd* newCmd);
             void addCommand(EmptyCmd_P* newCmd);
 
-            /*void addCommand(SingleArgCmd* newCmd);
-               void addCommand(SingleArgCmd_P* newCmd);*/
+            void addCommand(SingleArgCmd* newCmd);
+            void addCommand(SingleArgCmd_P* newCmd);
 
             void setCaseSensetive();
 
