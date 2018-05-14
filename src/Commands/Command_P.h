@@ -6,7 +6,7 @@
 namespace arduino_cli {
     class Command_P : public Cmd {
         public:
-            Command_P(const char* name, void(*runFnct)(Cmd *));
+            Command_P(const char* name, void(*runFnct)(Cmd*));
             ~Command_P();
 
             String getName();
@@ -22,9 +22,9 @@ namespace arduino_cli {
             bool isSet(const char* name);
             bool isSet(String name);
 
-            String value(int i);
-            String value(const char* name);
-            String value(String name);
+            String getValue(int i);
+            String getValue(const char* name);
+            String getValue(String name);
 
             void addArg(Arg* newArg);
             void addArg(ReqArg* newArg);
@@ -35,14 +35,14 @@ namespace arduino_cli {
             void addArg(TemplateReqArg* newArg);
             void addArg(TemplateOptArg* newArg);
 
-            bool isSet();
-
             void addArg(ReqArg_P* newArg);
             void addArg(OptArg_P* newArg);
             void addArg(EmptyArg_P* newArg);
             void addArg(AnonymOptArg_P* newArg);
             void addArg(TemplateReqArg_P* newArg);
             void addArg(TemplateOptArg_P* newArg);
+
+            bool isSet();
 
         private:
             const char* name = NULL;

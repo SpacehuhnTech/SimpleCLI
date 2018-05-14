@@ -117,19 +117,19 @@ namespace arduino_cli {
         return h ? h->isSet() : false;
     }
 
-    String BoundlessCmd_P::value(int i) {
+    String BoundlessCmd_P::getValue(int i) {
         Arg* h = getArg(i);
 
         return h ? h->getValue() : String();
     }
 
-    String BoundlessCmd_P::value(const char* name) {
+    String BoundlessCmd_P::getValue(const char* name) {
         Arg* h = getArg(name);
 
         return h ? h->getValue() : String();
     }
 
-    String BoundlessCmd_P::value(String name) {
+    String BoundlessCmd_P::getValue(String name) {
         Arg* h = getArg(name);
 
         return h ? h->getValue() : String();

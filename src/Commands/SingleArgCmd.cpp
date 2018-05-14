@@ -1,7 +1,7 @@
 #include "SingleArgCmd.h"
 
 namespace arduino_cli {
-    SingleArgCmd::SingleArgCmd(const char* name, void (*runFnct)(Cmd *)) {
+    SingleArgCmd::SingleArgCmd(const char* name, void (*runFnct)(Cmd*)) {
         SingleArgCmd::runFnct = runFnct;
 
         if (name) {
@@ -13,7 +13,7 @@ namespace arduino_cli {
         reset();
     }
 
-    SingleArgCmd::SingleArgCmd(String name, void (*runFnct)(Cmd *)) {
+    SingleArgCmd::SingleArgCmd(String name, void (*runFnct)(Cmd*)) {
         SingleArgCmd::runFnct = runFnct;
 
         int strLen = name.length() + 1;
@@ -25,7 +25,7 @@ namespace arduino_cli {
     SingleArgCmd::~SingleArgCmd() {
         if (name) delete name;
 
-        if (val) delete val;
+        if (value) delete value;
 
         if (next) delete next;
     }
@@ -35,38 +35,38 @@ namespace arduino_cli {
     }
 
     void SingleArgCmd::reset() {
-        if (val) delete val;
-        val = NULL;
+        if (value) delete value;
+        value = NULL;
     }
 
     bool SingleArgCmd::parse(String argName, String argValue) {
-        if (val) delete val;
+        if (value) delete value;
 
         int strLen = argValue.length() + 1;
-        val = new char[strLen];
-        argValue.toCharArray(val, strLen);
+        value = new char[strLen];
+        argValue.toCharArray(value, strLen);
 
         return true;
     }
 
     int SingleArgCmd::argNum() {
-        return val ? 1 : -1;
+        return value ? 1 : -1;
     }
 
-    Arg * SingleArgCmd::getArg(int i) {
+    Arg* SingleArgCmd::getArg(int i) {
         return NULL;
     }
 
-    Arg * SingleArgCmd::getArg(const char* name) {
+    Arg* SingleArgCmd::getArg(const char* name) {
         return NULL;
     }
 
-    Arg * SingleArgCmd::getArg(String name) {
+    Arg* SingleArgCmd::getArg(String name) {
         return NULL;
     }
 
     bool SingleArgCmd::isSet(int i) {
-        return i == 0 ? val : false;
+        return i == 0 ? value : false;
     }
 
     bool SingleArgCmd::isSet(const char* name) {
@@ -77,19 +77,19 @@ namespace arduino_cli {
         return false;
     }
 
-    String SingleArgCmd::value(int i) {
-        return i == 0 ? String(val) : String();
+    String SingleArgCmd::getValue(int i) {
+        return i == 0 ? String(value) : String();
     }
 
-    String SingleArgCmd::value(const char* name) {
+    String SingleArgCmd::getValue(const char* name) {
         return String();
     }
 
-    String SingleArgCmd::value(String name) {
+    String SingleArgCmd::getValue(String name) {
         return String();
     }
 
     bool SingleArgCmd::isSet() {
-        return val;
+        return value;
     }
 }

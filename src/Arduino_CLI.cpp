@@ -77,7 +77,7 @@ namespace arduino_cli {
         }
 
         // search for command with given name
-        Cmd* cmd = getNextCommand(firstCmd, cmdName);
+        Cmd* cmd = getNextCmd(firstCmd, cmdName);
 
         // when no command found, quick exit
         if (!cmd) {
@@ -178,7 +178,7 @@ namespace arduino_cli {
             }
             cmd->reset();
 
-            cmd = getNextCommand(cmd->next, cmdName);
+            cmd = getNextCmd(cmd->next, cmdName);
         } while (!found && cmd);
 
         delete firstArg;
@@ -186,7 +186,7 @@ namespace arduino_cli {
         if (!found && onNotFound) onNotFound(cmdName);
     }
 
-    Cmd* Arduino_CLI::getCommand(int i) {
+    Cmd* Arduino_CLI::getCmd(int i) {
         Cmd* h = firstCmd;
         int  j = 0;
 
@@ -197,11 +197,11 @@ namespace arduino_cli {
         return h;
     }
 
-    Cmd* Arduino_CLI::getCommand(String cmdName) {
-        return getNextCommand(firstCmd, cmdName);
+    Cmd* Arduino_CLI::getCmd(String cmdName) {
+        return getNextCmd(firstCmd, cmdName);
     }
 
-    Cmd* Arduino_CLI::getNextCommand(Cmd* begin, String cmdName) {
+    Cmd* Arduino_CLI::getNextCmd(Cmd* begin, String cmdName) {
         Cmd* h = begin;
 
         while (h) {
@@ -212,11 +212,11 @@ namespace arduino_cli {
         return h;
     }
 
-    Cmd* Arduino_CLI::getCommand(const char* cmdName) {
-        return getNextCommand(firstCmd, cmdName);
+    Cmd* Arduino_CLI::getCmd(const char* cmdName) {
+        return getNextCmd(firstCmd, cmdName);
     }
 
-    Cmd* Arduino_CLI::getNextCommand(Cmd* begin, const char* cmdName) {
+    Cmd* Arduino_CLI::getNextCmd(Cmd* begin, const char* cmdName) {
         Cmd* h = begin;
 
         while (h) {
@@ -227,7 +227,7 @@ namespace arduino_cli {
         return h;
     }
 
-    void Arduino_CLI::addCommand(Cmd* newCmd) {
+    void Arduino_CLI::addCmd(Cmd* newCmd) {
         if (lastCmd) lastCmd->next = newCmd;
 
         if (!firstCmd) firstCmd = newCmd;
@@ -235,36 +235,36 @@ namespace arduino_cli {
         cmdNum++;
     }
 
-    void Arduino_CLI::addCommand(Command* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(Command* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(Command_P* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(BoundlessCmd* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(BoundlessCmd* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(EmptyCmd* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(BoundlessCmd_P* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(SingleArgCmd* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(EmptyCmd* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(Command_P* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(EmptyCmd_P* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(BoundlessCmd_P* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(SingleArgCmd* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(EmptyCmd_P* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCommand(SingleArgCmd_P* newCmd) {
-        addCommand(static_cast<Cmd*>(newCmd));
+    void Arduino_CLI::addCmd(SingleArgCmd_P* newCmd) {
+        addCmd(static_cast<Cmd*>(newCmd));
     }
 
     void Arduino_CLI::setCaseSensetive() {

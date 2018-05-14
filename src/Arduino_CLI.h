@@ -9,12 +9,12 @@
 #include "Commands/BoundlessCmd.h"
 #include "Commands/Command.h"
 #include "Commands/EmptyCmd.h"
- #include "Commands/SingleArgCmd.h"
+#include "Commands/SingleArgCmd.h"
 
 #include "Commands/BoundlessCmd_P.h"
 #include "Commands/Command_P.h"
 #include "Commands/EmptyCmd_P.h"
- #include "Commands/SingleArgCmd_P.h"
+#include "Commands/SingleArgCmd_P.h"
 
 namespace arduino_cli {
     class Arduino_CLI {
@@ -28,22 +28,24 @@ namespace arduino_cli {
             void parse(const char* input);
             void parseLines(const char* str, int strLen);
             void parseLine(const char* str, int strLen);
-            Cmd* getCommand(int i);
-            Cmd* getCommand(String cmdName);
-            Cmd* getCommand(const char* cmdName);
-            Cmd* getNextCommand(Cmd* begin, String cmdName);
-            Cmd* getNextCommand(Cmd* begin, const char* cmdName);
-            void addCommand(Cmd* newCmd);
 
-            void addCommand(Command* newCmd);
-            void addCommand(Command_P* newCmd);
-            void addCommand(BoundlessCmd* newCmd);
-            void addCommand(BoundlessCmd_P* newCmd);
-            void addCommand(EmptyCmd* newCmd);
-            void addCommand(EmptyCmd_P* newCmd);
+            Cmd* getCmd(int i);
+            Cmd* getCmd(String cmdName);
+            Cmd* getCmd(const char* cmdName);
 
-            void addCommand(SingleArgCmd* newCmd);
-            void addCommand(SingleArgCmd_P* newCmd);
+            Cmd* getNextCmd(Cmd* begin, String cmdName);
+            Cmd* getNextCmd(Cmd* begin, const char* cmdName);
+
+            void addCmd(Cmd* newCmd);
+            void addCmd(Command* newCmd);
+            void addCmd(BoundlessCmd* newCmd);
+            void addCmd(EmptyCmd* newCmd);
+            void addCmd(SingleArgCmd* newCmd);
+
+            void addCmd(Command_P* newCmd);
+            void addCmd(BoundlessCmd_P* newCmd);
+            void addCmd(EmptyCmd_P* newCmd);
+            void addCmd(SingleArgCmd_P* newCmd);
 
             void setCaseSensetive();
 

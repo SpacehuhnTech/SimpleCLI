@@ -1,7 +1,7 @@
 #include "EmptyCmd_P.h"
 
 namespace arduino_cli {
-    EmptyCmd_P::EmptyCmd_P(const char *name, void (*runFnct)(Cmd *)) {
+    EmptyCmd_P::EmptyCmd_P(const char* name, void (*runFnct)(Cmd*)) {
         EmptyCmd_P::runFnct = runFnct;
 
         EmptyCmd_P::name = name;
@@ -31,15 +31,15 @@ namespace arduino_cli {
         return 0;
     }
 
-    Arg * EmptyCmd_P::getArg(int i) {
+    Arg* EmptyCmd_P::getArg(int i) {
         return NULL;
     }
 
-    Arg * EmptyCmd_P::getArg(const char *name) {
+    Arg* EmptyCmd_P::getArg(const char* name) {
         return NULL;
     }
 
-    Arg * EmptyCmd_P::getArg(String name) {
+    Arg* EmptyCmd_P::getArg(String name) {
         return NULL;
     }
 
@@ -47,7 +47,7 @@ namespace arduino_cli {
         return false;
     }
 
-    bool EmptyCmd_P::isSet(const char *name) {
+    bool EmptyCmd_P::isSet(const char* name) {
         return false;
     }
 
@@ -55,15 +55,15 @@ namespace arduino_cli {
         return false;
     }
 
-    String EmptyCmd_P::value(int i) {
+    String EmptyCmd_P::getValue(int i) {
         return String();
     }
 
-    String EmptyCmd_P::value(const char *name) {
+    String EmptyCmd_P::getValue(const char* name) {
         return String();
     }
 
-    String EmptyCmd_P::value(String name) {
+    String EmptyCmd_P::getValue(String name) {
         return String();
     }
 

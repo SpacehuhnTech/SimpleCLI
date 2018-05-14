@@ -12,6 +12,7 @@
 #include "Arguments/AnonymOptArg.h"
 #include "Arguments/TemplateReqArg.h"
 #include "Arguments/TemplateOptArg.h"
+
 #include "Arguments/OptArg_P.h"
 #include "Arguments/ReqArg_P.h"
 #include "Arguments/EmptyArg_P.h"
@@ -39,22 +40,19 @@ namespace arduino_cli {
             virtual bool   isSet(const char* name) = 0;
             virtual bool   isSet(String name)      = 0;
 
-            virtual String value(int i)            = 0;
-            virtual String value(const char* name) = 0;
-            virtual String value(String name)      = 0;
+            virtual String getValue(int i)            = 0;
+            virtual String getValue(const char* name) = 0;
+            virtual String getValue(String name)      = 0;
 
             virtual bool   isSet() = 0;
 
             virtual inline bool run(Cmd* cmd) {
-                if (runFnct) {
-                    runFnct(cmd);
-                    return true;
-                }
-                return false;
+                if (runFnct) runFnct(cmd);
+                return runFnct;
             }
 
         protected:
-            void (*runFnct)(Cmd *) = NULL;
+            void (*runFnct)(Cmd*) = NULL;
     };
 }
 

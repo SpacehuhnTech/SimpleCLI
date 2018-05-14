@@ -32,10 +32,10 @@ void setup() {
     // hello world => hi from the world
     // hi toaster => hi from the toaster
     Command* hello = new Command("hello,hi", [](Cmd* cmd) {
-        Serial.println("hi from the " +  cmd->value(0));
+        Serial.println("hi from the " +  cmd->getValue(0));
     });
     hello->addArg(new AnonymOptArg("world"));
-    cli->addCommand(hello);
+    cli->addCmd(hello);
     // ======================================== //
 
 
@@ -47,15 +47,15 @@ void setup() {
     // ping -s pink -n 2 -l => ponk
     //                         ponk
     Command_P* ping = new Command_P(CLI_PING, [](Cmd* cmd) { // CLI_PING = "p,ping/s";
-        int h = cmd->value(CLI_NUM).toInt();                 // CLI_NUM = "n,number"
+        int h = cmd->getValue(CLI_NUM).toInt();              // CLI_NUM = "n,number"
 
         if (cmd->isSet(CLI_LINE)) {                          // CLI_LINE = "l,line"
             for (int i = 0; i < h; i++) {
-                Serial.println(cmd->value(CLI_STR));         // CLI_STR = "s,str/ing"
+                Serial.println(cmd->getValue(CLI_STR));      // CLI_STR = "s,str/ing"
             }
         } else {
             for (int i = 0; i < h; i++) {
-                Serial.print(cmd->value(CLI_STR)); // CLI_STR = "s,str/ing"
+                Serial.print(cmd->getValue(CLI_STR)); // CLI_STR = "s,str/ing"
             }
             Serial.println();
         }
@@ -63,7 +63,7 @@ void setup() {
     ping->addArg(new EmptyArg_P(CLI_LINE));         // CLI_LINE = "l,line"
     ping->addArg(new OptArg_P(CLI_STR, CLI_PONG));  // CLI_STR = "s,str/ing", CLI_PONG = "ping!"
     ping->addArg(new OptArg_P(CLI_NUM, PSTR("1"))); // CLI_NUM = "n,number"
-    cli->addCommand(ping);
+    cli->addCmd(ping);
     // ======================================== //
 
 

@@ -1,7 +1,7 @@
 #include "EmptyCmd.h"
 
 namespace arduino_cli {
-    EmptyCmd::EmptyCmd(const char *name, void (*runFnct)(Cmd *)) {
+    EmptyCmd::EmptyCmd(const char* name, void (*runFnct)(Cmd*)) {
         EmptyCmd::runFnct = runFnct;
 
         if (name) {
@@ -13,7 +13,7 @@ namespace arduino_cli {
         reset();
     }
 
-    EmptyCmd::EmptyCmd(String name, void (*runFnct)(Cmd *)) {
+    EmptyCmd::EmptyCmd(String name, void (*runFnct)(Cmd*)) {
         EmptyCmd::runFnct = runFnct;
 
         int strLen = name.length() + 1;
@@ -42,15 +42,15 @@ namespace arduino_cli {
         return 0;
     }
 
-    Arg * EmptyCmd::getArg(int i) {
+    Arg* EmptyCmd::getArg(int i) {
         return NULL;
     }
 
-    Arg * EmptyCmd::getArg(const char *name) {
+    Arg* EmptyCmd::getArg(const char* name) {
         return NULL;
     }
 
-    Arg * EmptyCmd::getArg(String name) {
+    Arg* EmptyCmd::getArg(String name) {
         return NULL;
     }
 
@@ -58,7 +58,7 @@ namespace arduino_cli {
         return false;
     }
 
-    bool EmptyCmd::isSet(const char *name) {
+    bool EmptyCmd::isSet(const char* name) {
         return false;
     }
 
@@ -66,15 +66,15 @@ namespace arduino_cli {
         return false;
     }
 
-    String EmptyCmd::value(int i) {
+    String EmptyCmd::getValue(int i) {
         return String();
     }
 
-    String EmptyCmd::value(const char *name) {
+    String EmptyCmd::getValue(const char* name) {
         return String();
     }
 
-    String EmptyCmd::value(String name) {
+    String EmptyCmd::getValue(String name) {
         return String();
     }
 

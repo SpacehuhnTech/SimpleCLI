@@ -9,7 +9,7 @@ namespace arduino_cli {
     }
 
     SingleArgCmd_P::~SingleArgCmd_P() {
-        if (val) delete val;
+        if (value) delete value;
 
         if (next) delete next;
     }
@@ -24,22 +24,22 @@ namespace arduino_cli {
     }
 
     void SingleArgCmd_P::reset() {
-        if (val) delete val;
-        val = NULL;
+        if (value) delete value;
+        value = NULL;
     }
 
     bool SingleArgCmd_P::parse(String argName, String argValue) {
-        if (val) delete val;
+        if (value) delete value;
 
         int strLen = argValue.length() + 1;
-        val = new char[strLen];
-        argValue.toCharArray(val, strLen);
+        value = new char[strLen];
+        argValue.toCharArray(value, strLen);
 
         return true;
     }
 
     int SingleArgCmd_P::argNum() {
-        return val ? 1 : -1;
+        return value ? 1 : -1;
     }
 
     Arg* SingleArgCmd_P::getArg(int i) {
@@ -55,7 +55,7 @@ namespace arduino_cli {
     }
 
     bool SingleArgCmd_P::isSet(int i) {
-        return i == 0 ? val : false;
+        return i == 0 ? value : false;
     }
 
     bool SingleArgCmd_P::isSet(const char* name) {
@@ -66,19 +66,19 @@ namespace arduino_cli {
         return false;
     }
 
-    String SingleArgCmd_P::value(int i) {
-        return i == 0 ? String(val) : String();
+    String SingleArgCmd_P::getValue(int i) {
+        return i == 0 ? String(value) : String();
     }
 
-    String SingleArgCmd_P::value(const char* name) {
+    String SingleArgCmd_P::getValue(const char* name) {
         return String();
     }
 
-    String SingleArgCmd_P::value(String name) {
+    String SingleArgCmd_P::getValue(String name) {
         return String();
     }
 
     bool SingleArgCmd_P::isSet() {
-        return val;
+        return value;
     }
 }

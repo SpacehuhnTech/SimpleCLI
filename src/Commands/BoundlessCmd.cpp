@@ -1,7 +1,7 @@
 #include "BoundlessCmd.h"
 
 namespace arduino_cli {
-    BoundlessCmd::BoundlessCmd(const char *name, void (*runFnct)(Cmd *)) {
+    BoundlessCmd::BoundlessCmd(const char* name, void (*runFnct)(Cmd*)) {
         BoundlessCmd::runFnct = runFnct;
 
         if (name) {
@@ -13,7 +13,7 @@ namespace arduino_cli {
         reset();
     }
 
-    BoundlessCmd::BoundlessCmd(String name, void (*runFnct)(Cmd *)) {
+    BoundlessCmd::BoundlessCmd(String name, void (*runFnct)(Cmd*)) {
         BoundlessCmd::runFnct = runFnct;
 
         int strLen = name.length() + 1;
@@ -45,7 +45,7 @@ namespace arduino_cli {
         bool success = false;
 
         if (arg.length() > 0) {
-            Arg *newArg = new AnonymReqArg();
+            Arg* newArg = new AnonymReqArg();
             newArg->setValue(arg);
 
             if (lastArg) lastArg->next = newArg;
@@ -58,7 +58,7 @@ namespace arduino_cli {
         }
 
         if (value.length() > 0) {
-            Arg *newArg = new AnonymReqArg();
+            Arg* newArg = new AnonymReqArg();
             newArg->setValue(value);
 
             if (lastArg) lastArg->next = newArg;
@@ -77,9 +77,9 @@ namespace arduino_cli {
         return args;
     }
 
-    Arg * BoundlessCmd::getArg(int i) {
+    Arg* BoundlessCmd::getArg(int i) {
         int  j = 0;
-        Arg *h = firstArg;
+        Arg* h = firstArg;
 
         while (j < i && h) {
             j++;
@@ -88,8 +88,8 @@ namespace arduino_cli {
         return h;
     }
 
-    Arg * BoundlessCmd::getArg(const char *name) {
-        Arg *h = firstArg;
+    Arg* BoundlessCmd::getArg(const char* name) {
+        Arg* h = firstArg;
 
         while (h) {
             if (h->equals(name)) return h;
@@ -99,8 +99,8 @@ namespace arduino_cli {
         return h;
     }
 
-    Arg * BoundlessCmd::getArg(String name) {
-        Arg *h = firstArg;
+    Arg* BoundlessCmd::getArg(String name) {
+        Arg* h = firstArg;
 
         while (h) {
             if (h->equals(name)) return h;
@@ -111,37 +111,37 @@ namespace arduino_cli {
     }
 
     bool BoundlessCmd::isSet(int i) {
-        Arg *h = getArg(i);
+        Arg* h = getArg(i);
 
         return h ? h->isSet() : false;
     }
 
-    bool BoundlessCmd::isSet(const char *name) {
-        Arg *h = getArg(name);
+    bool BoundlessCmd::isSet(const char* name) {
+        Arg* h = getArg(name);
 
         return h ? h->isSet() : false;
     }
 
     bool BoundlessCmd::isSet(String name) {
-        Arg *h = getArg(name);
+        Arg* h = getArg(name);
 
         return h ? h->isSet() : false;
     }
 
-    String BoundlessCmd::value(int i) {
-        Arg *h = getArg(i);
+    String BoundlessCmd::getValue(int i) {
+        Arg* h = getArg(i);
 
         return h ? h->getValue() : String();
     }
 
-    String BoundlessCmd::value(const char *name) {
-        Arg *h = getArg(name);
+    String BoundlessCmd::getValue(const char* name) {
+        Arg* h = getArg(name);
 
         return h ? h->getValue() : String();
     }
 
-    String BoundlessCmd::value(String name) {
-        Arg *h = getArg(name);
+    String BoundlessCmd::getValue(String name) {
+        Arg* h = getArg(name);
 
         return h ? h->getValue() : String();
     }
