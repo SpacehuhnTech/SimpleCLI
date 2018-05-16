@@ -23,12 +23,12 @@ Cmd* myCommand = new Command("commandName", [](Cmd* myCommand){
 
 To save RAM, the same command classes exist but using progmem strings instead of regular strings.  
 
-| Class Name | Info | When to use |
-| ---------- | ---- | ----------- |
-| Command_P | See table above | See table above |
-| EmptyCmd_P | See table above | See table above |
-| BoundlessCmd_P | See table above | See table above |
-| SingleArgCmd_P | See table above | See table above |
+| Class Name |
+| ---------- |
+| Command_P |
+| EmptyCmd_P |
+| BoundlessCmd_P |
+| SingleArgCmd_P |
 
 You can create a new progmem command by:  
 ```
@@ -43,22 +43,22 @@ Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
 
 ### Arguments
 
-| Class Name | Constructor | Info | When to use |
+| Class Name | Constructor | Info | Example |
 | ---------- | ----------- | ---- | ----------- |
-| AnonymOptArg | | | |
-| AnonymReqArg | | | |
-| EmptyArg | | | |
-| OptArg | | | |
-| ReqArg | | | |
-| TemplateOptArg | | | |
-| TemplateReqArg | | | |
+| AnonymOptArg | defaultValue | Has no name, but a default value. | `echo`, `echo something` |
+| AnonymReqArg | | Has no name. Value must be given by the user. | `rm somefile` |
+| EmptyArg | name, defaultValue | Doesn't take any value. | ` ` |
+| OptArg | name, defaultValue | Optional Argument. Has a default value. |  `ping`, `ping -s 2048` |
+| ReqArg | name | Required Argument. Value must be given by the user. | ` ` |
+| TemplateOptArg | template | | |
+| TemplateReqArg | template | | |
 
-| Class Name | Constructor | Info | When to use |
-| ---------- | ----------- | ---- | ----------- |
-| AnonymOptArg_P | See table above | See table above | See table above |
-| AnonymReqArg_P | See table above | See table above | See table above |
-| EmptyArg_P | See table above | See table above | See table above |
-| OptArg_P | See table above | See table above | See table above |
-| ReqArg_P | See table above | See table above | See table above |
-| TemplateOptArg_P | See table above | See table above | See table above |
-| TemplateReqArg_P | See table above | See table above | See table above |
+| Class Name |
+| ---------- |
+| AnonymOptArg_P |
+| AnonymReqArg_P |
+| EmptyArg_P |
+| OptArg_P |
+| ReqArg_P |
+| TemplateOptArg_P |
+| TemplateReqArg_P |
