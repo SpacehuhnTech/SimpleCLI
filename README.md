@@ -5,6 +5,8 @@ Control your Arduino devices with custom commands without much hazzle!
 This library goal is to make it easy to add custom commands, with arguments and all that sweet stuff, to your Arduino projects!  
 Because there are multiple ways of how can define the syntax of each command, there are different types of commands and arguments provided by this library.  
 
+**See the [Examples](https://github.com/spacehuhn/Arduino_CLI/tree/master/examples/) on how to use the different Commands and Arguments.**  
+
 ### Commands
 
 | Class Name | Info | When to use |
@@ -21,7 +23,7 @@ Cmd* myCommand = new Command("commandName", [](Cmd* myCommand){
 })
 ```
 
-To save RAM, the same command classes exist but using progmem strings instead of regular strings.  
+To save RAM, the same command classes exist with progmem strings instead of regular strings.  
 
 | Class Name |
 | ---------- |
@@ -45,13 +47,20 @@ Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
 
 | Class Name | Constructor | Info | Example |
 | ---------- | ----------- | ---- | ----------- |
-| AnonymOptArg | defaultValue | Has no name, but a default value. | `echo`, `echo something` |
-| AnonymReqArg | | Has no name. Value must be given by the user. | `rm somefile` |
-| EmptyArg | name, defaultValue | Doesn't take any value. | ` ` |
-| OptArg | name, defaultValue | Optional Argument. Has a default value. |  `ping`, `ping -s 2048` |
-| ReqArg | name | Required Argument. Value must be given by the user. | ` ` |
-| TemplateOptArg | template | | |
-| TemplateReqArg | template | | |
+| AnonymOptArg | defaultValue | [Optional] Has no name, but a default value. | `echo`, `echo something` |
+| AnonymReqArg | defaultValue | [Required] Has no name. Value must be given by the user. | `rm somefile` |
+| EmptyArg | name, defaultValue | [Optional] Doesn't take any value. Can either be set or not. | `ls`, `ls -a` |
+| OptArg | name, defaultValue | [Optional] Has a default value. |  `ping`, `ping -s 2048` |
+| ReqArg | name | [Required] Value must be given by the user. | `myScript.sh -o output.txt` |
+| TemplateOptArg | template | [Optional] Can take different names, the first name is the default one. Has no value. | `scan`, `scan aps`, `scan stations` |
+| TemplateReqArg | template | [Required] Can take different names. Has no value. | `remove aps`, `remove stations` |
+
+You can create a new argument by:  
+```
+Arg* myArg = new OptArg("name", "world");
+```
+
+To save RAM, the same argument classes exist with progmem strings instead of regular strings.  
 
 | Class Name |
 | ---------- |
@@ -62,3 +71,33 @@ Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
 | ReqArg_P |
 | TemplateOptArg_P |
 | TemplateReqArg_P |
+
+You can create a new progmem argument by:  
+```
+const char ARG_NAME[] PROGMEM = "name";
+const char ARG_VALUE[] PROGMEM = "world";
+
+...
+
+Arg* myArg = new OptArg_P(ARG_NAME, ARG_VALUE);
+```
+
+### Templates
+
+With a little trick, this library enables you to give a command or argument multiple names.  
+- A comma `,` seperates multiple names.  
+- The `/` declares everything after it as optional (until the next comma, or the end of the string).  
+
+**That also means that you can not use `,` and `/` inside a command or argument name!**  
+Those characters will always be interpreted as a seperator.  
+
+Here are some examples:  
+
+| Name-String | Results |
+| ----------- | ------- |
+| `a,b,c,d,efg` | `a`, `b`, `c`, `d`, `efg` |
+| `ping,pong,test` | `ping`, `pong`, `test` |
+| `p/ping` | `p`, `ping` |
+| `p/ing/s` | `p`, `ping`, `pings` |
+| `p/ing/s,pong` | `p`, `ping`, `pings`, `pong` |
+| `p/ing/s,pong/s` | `p`, `ping`, `pings`, `pong`, `pongs` |
