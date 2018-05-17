@@ -103,3 +103,7 @@ Here are some examples:
 | `p/ing/s` | `p`, `ping`, `pings` |
 | `p/ing/s,pong` | `p`, `ping`, `pings`, `pong` |
 | `p/ing/s,pong/s` | `p`, `ping`, `pings`, `pong`, `pongs` |
+
+If you use the `templateReqArg` or `templateOptArg`, it will check at which index (comma seperated) the input is.  
+For example, an argument named `ping,pong` will check that the user types in `ping` **or** `pong`. The method `getValueIndex()` will return a `0` if the input was `ping` and `1` if the input was `pong`.  
+For more details on this, look at the  [Examples](https://github.com/spacehuhn/Arduino_CLI/tree/master/examples/).  
