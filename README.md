@@ -88,8 +88,10 @@ With a little trick, this library enables you to give a command or argument mult
 - A comma `,` seperates multiple names.  
 - The `/` declares everything after it as optional (until the next comma, or the end of the string).  
 
-**That also means that you can not use `,` and `/` inside a command or argument name!**  
-Those characters will always be interpreted as a seperator.  
+You can also combine those together.  
+
+**This means you can not use `,` and `/` inside a command or argument name!**  
+These characters will always be interpreted as a seperator!  
 
 Here are some examples:  
 
