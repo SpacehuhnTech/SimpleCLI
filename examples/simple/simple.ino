@@ -4,13 +4,6 @@
 using namespace arduino_cli;
 Arduino_CLI* cli;
 
-// some progmem strings used for the ping command
-const char CLI_PING[] PROGMEM = "p,ping/s";
-const char CLI_PONG[] PROGMEM = "pong!";
-const char CLI_LINE[] PROGMEM = "l,line";
-const char CLI_NUM[] PROGMEM = "n,number";
-const char CLI_STR[] PROGMEM = "s,str/ing";
-
 // #define Serial SERIAL_PORT_USBVIRTUAL // <- uncomment for SAMD21 (Arduino m0) boards!
 
 void setup() {
@@ -22,6 +15,7 @@ void setup() {
     // =========== Create CommandParser =========== //
     cli = new Arduino_CLI();
 
+    // when no valid command could be found for given user input
     cli->onNotFound = [](String str) {
                           Serial.println("\"" + str + "\" not found");
                       };
@@ -29,10 +23,10 @@ void setup() {
 
 
     // =========== Add hello command ========== //
-    // hello world => hi from the world
-    // hi toaster => hi from the toaster
-    Command* hello = new Command("hello,hi", [](Cmd* cmd) {
-        Serial.println("hi from the " +  cmd->getValue(0));
+    // hello => world says hello :)
+    // hello toaster => toaster says hello :)
+    Command* hello = new Command("hello", [](Cmd* cmd) {
+        Serial.println(cmd->getValue(0) + " says hello :)");
     });
     hello->addArg(new AnonymOptArg("world"));
     cli->addCmd(hello);
@@ -40,29 +34,24 @@ void setup() {
 
 
     // =========== Add ping command =========== //
-    // here using progmem strings to save RAM
-    // ping => pong
-    // ping -s ponk => ponk
-    // ping -s ponk -n 2 => ponkponk
-    // ping -s pink -n 2 -l => ponk
+    // ping                 => pong
+    // ping -s ponk         => ponk
+    // ping -s ponk -n 2    => ponkponk
+    // ping -s ponk -n 2 -l => ponk
     //                         ponk
-    Command_P* ping = new Command_P(CLI_PING, [](Cmd* cmd) { // CLI_PING = "p,ping/s";
-        int h = cmd->getValue(CLI_NUM).toInt();              // CLI_NUM = "n,number"
+    Command* ping = new Command("ping", [](Cmd* cmd) {
+        int h = cmd->getValue("n").toInt();
 
-        if (cmd->isSet(CLI_LINE)) {                          // CLI_LINE = "l,line"
-            for (int i = 0; i < h; i++) {
-                Serial.println(cmd->getValue(CLI_STR));      // CLI_STR = "s,str/ing"
-            }
+        if (cmd->isSet("l")) { // with linebreak
+            for (int i = 0; i < h; i++) Serial.println(cmd->getValue("s"));
         } else {
-            for (int i = 0; i < h; i++) {
-                Serial.print(cmd->getValue(CLI_STR)); // CLI_STR = "s,str/ing"
-            }
+            for (int i = 0; i < h; i++) Serial.print(cmd->getValue("s"));
             Serial.println();
         }
     });
-    ping->addArg(new EmptyArg_P(CLI_LINE));         // CLI_LINE = "l,line"
-    ping->addArg(new OptArg_P(CLI_STR, CLI_PONG));  // CLI_STR = "s,str/ing", CLI_PONG = "ping!"
-    ping->addArg(new OptArg_P(CLI_NUM, PSTR("1"))); // CLI_NUM = "n,number"
+    ping->addArg(new EmptyArg("l"));
+    ping->addArg(new OptArg("s", "ping!"));
+    ping->addArg(new OptArg("n", "1"));
     cli->addCmd(ping);
     // ======================================== //
 
@@ -83,8 +72,8 @@ void loop() {
     if (Serial.available()) {
         String tmp = Serial.readStringUntil('\n');
 
-        // print input
         if (tmp.length() > 0) {
+            // print input
             Serial.print("# ");
             Serial.println(tmp);
             // and parse it
