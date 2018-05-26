@@ -23,13 +23,10 @@ void setup() {
 
 
     // =========== Add hello command ========== //
-    // hello => world says hello :)
-    // hello toaster => toaster says hello :)
-    Command* hello = new Command("hello", [](Cmd* cmd) {
-        Serial.println(cmd->getValue(0) + " says hello :)");
-    });
-    hello->addArg(new AnonymOptArg("world"));
-    cli->addCmd(hello);
+    // hello => hello world!
+    cli->addCmd(new Command("hello", [](Cmd* cmd) {
+        Serial.println("hello world");
+    }); );
     // ======================================== //
 
 
@@ -37,19 +34,13 @@ void setup() {
     // ping                 => pong
     // ping -s ponk         => ponk
     // ping -s ponk -n 2    => ponkponk
-    // ping -s ponk -n 2 -l => ponk
-    //                         ponk
     Command* ping = new Command("ping", [](Cmd* cmd) {
         int h = cmd->getValue("n").toInt();
 
-        if (cmd->isSet("l")) { // with linebreak
-            for (int i = 0; i < h; i++) Serial.println(cmd->getValue("s"));
-        } else {
-            for (int i = 0; i < h; i++) Serial.print(cmd->getValue("s"));
-            Serial.println();
+        for (int i = 0; i < h; i++) {
+            Serial.print(cmd->getValue("s"));
         }
     });
-    ping->addArg(new EmptyArg("l"));
     ping->addArg(new OptArg("s", "ping!"));
     ping->addArg(new OptArg("n", "1"));
     cli->addCmd(ping);
@@ -58,10 +49,7 @@ void setup() {
 
     // run tests
     cli->parse("ping");
-    cli->parse("ping -n 11");
-    cli->parse("ping -n 11 -s test -l");
-    cli->parse("hello world");
-    cli->parse("hello toaster");
+    cli->parse("hello");
 
 
     Serial.println("\\o/ STARTED!");
