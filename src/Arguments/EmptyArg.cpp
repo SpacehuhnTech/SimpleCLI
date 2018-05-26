@@ -1,7 +1,7 @@
 #include "EmptyArg.h"
 
 namespace arduino_cli {
-    EmptyArg::EmptyArg(const char *name, const char *defaultValue) {
+    EmptyArg::EmptyArg(const char* name) {
         if (name) {
             int strLen = strlen(name);
             EmptyArg::name = new char[strLen + 1];
@@ -26,7 +26,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool EmptyArg::equals(const char *name) {
+    bool EmptyArg::equals(const char* name) {
         if (!name) return false;
 
         if (!EmptyArg::name) return false;
