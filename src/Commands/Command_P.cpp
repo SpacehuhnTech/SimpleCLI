@@ -190,4 +190,18 @@ namespace arduino_cli {
     void Command_P::addArg(TemplateOptArg_P* newArg) {
         addArg(static_cast<Arg*>(newArg));
     }
+
+    String Command_P::toString() {
+        String s;
+
+        s += getName();
+        Arg* h = firstArg;
+
+        while (h != NULL) {
+            s += ' ';
+            s += h->toString();
+            h  = h->next;
+        }
+        return s;
+    }
 }

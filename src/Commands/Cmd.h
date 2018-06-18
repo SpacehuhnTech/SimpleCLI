@@ -46,6 +46,8 @@ namespace arduino_cli {
 
             virtual bool   isSet() = 0;
 
+            virtual String toString() = 0;
+
             virtual inline bool run(Cmd* cmd) {
                 if (runFnct) runFnct(cmd);
                 return runFnct;

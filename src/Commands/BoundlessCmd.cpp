@@ -149,4 +149,8 @@ namespace arduino_cli {
     bool BoundlessCmd::isSet() {
         return true;
     }
+
+    String BoundlessCmd::toString() {
+        return getName() + " [...]";
+    }
 }

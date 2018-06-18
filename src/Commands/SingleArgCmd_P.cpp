@@ -81,4 +81,8 @@ namespace arduino_cli {
     bool SingleArgCmd_P::isSet() {
         return value;
     }
+
+    String SingleArgCmd_P::toString() {
+        return getName() + " [...]";
+    }
 }

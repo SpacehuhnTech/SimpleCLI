@@ -81,4 +81,8 @@ namespace arduino_cli {
     bool EmptyCmd::isSet() {
         return true;
     }
+
+    String EmptyCmd::toString() {
+        return getName();
+    }
 }

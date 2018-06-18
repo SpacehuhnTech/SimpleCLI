@@ -44,6 +44,8 @@ namespace arduino_cli {
 
             bool isSet();
 
+            String toString();
+
         private:
             const char* name = NULL;
             int args         = 0;
