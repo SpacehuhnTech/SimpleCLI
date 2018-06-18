@@ -26,7 +26,7 @@ void setup() {
     // hello => hello world!
     cli->addCmd(new Command("hello", [](Cmd* cmd) {
         Serial.println("hello world");
-    }); );
+    }));
     // ======================================== //
 
 
