@@ -1,7 +1,7 @@
 #include "TemplateReqArg.h"
 
 namespace arduino_cli {
-    TemplateReqArg::TemplateReqArg(const char *_template) {
+    TemplateReqArg::TemplateReqArg(const char* _template) {
         if (_template) {
             int strLen = strlen(_template);
             TemplateReqArg::_template = new char[strLen + 1];
@@ -28,7 +28,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool TemplateReqArg::equals(const char *name) {
+    bool TemplateReqArg::equals(const char* name) {
         return strlen(name) == 0;
     }
 
@@ -71,5 +71,9 @@ namespace arduino_cli {
 
     int TemplateReqArg::getValueIndex() {
         return index;
+    }
+
+    String TemplateReqArg::toString() {
+        return readTemplate(_template);
     }
 }

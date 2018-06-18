@@ -1,7 +1,7 @@
 #include "EmptyArg_P.h"
 
 namespace arduino_cli {
-    EmptyArg_P::EmptyArg_P(const char *name) {
+    EmptyArg_P::EmptyArg_P(const char* name) {
         EmptyArg_P::name = name;
 
         reset();
@@ -11,7 +11,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool EmptyArg_P::equals(const char *name) {
+    bool EmptyArg_P::equals(const char* name) {
         if (!name) return false;
 
         if (!EmptyArg_P::name) return false;
@@ -64,5 +64,9 @@ namespace arduino_cli {
 
     bool EmptyArg_P::isRequired() {
         return false;
+    }
+
+    String EmptyArg_P::toString() {
+        return '[' + String('-') + getName() + ']';
     }
 }

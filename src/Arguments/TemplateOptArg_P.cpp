@@ -67,4 +67,8 @@ namespace arduino_cli {
     int TemplateOptArg_P::getValueIndex() {
         return index >= 0 ? index : 0;
     }
+
+    String TemplateOptArg_P::toString() {
+        return '[' + readTemplate(_template) + ']';
+    }
 }

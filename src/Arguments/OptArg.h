@@ -6,22 +6,23 @@
 namespace arduino_cli {
     class OptArg : public Arg {
         public:
-            OptArg(const char *name, const char *defaultValue);
+            OptArg(const char* name, const char* defaultValue);
             OptArg(String name, String defaultValue);
             ~OptArg();
 
-            bool equals(const char *name);
+            bool equals(const char* name);
             bool equals(String name);
             void setValue(String value);
             void reset();
             String getName();
             String getValue();
             bool isRequired();
+            String toString();
 
         private:
-            char *name         = NULL;
-            char *defaultValue = NULL;
-            char *value        = NULL;
+            char* name         = NULL;
+            char* defaultValue = NULL;
+            char* value        = NULL;
     };
 }
 #endif // ifndef OptArg_h

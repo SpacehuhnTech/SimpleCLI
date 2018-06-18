@@ -1,7 +1,7 @@
 #include "OptArg.h"
 
 namespace arduino_cli {
-    OptArg::OptArg(const char *name, const char *defaultValue) {
+    OptArg::OptArg(const char* name, const char* defaultValue) {
         if (name) {
             int strLen = strlen(name);
             OptArg::name = new char[strLen + 1];
@@ -43,7 +43,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool OptArg::equals(const char *name) {
+    bool OptArg::equals(const char* name) {
         if (!name) return false;
 
         if (!OptArg::name) return false;
@@ -95,5 +95,9 @@ namespace arduino_cli {
 
     bool OptArg::isRequired() {
         return false;
+    }
+
+    String OptArg::toString() {
+        return '[' + String('-') + getName() + ' ' + "value" + ']';
     }
 }

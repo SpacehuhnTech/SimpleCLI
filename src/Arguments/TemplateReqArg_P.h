@@ -6,20 +6,21 @@
 namespace arduino_cli {
     class TemplateReqArg_P : public Arg {
         public:
-            TemplateReqArg_P(const char *_template);
+            TemplateReqArg_P(const char* _template);
             ~TemplateReqArg_P();
 
-            bool equals(const char *name);
+            bool equals(const char* name);
             bool equals(String name);
             void setValue(String value);
             void reset();
             String getValue();
             bool isRequired();
             int getValueIndex();
+            String toString();
 
         private:
-            char *value           = NULL;
-            const char *_template = NULL;
+            char* value           = NULL;
+            const char* _template = NULL;
             int index             = -1;
     };
 }

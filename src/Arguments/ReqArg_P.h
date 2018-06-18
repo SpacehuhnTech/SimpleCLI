@@ -6,20 +6,21 @@
 namespace arduino_cli {
     class ReqArg_P : public Arg {
         public:
-            ReqArg_P(const char *name);
+            ReqArg_P(const char* name);
             ~ReqArg_P();
 
-            bool equals(const char *name);
+            bool equals(const char* name);
             bool equals(String name);
             void setValue(String value);
             void reset();
             String getName();
             String getValue();
             bool isRequired();
+            String toString();
 
         private:
-            const char *name = NULL;
-            char *value      = NULL;
+            const char* name = NULL;
+            char* value      = NULL;
     };
 }
 

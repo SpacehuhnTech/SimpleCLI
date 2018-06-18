@@ -7,14 +7,16 @@
 namespace arduino_cli {
     class Arg {
         public:
-            Arg *next = NULL;
+            Arg* next = NULL;
 
             virtual ~Arg() = default;
 
             virtual void setValue(String value)   = 0;
             virtual bool equals(String name)      = 0;
-            virtual bool equals(const char *name) = 0;
+            virtual bool equals(const char* name) = 0;
             virtual bool isRequired() = 0;
+
+            virtual String toString() = 0;
 
             virtual void reset() {
                 set = false;

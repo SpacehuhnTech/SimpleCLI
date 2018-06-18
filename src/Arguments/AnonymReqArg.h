@@ -9,15 +9,16 @@ namespace arduino_cli {
             AnonymReqArg();
             ~AnonymReqArg();
 
-            bool equals(const char *name);
+            bool equals(const char* name);
             bool equals(String name);
             void setValue(String value);
             void reset();
             String getValue();
             bool isRequired();
+            String toString();
 
         private:
-            char *value = NULL;
+            char* value = NULL;
     };
 }
 #endif // ifndef AnonymReqArg_h

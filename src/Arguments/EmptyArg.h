@@ -16,6 +16,7 @@ namespace arduino_cli {
             void setValue(String value);
             String getName();
             bool isRequired();
+            String toString();
 
         private:
             char* name = NULL;

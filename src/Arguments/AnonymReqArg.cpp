@@ -11,7 +11,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool AnonymReqArg::equals(const char *name) {
+    bool AnonymReqArg::equals(const char* name) {
         return strlen(name) == 0;
     }
 
@@ -46,5 +46,9 @@ namespace arduino_cli {
 
     bool AnonymReqArg::isRequired() {
         return true;
+    }
+
+    String AnonymReqArg::toString() {
+        return "value";
     }
 }

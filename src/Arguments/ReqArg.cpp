@@ -1,61 +1,62 @@
-#include "ReqArg_P.h"
+#include "ReqArg.h"
 
 namespace arduino_cli {
-    ReqArg_P::ReqArg_P(const char *name) {
-        ReqArg_P::name = name;
+    ReqArg::ReqArg(const char* name) {
+        // copy name
+        if (name) {
+            int strLen = strlen(name);
+            ReqArg::name = new char[strLen + 1];
+            strcpy(ReqArg::name, name);
+            ReqArg::name[strLen] = '\0';
+        }
+
+        reset();
     }
 
-    ReqArg_P::~ReqArg_P() {
+    ReqArg::ReqArg(String name) {
+        int strLen = name.length() + 1;
+
+        ReqArg::name = new char[strLen];
+        name.toCharArray(ReqArg::name, strLen);
+
+        reset();
+    }
+
+    ReqArg::~ReqArg() {
+        if (name) delete name;
+
         if (value) delete value;
 
         if (next) delete next;
     }
 
-    bool ReqArg_P::equals(const char *name) {
+    bool ReqArg::equals(const char* name) {
         if (!name) return false;
 
-        if (!ReqArg_P::name) return false;
+        if (!ReqArg::name) return false;
 
-        if (name == ReqArg_P::name) return true;
+        if (name == ReqArg::name) return true;
 
-        int strLen;
-        strLen = strlen_P(name);
-        char tmpName[strLen + 1];
-        strcpy_P(tmpName, name);
-        tmpName[strLen] = '\0';
-
-        strLen = strlen_P(ReqArg_P::name);
-        char tmpKeyword[strLen + 1];
-        strcpy_P(tmpKeyword, ReqArg_P::name);
-        tmpKeyword[strLen] = '\0';
-
-        return arduino_cli::equals(tmpName, tmpKeyword) >= 0;
+        return arduino_cli::equals(name, ReqArg::name) >= 0;
     }
 
-    bool ReqArg_P::equals(String name) {
-        if (!ReqArg_P::name) return false;
-
-        int  strLen = strlen_P(ReqArg_P::name);
-        char tmpKeyword[strLen + 1];
-        strcpy_P(tmpKeyword, ReqArg_P::name);
-        tmpKeyword[strLen] = '\0';
-
-        return arduino_cli::equals(name.c_str(), tmpKeyword) >= 0;
+    bool ReqArg::equals(String name) {
+        return arduino_cli::equals(name.c_str(), ReqArg::name) >= 0;
     }
 
-    void ReqArg_P::setValue(String value) {
+    void ReqArg::setValue(String value) {
         if (value.length() > 0) {
-            if (ReqArg_P::value) delete ReqArg_P::value;
+            if (ReqArg::value) delete ReqArg::value;
 
             int strLen = value.length() + 1;
-            ReqArg_P::value = new char[strLen];
-            value.toCharArray(ReqArg_P::value, strLen);
+            ReqArg::value = new char[strLen];
+            value.toCharArray(ReqArg::value, strLen);
 
             set = true;
         }
     }
 
-    void ReqArg_P::reset() {
+    void ReqArg::reset() {
         if (value) {
             delete value;
             value = NULL;
@@ -64,15 +65,19 @@ namespace arduino_cli {
         Arg::reset();
     }
 
-    String ReqArg_P::getName() {
+    String ReqArg::getName() {
         return name ? String(name) : String();
     }
 
-    String ReqArg_P::getValue() {
+    String ReqArg::getValue() {
         return value ? String(value) : String();
     }
 
-    bool ReqArg_P::isRequired() {
+    bool ReqArg::isRequired() {
         return true;
+    }
+
+    String ReqArg::toString() {
+        return '-' + getName() + ' ' + "value";
     }
 }

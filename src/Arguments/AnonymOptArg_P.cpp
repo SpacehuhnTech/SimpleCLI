@@ -1,7 +1,7 @@
 #include "AnonymOptArg_P.h"
 
 namespace arduino_cli {
-    AnonymOptArg_P::AnonymOptArg_P(const char *defaultValue) {
+    AnonymOptArg_P::AnonymOptArg_P(const char* defaultValue) {
         AnonymOptArg_P::defaultValue = defaultValue;
         reset();
     }
@@ -12,7 +12,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool AnonymOptArg_P::equals(const char *name) {
+    bool AnonymOptArg_P::equals(const char* name) {
         return strlen_P(name) == 0;
     }
 
@@ -54,5 +54,9 @@ namespace arduino_cli {
 
     bool AnonymOptArg_P::isRequired() {
         return false;
+    }
+
+    String AnonymOptArg_P::toString() {
+        return '[' + "value" + ']';
     }
 }

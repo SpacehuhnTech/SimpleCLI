@@ -55,4 +55,8 @@ namespace arduino_cli {
     bool EmptyArg::isRequired() {
         return false;
     }
+
+    String EmptyArg::toString() {
+        return '[' + String('-') + getName() + ']';
+    }
 }

@@ -1,7 +1,7 @@
 #include "AnonymOptArg.h"
 
 namespace arduino_cli {
-    AnonymOptArg::AnonymOptArg(const char *defaultValue) {
+    AnonymOptArg::AnonymOptArg(const char* defaultValue) {
         if (defaultValue) {
             int strLen = strlen(defaultValue);
             AnonymOptArg::defaultValue = new char[strLen + 1];
@@ -29,7 +29,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool AnonymOptArg::equals(const char *name) {
+    bool AnonymOptArg::equals(const char* name) {
         return strlen(name) == 0;
     }
 
@@ -71,5 +71,9 @@ namespace arduino_cli {
 
     bool AnonymOptArg::isRequired() {
         return false;
+    }
+
+    String AnonymOptArg::toString() {
+        return '[' + "value" + ']';
     }
 }
