@@ -63,7 +63,11 @@ namespace arduino_cli {
             }
         }
 
-        return result ? resIndex : -1;
+        // comparison correct AND string checked until the end AND keyword checked until the end
+        if (result && (a == lenStr) &&
+            ((keyword[b] == ',') || (keyword[b] == '/') ||
+             (keyword[b] == '\0'))) return resIndex;
+        else return -1;
     }
 
     inline String readTemplate(const char* _template) {
