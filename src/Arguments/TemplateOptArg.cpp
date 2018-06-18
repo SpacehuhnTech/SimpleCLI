@@ -1,7 +1,7 @@
 #include "TemplateOptArg.h"
 
 namespace arduino_cli {
-    TemplateOptArg::TemplateOptArg(const char *_template) {
+    TemplateOptArg::TemplateOptArg(const char* _template) {
         if (_template) {
             int strLen = strlen(_template);
             TemplateOptArg::_template = new char[strLen + 1];
@@ -28,7 +28,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool TemplateOptArg::equals(const char *name) {
+    bool TemplateOptArg::equals(const char* name) {
         return strlen(name) == 0;
     }
 

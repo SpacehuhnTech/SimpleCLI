@@ -1,7 +1,7 @@
 #include "TemplateOptArg_P.h"
 
 namespace arduino_cli {
-    TemplateOptArg_P::TemplateOptArg_P(const char *_template) {
+    TemplateOptArg_P::TemplateOptArg_P(const char* _template) {
         TemplateOptArg_P::_template = _template;
         reset();
     }
@@ -12,7 +12,7 @@ namespace arduino_cli {
         if (next) delete next;
     }
 
-    bool TemplateOptArg_P::equals(const char *name) {
+    bool TemplateOptArg_P::equals(const char* name) {
         return strlen_P(name) == 0;
     }
 
@@ -22,7 +22,7 @@ namespace arduino_cli {
 
     void TemplateOptArg_P::setValue(String value) {
         if (value.length() > 0) {
-            char *tmpTemplate = NULL;
+            char* tmpTemplate = NULL;
 
             if (_template) {
                 int strLen = strlen_P(_template);

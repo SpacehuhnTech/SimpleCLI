@@ -50,7 +50,9 @@ namespace arduino_cli {
                 if (tolower(str[a]) != tolower(keyword[b])) result = false;
             }
 
-            if (((a == lenStr) && !result) || !result) {
+            // comparison incorrect or string checked until the end and keyword not checked until the end
+            if (!result || ((a == lenStr - 1) && (keyword[b + 1] != ',') &&
+                            (keyword[b + 1] != '/') && (keyword[b + 1] != '\0'))) {
                 // fast forward to next comma
                 while (b < lenKeyword && keyword[b] != ',') b++;
                 result = true;
@@ -61,25 +63,18 @@ namespace arduino_cli {
             }
         }
 
-        // comparison correct AND string checked until the end AND keyword checked until the end
-        if (result && (a == lenStr) &&
-            ((keyword[b] == ',') || (keyword[b] == '/') ||
-             (keyword[b] == '\0'))) return resIndex;
-        else return -1;
+        return result ? resIndex : -1;
     }
 
     inline String readTemplate(const char* _template) {
-        String str = String();
-        int    len = strlen(_template);
-        int    i   = 0;
+        int len = strlen_P(_template);
 
-        // append until slash or comma
-        while (i < len && _template[i] != '/' && _template[i] != ',') {
-            str += _template[i];
-            i++;
-        }
+        char tmp[len + 1];
 
-        return str;
+        strcpy_P(tmp, _template);
+        tmp[len] = '\0';
+
+        return String(tmp);
     }
 }
 
