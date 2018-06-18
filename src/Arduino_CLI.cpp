@@ -270,4 +270,17 @@ namespace arduino_cli {
     void Arduino_CLI::setCaseSensetive() {
         arduino_cli::caseSensetive = true;
     }
+
+    String Arduino_CLI::toString() {
+        String s;
+        Cmd  * h = firstCmd;
+
+        while (h != NULL) {
+            s += h->toString();
+            s += '\r';
+            s += '\n';
+            h  = h->next;
+        }
+        return s;
+    }
 }

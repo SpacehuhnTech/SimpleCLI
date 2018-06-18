@@ -49,6 +49,8 @@ namespace arduino_cli {
 
             void setCaseSensetive();
 
+            String toString();
+
         private:
             int cmdNum    = 0;
             Cmd* firstCmd = NULL;

@@ -56,7 +56,18 @@ namespace arduino_cli {
         return false;
     }
 
+    String AnonymOptArg_P::getDefaultValue() {
+        if (!defaultValue) return String();
+
+        int  strLen = strlen_P(defaultValue);
+        char tmpName[strLen + 1];
+        strcpy_P(tmpName, defaultValue);
+        tmpName[strLen] = '\0';
+
+        return String(tmpName);
+    }
+
     String AnonymOptArg_P::toString() {
-        return '[' + "value" + ']';
+        return '[' + getDefaultValue() + ']';
     }
 }

@@ -97,7 +97,11 @@ namespace arduino_cli {
         return false;
     }
 
+    String OptArg::getDefaultValue() {
+        return defaultValue ? String(defaultValue) : String();
+    }
+
     String OptArg::toString() {
-        return '[' + String('-') + getName() + ' ' + "value" + ']';
+        return '[' + String('-') + getName() + ' ' + getDefaultValue() + ']';
     }
 }

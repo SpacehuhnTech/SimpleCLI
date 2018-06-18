@@ -17,6 +17,7 @@ namespace arduino_cli {
             String getName();
             String getValue();
             bool isRequired();
+            String getDefaultValue();
             String toString();
 
         private:

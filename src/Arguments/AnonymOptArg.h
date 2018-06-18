@@ -16,6 +16,7 @@ namespace arduino_cli {
             void reset();
             String getValue();
             bool isRequired();
+            String getDefaultValue();
             String toString();
 
         private:
