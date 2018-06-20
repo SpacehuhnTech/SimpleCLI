@@ -1,6 +1,6 @@
 #include "TemplateOptArg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     TemplateOptArg::TemplateOptArg(const char* _template) {
         if (_template) {
             int strLen = strlen(_template);
@@ -38,7 +38,7 @@ namespace arduino_cli {
 
     void TemplateOptArg::setValue(String value) {
         if (value.length() > 0) {
-            index = arduino_cli::equals(value.c_str(), _template);
+            index = simpleCLI::equals(value.c_str(), _template);
 
             if (index >= 0) {
                 if (TemplateOptArg::value) delete TemplateOptArg::value;

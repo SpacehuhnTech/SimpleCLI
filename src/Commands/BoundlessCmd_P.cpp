@@ -1,6 +1,6 @@
 #include "BoundlessCmd_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     BoundlessCmd_P::BoundlessCmd_P(const char* name, void (*runFnct)(Cmd*)) {
         BoundlessCmd_P::runFnct = runFnct;
 

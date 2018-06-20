@@ -1,6 +1,6 @@
 #include "Command.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     Command::Command(const char* name, void (*runFnct)(Cmd*)) {
         Command::runFnct = runFnct;
 

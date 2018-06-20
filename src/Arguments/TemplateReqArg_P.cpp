@@ -1,6 +1,6 @@
 #include "TemplateReqArg_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     TemplateReqArg_P::TemplateReqArg_P(const char* _template) {
         TemplateReqArg_P::_template = _template;
         reset();
@@ -31,7 +31,7 @@ namespace arduino_cli {
                 tmpTemplate[strLen] = '\0';
             }
 
-            index = arduino_cli::equals(value.c_str(), tmpTemplate);
+            index = simpleCLI::equals(value.c_str(), tmpTemplate);
 
             if (index >= 0) {
                 if (TemplateReqArg_P::value) delete TemplateReqArg_P::value;

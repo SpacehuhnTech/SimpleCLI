@@ -1,6 +1,6 @@
 #include "AnonymReqArg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     AnonymReqArg::AnonymReqArg() {
         reset();
     }

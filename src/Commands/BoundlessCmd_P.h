@@ -3,7 +3,7 @@
 
 #include "Cmd.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class BoundlessCmd_P : public Cmd {
         public:
             BoundlessCmd_P(const char* name, void(*runFnct)(Cmd*));

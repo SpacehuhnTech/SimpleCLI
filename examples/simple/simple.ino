@@ -1,7 +1,7 @@
 
 // Include library
-#include "Arduino_CLI.h"
-using namespace arduino_cli;
+#include "SimpleCLI.h"
+using namespace simpleCLI;
 Arduino_CLI* cli;
 
 // #define Serial SERIAL_PORT_USBVIRTUAL // <- uncomment for SAMD21 (Arduino m0) boards!

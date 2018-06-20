@@ -1,6 +1,6 @@
 #include "ReqArg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     ReqArg::ReqArg(const char* name) {
         // copy name
         if (name) {
@@ -37,11 +37,11 @@ namespace arduino_cli {
 
         if (name == ReqArg::name) return true;
 
-        return arduino_cli::equals(name, ReqArg::name) >= 0;
+        return simpleCLI::equals(name, ReqArg::name) >= 0;
     }
 
     bool ReqArg::equals(String name) {
-        return arduino_cli::equals(name.c_str(), ReqArg::name) >= 0;
+        return simpleCLI::equals(name.c_str(), ReqArg::name) >= 0;
     }
 
     void ReqArg::setValue(String value) {

@@ -3,7 +3,7 @@
 
 #include "Cmd.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class SingleArgCmd : public Cmd {
         public:
             SingleArgCmd(const char* name, void(*runFnct)(Cmd*));

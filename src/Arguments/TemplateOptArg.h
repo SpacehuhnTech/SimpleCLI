@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class TemplateOptArg : public Arg {
         public:
             TemplateOptArg(const char* _template);

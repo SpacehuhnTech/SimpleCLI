@@ -1,6 +1,6 @@
 #include "EmptyCmd.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     EmptyCmd::EmptyCmd(const char* name, void (*runFnct)(Cmd*)) {
         EmptyCmd::runFnct = runFnct;
 

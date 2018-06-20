@@ -1,7 +1,7 @@
 #ifndef helper_functions_h
 #define helper_functions_h
 
-namespace arduino_cli {
+namespace simpleCLI {
     static bool caseSensetive = false;
 
     inline int equals(const char* str, const char* keyword) {
@@ -15,7 +15,7 @@ namespace arduino_cli {
         // when same length, it there is no need to check for slashes or commas
         if (lenStr == lenKeyword) {
             for (int i = 0; i < lenKeyword; i++) {
-                if (arduino_cli::caseSensetive) {
+                if (simpleCLI::caseSensetive) {
                     if (str[i] != keyword[i]) return -1;
                 } else {
                     if (tolower(str[i]) != tolower(keyword[i])) return -1;
@@ -44,7 +44,7 @@ namespace arduino_cli {
             }
 
             // compare character
-            if (arduino_cli::caseSensetive) {
+            if (simpleCLI::caseSensetive) {
                 if (str[a] != keyword[b]) result = false;
             } else {
                 if (tolower(str[a]) != tolower(keyword[b])) result = false;

@@ -1,5 +1,5 @@
 {
-  "name": "Arduino_CLI",
+  "name": "SimpleCLI",
   "version": "1.0.0",
   "keywords": "esp8266, esp32, cli, parser, command, line, interface",
   "description": "Add a command line interface to your project the easy way",

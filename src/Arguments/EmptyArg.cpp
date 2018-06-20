@@ -1,6 +1,6 @@
 #include "EmptyArg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     EmptyArg::EmptyArg(const char* name) {
         if (name) {
             int strLen = strlen(name);
@@ -33,11 +33,11 @@ namespace arduino_cli {
 
         if (name == EmptyArg::name) return true;
 
-        return arduino_cli::equals(name, EmptyArg::name) >= 0;
+        return simpleCLI::equals(name, EmptyArg::name) >= 0;
     }
 
     bool EmptyArg::equals(String name) {
-        return arduino_cli::equals(name.c_str(), EmptyArg::name) >= 0;
+        return simpleCLI::equals(name.c_str(), EmptyArg::name) >= 0;
     }
 
     void EmptyArg::setValue() {

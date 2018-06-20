@@ -1,6 +1,6 @@
 #include "AnonymOptArg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     AnonymOptArg::AnonymOptArg(const char* defaultValue) {
         if (defaultValue) {
             int strLen = strlen(defaultValue);

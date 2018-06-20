@@ -1,6 +1,6 @@
 #include "SingleArgCmd_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     SingleArgCmd_P::SingleArgCmd_P(const char* name, void (*runFnct)(Cmd*)) {
         SingleArgCmd_P::runFnct = runFnct;
 

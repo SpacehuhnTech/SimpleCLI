@@ -1,5 +1,5 @@
-#ifndef Arduino_CLI_h
-#define Arduino_CLI_h
+#ifndef SimpleCLI_h
+#define SimpleCLI_h
 
 #include "Arduino.h"
 #include "helper_functions.h"
@@ -16,13 +16,13 @@
 #include "Commands/EmptyCmd_P.h"
 #include "Commands/SingleArgCmd_P.h"
 
-namespace arduino_cli {
-    class Arduino_CLI {
+namespace simpleCLI {
+    class SimpleCLI {
         public:
             void (*onNotFound)(String cmdName) = NULL;
 
-            Arduino_CLI();
-            ~Arduino_CLI();
+            SimpleCLI();
+            ~SimpleCLI();
 
             void parse(String input);
             void parse(const char* input);

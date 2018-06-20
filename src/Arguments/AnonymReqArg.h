@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class AnonymReqArg : public Arg {
         public:
             AnonymReqArg();

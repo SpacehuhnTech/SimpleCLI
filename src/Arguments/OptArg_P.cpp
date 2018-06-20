@@ -1,6 +1,6 @@
 #include "OptArg_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     OptArg_P::OptArg_P(const char* name, const char* defaultValue) {
         OptArg_P::name         = name;
         OptArg_P::defaultValue = defaultValue;
@@ -32,7 +32,7 @@ namespace arduino_cli {
         strcpy_P(tmpKeyword, OptArg_P::name);
         tmpKeyword[strLen] = '\0';
 
-        return arduino_cli::equals(tmpName, tmpKeyword) >= 0;
+        return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool OptArg_P::equals(String name) {
@@ -43,7 +43,7 @@ namespace arduino_cli {
         strcpy_P(tmpKeyword, OptArg_P::name);
         tmpKeyword[strLen] = '\0';
 
-        return arduino_cli::equals(name.c_str(), tmpKeyword) >= 0;
+        return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void OptArg_P::setValue(String value) {

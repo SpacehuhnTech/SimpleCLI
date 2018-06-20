@@ -5,6 +5,9 @@ Control your Arduino devices with custom commands without much hazzle!
 This library goal is to make it easy to add custom commands, with arguments and all that sweet stuff, to your Arduino projects!  
 Because there are multiple ways of how can define the syntax of each command, there are different types of commands and arguments provided by this library.  
 
+**Plase use it carefully, I'm still testing some functions and I'm sure I haven't found all the bugs yet!**  
+The documentation is also not finished yet.
+
 **See the [Examples](https://github.com/spacehuhn/Arduino_CLI/tree/master/examples/) on how to use the different Commands and Arguments.**  
 
 ### Commands

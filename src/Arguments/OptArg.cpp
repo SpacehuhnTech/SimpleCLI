@@ -1,6 +1,6 @@
 #include "OptArg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     OptArg::OptArg(const char* name, const char* defaultValue) {
         if (name) {
             int strLen = strlen(name);
@@ -50,11 +50,11 @@ namespace arduino_cli {
 
         if (name == OptArg::name) return true;
 
-        return arduino_cli::equals(name, OptArg::name) >= 0;
+        return simpleCLI::equals(name, OptArg::name) >= 0;
     }
 
     bool OptArg::equals(String name) {
-        return arduino_cli::equals(name.c_str(), OptArg::name) >= 0;
+        return simpleCLI::equals(name.c_str(), OptArg::name) >= 0;
     }
 
     void OptArg::setValue(String value) {

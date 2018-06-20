@@ -1,13 +1,13 @@
-#include "Arduino_CLI.h"
+#include "SimpleCLI.h"
 
-namespace arduino_cli {
-    Arduino_CLI::Arduino_CLI() {}
+namespace simpleCLI {
+    SimpleCLI::SimpleCLI() {}
 
-    Arduino_CLI::~Arduino_CLI() {
+    SimpleCLI::~SimpleCLI() {
         delete firstCmd;
     }
 
-    void Arduino_CLI::parse(String input) {
+    void SimpleCLI::parse(String input) {
         int strLen = input.length();
 
         if (strLen == 0) return;
@@ -15,7 +15,7 @@ namespace arduino_cli {
         parseLines(input.c_str(), strLen);
     }
 
-    void Arduino_CLI::parse(const char* input) {
+    void SimpleCLI::parse(const char* input) {
         int strLen = strlen(input);
 
         if (strLen == 0) return;
@@ -23,7 +23,7 @@ namespace arduino_cli {
         parseLines(input, strLen);
     }
 
-    void Arduino_CLI::parseLines(const char* str, int strLen) {
+    void SimpleCLI::parseLines(const char* str, int strLen) {
         if (strLen == 0) return;
 
         int h = 0;
@@ -52,7 +52,7 @@ namespace arduino_cli {
         if (h > 0) parseLine(&str[i - h], h);
     }
 
-    void Arduino_CLI::parseLine(const char* str, int strLen) {
+    void SimpleCLI::parseLine(const char* str, int strLen) {
         if (strLen == 0) return;
 
         Arg* firstArg = NULL;
@@ -186,7 +186,7 @@ namespace arduino_cli {
         if (!found && onNotFound) onNotFound(cmdName);
     }
 
-    Cmd* Arduino_CLI::getCmd(int i) {
+    Cmd* SimpleCLI::getCmd(int i) {
         Cmd* h = firstCmd;
         int  j = 0;
 
@@ -197,11 +197,11 @@ namespace arduino_cli {
         return h;
     }
 
-    Cmd* Arduino_CLI::getCmd(String cmdName) {
+    Cmd* SimpleCLI::getCmd(String cmdName) {
         return getNextCmd(firstCmd, cmdName);
     }
 
-    Cmd* Arduino_CLI::getNextCmd(Cmd* begin, String cmdName) {
+    Cmd* SimpleCLI::getNextCmd(Cmd* begin, String cmdName) {
         Cmd* h = begin;
 
         while (h) {
@@ -212,11 +212,11 @@ namespace arduino_cli {
         return h;
     }
 
-    Cmd* Arduino_CLI::getCmd(const char* cmdName) {
+    Cmd* SimpleCLI::getCmd(const char* cmdName) {
         return getNextCmd(firstCmd, cmdName);
     }
 
-    Cmd* Arduino_CLI::getNextCmd(Cmd* begin, const char* cmdName) {
+    Cmd* SimpleCLI::getNextCmd(Cmd* begin, const char* cmdName) {
         Cmd* h = begin;
 
         while (h) {
@@ -227,7 +227,7 @@ namespace arduino_cli {
         return h;
     }
 
-    void Arduino_CLI::addCmd(Cmd* newCmd) {
+    void SimpleCLI::addCmd(Cmd* newCmd) {
         if (lastCmd) lastCmd->next = newCmd;
 
         if (!firstCmd) firstCmd = newCmd;
@@ -235,43 +235,43 @@ namespace arduino_cli {
         cmdNum++;
     }
 
-    void Arduino_CLI::addCmd(Command* newCmd) {
+    void SimpleCLI::addCmd(Command* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCmd(BoundlessCmd* newCmd) {
+    void SimpleCLI::addCmd(BoundlessCmd* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCmd(EmptyCmd* newCmd) {
+    void SimpleCLI::addCmd(EmptyCmd* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCmd(SingleArgCmd* newCmd) {
+    void SimpleCLI::addCmd(SingleArgCmd* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCmd(Command_P* newCmd) {
+    void SimpleCLI::addCmd(Command_P* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCmd(BoundlessCmd_P* newCmd) {
+    void SimpleCLI::addCmd(BoundlessCmd_P* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCmd(EmptyCmd_P* newCmd) {
+    void SimpleCLI::addCmd(EmptyCmd_P* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::addCmd(SingleArgCmd_P* newCmd) {
+    void SimpleCLI::addCmd(SingleArgCmd_P* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void Arduino_CLI::setCaseSensetive() {
-        arduino_cli::caseSensetive = true;
+    void SimpleCLI::setCaseSensetive() {
+        simpleCLI::caseSensetive = true;
     }
 
-    String Arduino_CLI::toString() {
+    String SimpleCLI::toString() {
         String s;
         Cmd  * h = firstCmd;
 

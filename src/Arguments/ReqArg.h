@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class ReqArg : public Arg {
         public:
             ReqArg(const char* name);

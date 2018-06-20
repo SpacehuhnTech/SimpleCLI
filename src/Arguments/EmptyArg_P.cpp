@@ -1,6 +1,6 @@
 #include "EmptyArg_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     EmptyArg_P::EmptyArg_P(const char* name) {
         EmptyArg_P::name = name;
 
@@ -29,7 +29,7 @@ namespace arduino_cli {
         strcpy_P(tmpKeyword, EmptyArg_P::name);
         tmpKeyword[strLen] = '\0';
 
-        return arduino_cli::equals(tmpName, tmpKeyword) >= 0;
+        return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool EmptyArg_P::equals(String name) {
@@ -40,7 +40,7 @@ namespace arduino_cli {
         strcpy_P(tmpKeyword, EmptyArg_P::name);
         tmpKeyword[strLen] = '\0';
 
-        return arduino_cli::equals(name.c_str(), tmpKeyword) >= 0;
+        return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void EmptyArg_P::setValue() {

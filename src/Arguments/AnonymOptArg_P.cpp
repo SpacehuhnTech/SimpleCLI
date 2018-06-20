@@ -1,6 +1,6 @@
 #include "AnonymOptArg_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     AnonymOptArg_P::AnonymOptArg_P(const char* defaultValue) {
         AnonymOptArg_P::defaultValue = defaultValue;
         reset();

@@ -20,7 +20,7 @@
 #include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class Cmd {
         public:
             Cmd* next = NULL;

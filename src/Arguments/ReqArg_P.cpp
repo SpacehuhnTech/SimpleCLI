@@ -1,6 +1,6 @@
 #include "ReqArg_P.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     ReqArg_P::ReqArg_P(const char *name) {
         ReqArg_P::name = name;
     }
@@ -29,7 +29,7 @@ namespace arduino_cli {
         strcpy_P(tmpKeyword, ReqArg_P::name);
         tmpKeyword[strLen] = '\0';
 
-        return arduino_cli::equals(tmpName, tmpKeyword) >= 0;
+        return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool ReqArg_P::equals(String name) {
@@ -40,7 +40,7 @@ namespace arduino_cli {
         strcpy_P(tmpKeyword, ReqArg_P::name);
         tmpKeyword[strLen] = '\0';
 
-        return arduino_cli::equals(name.c_str(), tmpKeyword) >= 0;
+        return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void ReqArg_P::setValue(String value) {

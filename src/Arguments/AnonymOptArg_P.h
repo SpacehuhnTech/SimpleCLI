@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class AnonymOptArg_P : public Arg {
         public:
             AnonymOptArg_P(const char* defaultValue);

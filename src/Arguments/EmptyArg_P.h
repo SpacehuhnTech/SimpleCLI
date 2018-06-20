@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     class EmptyArg_P : public Arg {
         public:
             EmptyArg_P(const char* name);

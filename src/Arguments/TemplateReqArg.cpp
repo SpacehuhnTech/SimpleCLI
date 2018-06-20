@@ -1,6 +1,6 @@
 #include "TemplateReqArg.h"
 
-namespace arduino_cli {
+namespace simpleCLI {
     TemplateReqArg::TemplateReqArg(const char* _template) {
         if (_template) {
             int strLen = strlen(_template);
@@ -38,7 +38,7 @@ namespace arduino_cli {
 
     void TemplateReqArg::setValue(String value) {
         if (value.length() > 0) {
-            index = arduino_cli::equals(value.c_str(), _template);
+            index = simpleCLI::equals(value.c_str(), _template);
 
             if (index >= 0) {
                 if (TemplateReqArg::value) delete TemplateReqArg::value;
