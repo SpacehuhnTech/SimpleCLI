@@ -31,7 +31,7 @@ namespace simpleCLI {
     }
 
     String SingleArgCmd::getName() {
-        return String(name);
+        return readTemplate(name);
     }
 
     void SingleArgCmd::reset() {

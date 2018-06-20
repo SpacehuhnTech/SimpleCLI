@@ -66,7 +66,7 @@ namespace simpleCLI {
     }
 
     String ReqArg::getName() {
-        return name ? String(name) : String();
+        return readTemplate(name);
     }
 
     String ReqArg::getValue() {
@@ -78,6 +78,6 @@ namespace simpleCLI {
     }
 
     String ReqArg::toString() {
-        return '-' + getName() + ' ' + "value";
+        return '-' + getName() + ' ' + "<value>";
     }
 }

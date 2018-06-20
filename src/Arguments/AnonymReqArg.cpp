@@ -49,6 +49,6 @@ namespace simpleCLI {
     }
 
     String AnonymReqArg::toString() {
-        return "value";
+        return "<value>";
     }
 }

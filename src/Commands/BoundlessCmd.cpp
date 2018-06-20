@@ -31,7 +31,7 @@ namespace simpleCLI {
     }
 
     String BoundlessCmd::getName() {
-        return String(name);
+        return readTemplate(name);
     }
 
     void BoundlessCmd::reset() {

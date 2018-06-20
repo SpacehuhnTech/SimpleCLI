@@ -15,12 +15,7 @@ namespace simpleCLI {
     }
 
     String Command_P::getName() {
-        int  strLen = strlen_P(name);
-        char tmpName[strLen + 1];
-
-        strcpy_P(tmpName, name);
-        tmpName[strLen] = '\0';
-        return String(tmpName);
+        return readTemplate(name);
     }
 
     void Command_P::reset() {

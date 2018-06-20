@@ -29,7 +29,7 @@ namespace simpleCLI {
     }
 
     String EmptyCmd::getName() {
-        return String(name);
+        return readTemplate(name);
     }
 
     void EmptyCmd::reset() {}

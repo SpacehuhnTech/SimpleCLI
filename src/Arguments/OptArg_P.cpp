@@ -73,14 +73,7 @@ namespace simpleCLI {
     }
 
     String OptArg_P::getName() {
-        if (!name) return String();
-
-        int  strLen = strlen_P(name);
-        char tmpName[strLen + 1];
-        strcpy_P(tmpName, name);
-        tmpName[strLen] = '\0';
-
-        return String(tmpName);
+        return readTemplate(name);
     }
 
     String OptArg_P::getValue() {

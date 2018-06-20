@@ -49,7 +49,7 @@ namespace simpleCLI {
     }
 
     String EmptyArg::getName() {
-        return name ? String(name) : String();
+        return readTemplate(name);
     }
 
     bool EmptyArg::isRequired() {

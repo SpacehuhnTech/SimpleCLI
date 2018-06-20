@@ -32,7 +32,7 @@ namespace simpleCLI {
     }
 
     String Command::getName() {
-        return String(name);
+        return readTemplate(name);
     }
 
     void Command::reset() {

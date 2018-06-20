@@ -1,7 +1,7 @@
 #include "ReqArg_P.h"
 
 namespace simpleCLI {
-    ReqArg_P::ReqArg_P(const char *name) {
+    ReqArg_P::ReqArg_P(const char* name) {
         ReqArg_P::name = name;
     }
 
@@ -11,7 +11,7 @@ namespace simpleCLI {
         if (next) delete next;
     }
 
-    bool ReqArg_P::equals(const char *name) {
+    bool ReqArg_P::equals(const char* name) {
         if (!name) return false;
 
         if (!ReqArg_P::name) return false;
@@ -65,7 +65,7 @@ namespace simpleCLI {
     }
 
     String ReqArg_P::getName() {
-        return name ? String(name) : String();
+        return readTemplate(name);
     }
 
     String ReqArg_P::getValue() {
@@ -74,5 +74,9 @@ namespace simpleCLI {
 
     bool ReqArg_P::isRequired() {
         return true;
+    }
+
+    String ReqArg_P::toString() {
+        return '-' + getName() + ' ' + "<value>";
     }
 }

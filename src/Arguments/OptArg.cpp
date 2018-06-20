@@ -86,7 +86,7 @@ namespace simpleCLI {
     }
 
     String OptArg::getName() {
-        return name ? String(name) : String();
+        return readTemplate(name);
     }
 
     String OptArg::getValue() {

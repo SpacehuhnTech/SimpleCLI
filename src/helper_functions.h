@@ -71,14 +71,13 @@ namespace simpleCLI {
     }
 
     inline String readTemplate(const char* _template) {
-        int len = strlen_P(_template);
+        if (_template == NULL) return String();
 
-        char tmp[len + 1];
+        String s = String(_template);
 
-        strcpy_P(tmp, _template);
-        tmp[len] = '\0';
+        s.replace("/", "");
 
-        return String(tmp);
+        return s;
     }
 }
 
