@@ -8,7 +8,7 @@ Because there are multiple ways of how can define the syntax of each command, th
 **Plase use it carefully, I'm still testing some functions and I'm sure I haven't found all the bugs yet!**  
 The documentation is also not finished yet.
 
-**See the [Examples](https://github.com/spacehuhn/Arduino_CLI/tree/master/examples/) on how to use the different Commands and Arguments.**  
+**See the [Examples](https://github.com/spacehuhn/Arduino_CLI/tree/master/examples/) on how to use the different Commands and Arguments.** (not finished yet)  
 
 ### Commands
 
