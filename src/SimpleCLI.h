@@ -25,9 +25,6 @@ namespace simpleCLI {
             ~SimpleCLI();
 
             void parse(String input);
-            void parse(const char* input);
-            void parseLines(const char* str, int strLen);
-            void parseLine(const char* str, int strLen);
 
             Cmd* getCmd(int i);
             Cmd* getCmd(String cmdName);
@@ -55,6 +52,11 @@ namespace simpleCLI {
             int cmdNum    = 0;
             Cmd* firstCmd = NULL;
             Cmd* lastCmd  = NULL;
+
+            void parseLines(String& input);
+            void parseLine(String& input);
+            String readCmdName(String& input);
+            String getNextArg(String& input);
     };
 }
 #endif // ifndef CommandParser_h

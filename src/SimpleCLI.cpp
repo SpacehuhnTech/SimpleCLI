@@ -8,73 +8,40 @@ namespace simpleCLI {
     }
 
     void SimpleCLI::parse(String input) {
+        if (input.length() > 0) parseLines(input);
+    }
+
+    void SimpleCLI::parseLines(String& input) {
         int strLen = input.length();
 
         if (strLen == 0) return;
 
-        parseLines(input.c_str(), strLen);
-    }
-
-    void SimpleCLI::parse(const char* input) {
-        int strLen = strlen(input);
-
-        if (strLen == 0) return;
-
-        parseLines(input, strLen);
-    }
-
-    void SimpleCLI::parseLines(const char* str, int strLen) {
-        if (strLen == 0) return;
-
-        int h = 0;
-        int i = 0;
-
         char prevChar;
         char curChar;
 
-        while (i < strLen) {
+        String line;
+
+        for (int i = 0; i < strLen; i++) {
             prevChar = curChar;
-            curChar  = str[i];
+            curChar  = input.charAt(i);
 
-            if ((prevChar == ';') && (curChar == ';')) {
-                parseLine(&str[i - h - 1], h);
-                h = 0;
-            } else if (((curChar == '\n') || (curChar == '\r')) && (h > 0)) {
-                parseLine(&str[i - h], h);
-                h = 0;
+            if (((prevChar == ';') && (curChar == ';')) || (curChar == '\n') || (curChar == '\r')) {
+                parseLine(line);
+                line = String();
             } else {
-                h++;
+                line += curChar;
             }
-
-            i++;
         }
 
-        if (h > 0) parseLine(&str[i - h], h);
+        parseLine(line);
     }
 
-    void SimpleCLI::parseLine(const char* str, int strLen) {
+    void SimpleCLI::parseLine(String& input) {
+        int strLen = input.length();
+
         if (strLen == 0) return;
 
-        Arg* firstArg = NULL;
-        Arg* lastArg  = NULL;
-
-        bool escaped  = false;
-        bool inQuotes = false;
-
-        char tmpChar = str[0];
-
-        String tmpStr  = String();
-        String cmdName = String();
-
-        int i = 0;
-
-        // get cmdName
-        while (tmpChar != ' ' && i < strLen) {
-            tmpChar = str[i];
-
-            if (tmpChar != ' ') cmdName += String(tmpChar);
-            i++;
-        }
+        String cmdName = readCmdName(input);
 
         // search for command with given name
         Cmd* cmd = getNextCmd(firstCmd, cmdName);
@@ -87,69 +54,48 @@ namespace simpleCLI {
 
         // check for SingleArgCmd's
         if (cmd->argNum() == -1) {
-            cmd->parse(String(), String(&str[i]));
+            cmd->parse(String(), input);
             cmd->run(cmd);
             cmd->reset();
             return;
         }
 
         // get arguments
-        while (i <= strLen) {
-            if (i < strLen) tmpChar = str[i];
-            else tmpChar = '\0';
+        String argName;
+        Arg  * firstArg = NULL;
+        Arg  * lastArg  = NULL;
 
-            // escape character BACKSLASH
-            if (tmpChar == '\\') {
-                escaped = !escaped;
+        while (input.length() > 0) {
+            // read argument from string
+            argName = getNextArg(input);
 
-                if (escaped) continue;
+            // when empty, continue
+            if (argName.length() == 0) continue;
+
+            // add argument to list
+            if ((argName.charAt(0) == '-') && (argName.length() > 1)) {
+                Arg* tmpArg = new OptArg(argName.substring(1), String());
+
+                if (lastArg) lastArg->next = tmpArg;
+                else firstArg = tmpArg;
+                lastArg = tmpArg;
             }
 
-            // Quotes
-            else if (!escaped && (tmpChar == '"')) {
-                inQuotes = !inQuotes;
-                continue;
-            }
+            // add value to argument
+            else {
+                bool set = lastArg ? lastArg->isSet() : true;
 
-            if (!escaped && !inQuotes &&
-                ((tmpChar == ' ') || (tmpChar == '\r') || (tmpChar == '\n') || (tmpChar == '\0'))) {
-                if (tmpStr.length() > 0) {
-                    // add argument to list
-                    if ((tmpStr.charAt(0) == '-') && (tmpStr.length() > 1)) {
-                        Arg* tmpArg = new OptArg(tmpStr.substring(1), String());
+                if (set) {
+                    Arg* tmpArg = new OptArg(String(), String());
 
-                        if (lastArg) lastArg->next = tmpArg;
-                        else firstArg = tmpArg;
-                        lastArg = tmpArg;
-                    }
-
-                    // add value to argument
-                    else {
-                        bool set = lastArg ? lastArg->isSet() : true;
-
-                        if (set) {
-                            Arg* tmpArg = new OptArg(String(), String());
-
-                            if (lastArg) lastArg->next = tmpArg;
-                            else firstArg = tmpArg;
-                            lastArg = tmpArg;
-                            tmpArg->setValue(tmpStr);
-                        } else {
-                            lastArg->setValue(tmpStr);
-                        }
-                    }
-
-                    tmpStr = String();
+                    if (lastArg) lastArg->next = tmpArg;
+                    else firstArg = tmpArg;
+                    lastArg = tmpArg;
+                    tmpArg->setValue(argName);
+                } else {
+                    lastArg->setValue(argName);
                 }
             }
-
-            // add chars to temp-string
-            else {
-                tmpStr += String(tmpChar);
-                escaped = false;
-            }
-
-            i++;
         }
 
         /*
@@ -282,5 +228,56 @@ namespace simpleCLI {
             h  = h->next;
         }
         return s;
+    }
+
+    String SimpleCLI::readCmdName(String& input) {
+        char   c;
+        String cmdName;
+
+        while (input.length() > 0 && c != ' ') {
+            c = input.charAt(0);
+            input.remove(0, 1);
+
+            if (c != ' ') cmdName += c;
+        }
+
+        return cmdName;
+    }
+
+    String SimpleCLI::getNextArg(String& input) {
+        String arg;
+        char   c;
+        bool   escaped  = false;
+        bool   inQuotes = false;
+
+        while (input.length() > 0) {
+            c = input.charAt(0);
+            input.remove(0, 1);
+
+            // escape character BACKSLASH
+            if (c == '\\') {
+                escaped = !escaped;
+
+                if (escaped) continue;
+            }
+
+            // Quotes
+            else if ((c == '"') && !escaped) {
+                inQuotes = !inQuotes;
+                continue;
+            }
+
+            if (!escaped && !inQuotes && ((c == ' ') || (c == '\r') || (c == '\n'))) {
+                return arg;
+            }
+
+            // add chars to temp-string
+            else {
+                arg    += c;
+                escaped = false;
+            }
+        }
+
+        return arg;
     }
 }
