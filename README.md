@@ -51,7 +51,7 @@ Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
 | Class Name | Constructor | Info | Example |
 | ---------- | ----------- | ---- | ----------- |
 | AnonymOptArg | defaultValue | [Optional] Has no name, but a default value. | `echo`, `echo something` |
-| AnonymReqArg | defaultValue | [Required] Has no name. Value must be given by the user. | `rm somefile` |
+| AnonymReqArg |  | [Required] Has no name. Value must be given by the user. | `rm somefile` |
 | EmptyArg | name, defaultValue | [Optional] Doesn't take any value. Can either be set or not. | `ls`, `ls -a` |
 | OptArg | name, defaultValue | [Optional] Has a default value. |  `ping`, `ping -s 2048` |
 | ReqArg | name | [Required] Value must be given by the user. | `myScript.sh -o output.txt` |
