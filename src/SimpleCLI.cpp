@@ -16,20 +16,22 @@ namespace simpleCLI {
 
         if (strLen == 0) return;
 
-        char prevChar;
-        char curChar;
+        char c;
 
         String line;
 
         for (int i = 0; i < strLen; i++) {
-            prevChar = curChar;
-            curChar  = input.charAt(i);
+            c = input.charAt(i);
 
-            if (((prevChar == ';') && (curChar == ';')) || (curChar == '\n') || (curChar == '\r')) {
+            if ((c == ';') && (input.charAt(i + 1) == ';')) {
+                parseLine(line);
+                i++;
+                line = String();
+            } else if ((c == '\n') || (c == '\r')) {
                 parseLine(line);
                 line = String();
             } else {
-                line += curChar;
+                line += c;
             }
         }
 
