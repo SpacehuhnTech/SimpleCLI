@@ -1,6 +1,10 @@
 #include "AnonymOptArg.h"
 
 namespace simpleCLI {
+    AnonymOptArg::AnonymOptArg() {
+        reset();
+    }
+
     AnonymOptArg::AnonymOptArg(const char* defaultValue) {
         if (defaultValue) {
             int strLen = strlen(defaultValue);
@@ -74,10 +78,10 @@ namespace simpleCLI {
     }
 
     String AnonymOptArg::getDefaultValue() {
-        return value ? String(defaultValue) : String();
+        return defaultValue ? String(defaultValue) : String();
     }
 
     String AnonymOptArg::toString() {
-        return '[' + getDefaultValue(); +']';
+        return '[' + (defaultValue ? getDefaultValue() : "<value>") + ']';
     }
 }

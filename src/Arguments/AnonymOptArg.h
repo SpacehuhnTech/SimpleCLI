@@ -6,6 +6,7 @@
 namespace simpleCLI {
     class AnonymOptArg : public Arg {
         public:
+            AnonymOptArg();
             AnonymOptArg(const char* defaultValue);
             AnonymOptArg(String defaultValue);
             ~AnonymOptArg();

@@ -1,6 +1,13 @@
 #include "OptArg_P.h"
 
 namespace simpleCLI {
+    OptArg_P::OptArg_P(const char* name) {
+        OptArg_P::name         = name;
+        OptArg_P::defaultValue = NULL;
+
+        reset();
+    }
+
     OptArg_P::OptArg_P(const char* name, const char* defaultValue) {
         OptArg_P::name         = name;
         OptArg_P::defaultValue = defaultValue;
@@ -64,10 +71,12 @@ namespace simpleCLI {
             value = NULL;
         }
 
-        int strLen = strlen_P(defaultValue);
-        value = new char[strLen + 1];
-        strcpy_P(value, defaultValue);
-        value[strLen] = '\0';
+        if (defaultValue) {
+            int strLen = strlen_P(defaultValue);
+            value = new char[strLen + 1];
+            strcpy_P(value, defaultValue);
+            value[strLen] = '\0';
+        }
 
         Arg::reset();
     }
@@ -96,6 +105,6 @@ namespace simpleCLI {
     }
 
     String OptArg_P::toString() {
-        return '[' + String('-') + getName() + ' ' + getDefaultValue() + ']';
+        return '[' + String('-') + getName() + ' ' + (defaultValue ? getDefaultValue() : "<value>") + ']';
     }
 }

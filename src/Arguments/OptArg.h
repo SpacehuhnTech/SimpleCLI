@@ -6,6 +6,7 @@
 namespace simpleCLI {
     class OptArg : public Arg {
         public:
+            OptArg(const char* name);
             OptArg(const char* name, const char* defaultValue);
             OptArg(String name, String defaultValue);
             ~OptArg();

@@ -1,6 +1,17 @@
 #include "OptArg.h"
 
 namespace simpleCLI {
+    OptArg::OptArg(const char* name) {
+        if (name) {
+            int strLen = strlen(name);
+            OptArg::name = new char[strLen + 1];
+            strcpy(OptArg::name, name);
+            OptArg::name[strLen] = '\0';
+        }
+
+        reset();
+    }
+
     OptArg::OptArg(const char* name, const char* defaultValue) {
         if (name) {
             int strLen = strlen(name);
@@ -102,6 +113,6 @@ namespace simpleCLI {
     }
 
     String OptArg::toString() {
-        return '[' + String('-') + getName() + ' ' + getDefaultValue() + ']';
+        return '[' + String('-') + getName() + ' ' + (defaultValue ? getDefaultValue() : "<value>") + ']';
     }
 }

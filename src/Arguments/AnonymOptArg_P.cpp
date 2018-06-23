@@ -1,6 +1,11 @@
 #include "AnonymOptArg_P.h"
 
 namespace simpleCLI {
+    AnonymOptArg_P::AnonymOptArg_P() {
+        AnonymOptArg_P::defaultValue = NULL;
+        reset();
+    }
+
     AnonymOptArg_P::AnonymOptArg_P(const char* defaultValue) {
         AnonymOptArg_P::defaultValue = defaultValue;
         reset();
@@ -68,6 +73,6 @@ namespace simpleCLI {
     }
 
     String AnonymOptArg_P::toString() {
-        return '[' + getDefaultValue() + ']';
+        return '[' + (defaultValue ? getDefaultValue() : "<value>") + ']';
     }
 }
