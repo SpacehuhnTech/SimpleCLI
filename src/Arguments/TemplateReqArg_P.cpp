@@ -69,6 +69,6 @@ namespace simpleCLI {
     }
 
     String TemplateReqArg_P::toString() {
-        return readTemplate(_template);
+        return '<' + readTemplate(_template) + '>';
     }
 }
