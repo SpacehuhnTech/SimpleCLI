@@ -257,7 +257,7 @@ namespace simpleCLI {
             input.remove(0, 1);
 
             // escape character BACKSLASH
-            if (!inQuotes && (c == '\\')) {
+            if (c == '\\') {
                 escaped = !escaped;
 
                 if (escaped) continue;
