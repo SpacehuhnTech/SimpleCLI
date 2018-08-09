@@ -2,7 +2,9 @@
 // Include library
 #include "SimpleCLI.h"
 using namespace simpleCLI;
-Arduino_CLI* cli;
+
+// create an instance of it
+SimpleCLI* cli;
 
 // #define Serial SERIAL_PORT_USBVIRTUAL // <- uncomment for SAMD21 (Arduino m0) boards!
 
@@ -13,7 +15,7 @@ void setup() {
 
 
     // =========== Create CommandParser =========== //
-    cli = new Arduino_CLI();
+    cli = new SimpleCLI();
 
     // when no valid command could be found for given user input
     cli->onNotFound = [](String str) {
@@ -51,8 +53,7 @@ void setup() {
     cli->parse("ping");
     cli->parse("hello");
 
-
-    Serial.println("\\o/ STARTED!");
+    Serial.println("Started!");
 }
 
 void loop() {
@@ -64,6 +65,7 @@ void loop() {
             // print input
             Serial.print("# ");
             Serial.println(tmp);
+
             // and parse it
             cli->parse(tmp);
         }
