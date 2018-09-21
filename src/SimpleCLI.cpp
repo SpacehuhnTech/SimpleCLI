@@ -229,6 +229,7 @@ namespace simpleCLI {
             s += '\n';
             h  = h->next;
         }
+
         return s;
     }
 

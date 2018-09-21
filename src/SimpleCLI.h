@@ -19,7 +19,7 @@
 namespace simpleCLI {
     class SimpleCLI {
         public:
-            void (*onNotFound)(String cmdName) = NULL;
+            void (* onNotFound)(String cmdName) = NULL;
 
             SimpleCLI();
             ~SimpleCLI();
@@ -47,6 +47,17 @@ namespace simpleCLI {
             void setCaseSensetive();
 
             String toString();
+
+            template<typename T>
+            void print(T out) {
+                Cmd* h = firstCmd;
+
+                while (h != NULL) {
+                    String s = h->toString();
+                    out->println(s);
+                    h = h->next;
+                }
+            }
 
         private:
             int cmdNum    = 0;
