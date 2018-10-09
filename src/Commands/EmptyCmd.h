@@ -7,10 +7,10 @@ namespace simpleCLI {
     class EmptyCmd : public Cmd {
         public:
             EmptyCmd(const char* name, void(*runFnct)(Cmd*));
-            EmptyCmd(String name, void(*runFnct)(Cmd*));
             ~EmptyCmd();
 
             String getName();
+
             void reset();
             bool parse(String arg, String value);
             int argNum();
@@ -32,7 +32,7 @@ namespace simpleCLI {
             String toString();
 
         private:
-            char* name = NULL;
+            const char* name = NULL;
     };
 }
 #endif // ifndef EmptyCmd_h

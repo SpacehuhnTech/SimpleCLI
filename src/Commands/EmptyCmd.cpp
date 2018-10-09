@@ -1,30 +1,15 @@
 #include "EmptyCmd.h"
 
 namespace simpleCLI {
-    EmptyCmd::EmptyCmd(const char* name, void (*runFnct)(Cmd*)) {
+    EmptyCmd::EmptyCmd(const char* name, void(*runFnct)(Cmd*)) {
         EmptyCmd::runFnct = runFnct;
 
-        if (name) {
-            int strLen = strlen(name);
-            EmptyCmd::name = new char[strLen + 1];
-            strcpy(EmptyCmd::name, name);
-            EmptyCmd::name[strLen] = '\0';
-        }
-        reset();
-    }
+        EmptyCmd::name = name;
 
-    EmptyCmd::EmptyCmd(String name, void (*runFnct)(Cmd*)) {
-        EmptyCmd::runFnct = runFnct;
-
-        int strLen = name.length() + 1;
-        EmptyCmd::name = new char[strLen];
-        name.toCharArray(EmptyCmd::name, strLen);
         reset();
     }
 
     EmptyCmd::~EmptyCmd() {
-        if (name) delete name;
-
         if (next) delete next;
     }
 
