@@ -26,24 +26,10 @@ Cmd* myCommand = new Command("commandName", [](Cmd* myCommand){
 })
 ```
 
-To save RAM, the same command classes exist with progmem strings instead of regular strings.  
-
-| Class Name |
-| ---------- |
-| Command_P |
-| EmptyCmd_P |
-| BoundlessCmd_P |
-| SingleArgCmd_P |
-
 You can create a new progmem command by:  
 ```
 const char CMD_NAME[] PROGMEM = "commandName";
-
 ...
-
-Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
-  // do something
-})
 ```
 
 ### Arguments
@@ -63,26 +49,11 @@ You can create a new argument by:
 Arg* myArg = new OptArg("name", "world");
 ```
 
-To save RAM, the same argument classes exist with progmem strings instead of regular strings.  
-
-| Class Name |
-| ---------- |
-| AnonymOptArg_P |
-| AnonymReqArg_P |
-| EmptyArg_P |
-| OptArg_P |
-| ReqArg_P |
-| TemplateOptArg_P |
-| TemplateReqArg_P |
-
 You can create a new progmem argument by:  
 ```
 const char ARG_NAME[] PROGMEM = "name";
 const char ARG_VALUE[] PROGMEM = "world";
-
 ...
-
-Arg* myArg = new OptArg_P(ARG_NAME, ARG_VALUE);
 ```
 
 ### Templates
