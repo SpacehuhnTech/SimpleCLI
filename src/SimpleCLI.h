@@ -11,8 +11,6 @@
 #include "Commands/EmptyCmd.h"
 #include "Commands/SingleArgCmd.h"
 
-#include "Commands/SingleArgCmd_P.h"
-
 namespace simpleCLI {
     class SimpleCLI {
         public:
@@ -35,8 +33,6 @@ namespace simpleCLI {
             void addCmd(BoundlessCmd* newCmd);
             void addCmd(EmptyCmd* newCmd);
             void addCmd(SingleArgCmd* newCmd);
-
-            void addCmd(SingleArgCmd_P* newCmd);
 
             void setCaseSensetive();
 

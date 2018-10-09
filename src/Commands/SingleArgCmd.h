@@ -7,7 +7,6 @@ namespace simpleCLI {
     class SingleArgCmd : public Cmd {
         public:
             SingleArgCmd(const char* name, void(*runFnct)(Cmd*));
-            SingleArgCmd(String name, void(*runFnct)(Cmd*));
             ~SingleArgCmd();
 
             String getName();
@@ -32,8 +31,9 @@ namespace simpleCLI {
             String toString();
 
         private:
-            char* name  = NULL;
-            char* value = NULL;
+            const char* name = NULL;
+            char* value      = NULL;
     };
 }
-#endif // ifndef SingleArgCmd_h
+
+#endif // ifndef SingleArgCmd

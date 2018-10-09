@@ -1,30 +1,15 @@
 #include "SingleArgCmd.h"
 
 namespace simpleCLI {
-    SingleArgCmd::SingleArgCmd(const char* name, void (*runFnct)(Cmd*)) {
+    SingleArgCmd::SingleArgCmd(const char* name, void(*runFnct)(Cmd*)) {
         SingleArgCmd::runFnct = runFnct;
 
-        if (name) {
-            int strLen = strlen(name);
-            SingleArgCmd::name = new char[strLen + 1];
-            strcpy(SingleArgCmd::name, name);
-            SingleArgCmd::name[strLen] = '\0';
-        }
-        reset();
-    }
+        SingleArgCmd::name = name;
 
-    SingleArgCmd::SingleArgCmd(String name, void (*runFnct)(Cmd*)) {
-        SingleArgCmd::runFnct = runFnct;
-
-        int strLen = name.length() + 1;
-        SingleArgCmd::name = new char[strLen];
-        name.toCharArray(SingleArgCmd::name, strLen);
         reset();
     }
 
     SingleArgCmd::~SingleArgCmd() {
-        if (name) delete name;
-
         if (value) delete value;
 
         if (next) delete next;
