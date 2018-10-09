@@ -32,7 +32,7 @@ namespace simplecli {
                 tmpTemplate[strLen] = '\0';
             }
 
-            index = simpleCLI::equals(value.c_str(), tmpTemplate);
+            index = simplecli::equals(value.c_str(), tmpTemplate);
 
             if (index >= 0) {
                 if (this->value) delete this->value;

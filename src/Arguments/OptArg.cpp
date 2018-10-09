@@ -39,7 +39,7 @@ namespace simplecli {
         strcpy_P(tmpKeyword, this->name);
         tmpKeyword[strLen] = '\0';
 
-        return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
+        return simplecli::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool OptArg::equals(String name) {
@@ -50,7 +50,7 @@ namespace simplecli {
         strcpy_P(tmpKeyword, this->name);
         tmpKeyword[strLen] = '\0';
 
-        return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
+        return simplecli::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void OptArg::setValue(String value) {

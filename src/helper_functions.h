@@ -15,7 +15,7 @@ namespace simplecli {
         // when same length, it there is no need to check for slashes or commas
         if (lenStr == lenKeyword) {
             for (int i = 0; i < lenKeyword; i++) {
-                if (simpleCLI::caseSensetive) {
+                if (simplecli::caseSensetive) {
                     if (str[i] != keyword[i]) return -1;
                 } else {
                     if (tolower(str[i]) != tolower(keyword[i])) return -1;
@@ -44,7 +44,7 @@ namespace simplecli {
             }
 
             // compare character
-            if (simpleCLI::caseSensetive) {
+            if (simplecli::caseSensetive) {
                 if (str[a] != keyword[b]) result = false;
             } else {
                 if (tolower(str[a]) != tolower(keyword[b])) result = false;
