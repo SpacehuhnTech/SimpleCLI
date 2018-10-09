@@ -46,20 +46,23 @@ Cmd* myCommand = new Command("commandName", [](Cmd* myCommand){
 You can create a new progmem command by:  
 ```
 const char CMD_NAME[] PROGMEM = "commandName";
-...
+
+Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
+  // do something
+})
 ```
 
 ### Arguments
 
-| Class Name | Constructor | Info | Example |
-| ---------- | ----------- | ---- | ----------- |
-| AnonymOptArg | (const char* defaultValue) | [Optional] Has no name, but a default value. | `echo`, `echo something` |
-| AnonymReqArg | (void) | [Required] Has no name. Value must be given by the user. | `rm somefile` |
-| EmptyArg | (const char* name, const char* defaultValue) | [Optional] Doesn't take any value. Can either be set or not. | `ls`, `ls -a` |
-| OptArg | (const char* name, const char* defaultValue) | [Optional] Has a default value. |  `ping`, `ping -s 2048` |
-| ReqArg | (const char* name) | [Required] Value must be given by the user. | `myScript.sh -o output.txt` |
-| TemplateOptArg | (const char* template) | [Optional] Can take different names, the first name is the default one. Has no value. | `scan`, `scan aps`, `scan stations` |
-| TemplateReqArg | (const char* template) | [Required] Can take different names. Has no value. | `remove aps`, `remove stations` |
+| Class Name | Constructor | Mode | Info | Example |
+| ---------- | ----------- |----- | ---- | ----------- |
+| AnonymOptArg | (const char* defaultValue) | Optional | Has no name, but a default value. | `echo`, `echo something` |
+| AnonymReqArg | (void) | Required | Has no name. Value must be given by the user. | `rm somefile` |
+| EmptyArg | (const char* name, const char* defaultValue) | Optional | Doesn't take any value. Can either be set or not. | `ls`, `ls -a` |
+| OptArg | (const char* name, const char* defaultValue) | Optional | Has a default value. |  `ping`, `ping -s 2048` |
+| ReqArg | (const char* name) | Required | Value must be given by the user. | `myScript.sh -o output.txt` |
+| TemplateOptArg | (const char* template) | Optional | Can take different names, the first name is the default one. Has no value. | `scan`, `scan aps`, `scan stations` |
+| TemplateReqArg | (const char* template) | Required | Can take different names. Has no value. | `remove aps`, `remove stations` |
 
 You can create a new argument by:  
 ```
@@ -70,7 +73,8 @@ You can create a new progmem argument by:
 ```
 const char ARG_NAME[] PROGMEM = "name";
 const char ARG_VALUE[] PROGMEM = "world";
-...
+
+Arg* myArg = new OptArg(ARG_NAME, ARG_VALUE);
 ```
 
 ### Templates
