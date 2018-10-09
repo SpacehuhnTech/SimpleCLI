@@ -7,7 +7,6 @@ namespace simpleCLI {
     class EmptyArg : public Arg {
         public:
             EmptyArg(const char* name);
-            EmptyArg(String name);
             ~EmptyArg();
 
             bool equals(const char* name);
@@ -19,7 +18,7 @@ namespace simpleCLI {
             String toString();
 
         private:
-            char* name = NULL;
+            const char* name = NULL;
     };
 }
 #endif // ifndef EmptyArg_h

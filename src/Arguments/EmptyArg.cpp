@@ -2,27 +2,12 @@
 
 namespace simpleCLI {
     EmptyArg::EmptyArg(const char* name) {
-        if (name) {
-            int strLen = strlen(name);
-            EmptyArg::name = new char[strLen + 1];
-            strcpy(EmptyArg::name, name);
-            EmptyArg::name[strLen] = '\0';
-        }
+        EmptyArg::name = name;
 
-        reset();
-    }
-
-    EmptyArg::EmptyArg(String name) {
-        int strLen = name.length() + 1;
-
-        EmptyArg::name = new char[strLen];
-        name.toCharArray(EmptyArg::name, strLen);
         reset();
     }
 
     EmptyArg::~EmptyArg() {
-        if (name) delete name;
-
         if (next) delete next;
     }
 
@@ -33,11 +18,29 @@ namespace simpleCLI {
 
         if (name == EmptyArg::name) return true;
 
-        return simpleCLI::equals(name, EmptyArg::name) >= 0;
+        int strLen;
+        strLen = strlen_P(name);
+        char tmpName[strLen + 1];
+        strcpy_P(tmpName, name);
+        tmpName[strLen] = '\0';
+
+        strLen = strlen_P(EmptyArg::name);
+        char tmpKeyword[strLen + 1];
+        strcpy_P(tmpKeyword, EmptyArg::name);
+        tmpKeyword[strLen] = '\0';
+
+        return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool EmptyArg::equals(String name) {
-        return simpleCLI::equals(name.c_str(), EmptyArg::name) >= 0;
+        if (!EmptyArg::name) return false;
+
+        int  strLen = strlen_P(EmptyArg::name);
+        char tmpKeyword[strLen + 1];
+        strcpy_P(tmpKeyword, EmptyArg::name);
+        tmpKeyword[strLen] = '\0';
+
+        return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void EmptyArg::setValue() {

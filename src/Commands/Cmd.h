@@ -15,7 +15,6 @@
 
 #include "Arguments/OptArg_P.h"
 #include "Arguments/ReqArg_P.h"
-#include "Arguments/EmptyArg_P.h"
 #include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg_P.h"
 
