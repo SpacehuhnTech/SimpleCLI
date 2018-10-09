@@ -199,10 +199,6 @@ namespace simpleCLI {
         addCmd(static_cast<Cmd*>(newCmd));
     }
 
-    void SimpleCLI::addCmd(Command_P* newCmd) {
-        addCmd(static_cast<Cmd*>(newCmd));
-    }
-
     void SimpleCLI::addCmd(EmptyCmd_P* newCmd) {
         addCmd(static_cast<Cmd*>(newCmd));
     }

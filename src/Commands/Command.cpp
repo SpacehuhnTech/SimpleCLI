@@ -4,29 +4,12 @@ namespace simpleCLI {
     Command::Command(const char* name, void(*runFnct)(Cmd*)) {
         Command::runFnct = runFnct;
 
-        if (name) {
-            int strLen = strlen(name);
-            Command::name = new char[strLen + 1];
-            strcpy(Command::name, name);
-            Command::name[strLen] = '\0';
-        }
-        reset();
-    }
-
-    Command::Command(String name, void(*runFnct)(Cmd*)) {
-        Command::runFnct = runFnct;
-
-        int strLen = name.length() + 1;
-        Command::name = new char[strLen];
-
-        name.toCharArray(Command::name, strLen);
+        Command::name = name;
 
         reset();
     }
 
     Command::~Command() {
-        if (name) delete name;
-
         if (firstArg) delete firstArg;
 
         if (next) delete next;

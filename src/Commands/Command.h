@@ -7,7 +7,6 @@ namespace simpleCLI {
     class Command : public Cmd {
         public:
             Command(const char* name, void(*runFnct)(Cmd*));
-            Command(String name, void(*runFnct)(Cmd*));
             ~Command();
 
             String getName();
@@ -41,10 +40,10 @@ namespace simpleCLI {
             String toString();
 
         private:
-            char* name    = NULL;
-            int args      = 0;
-            Arg* firstArg = NULL;
-            Arg* lastArg  = NULL;
+            const char* name = NULL;
+            int args         = 0;
+            Arg* firstArg    = NULL;
+            Arg* lastArg     = NULL;
     };
 }
 #endif // ifndef Command_h
