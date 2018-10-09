@@ -6,7 +6,7 @@
 namespace simpleCLI {
     class EmptyCmd : public Cmd {
         public:
-            EmptyCmd(const char* name, void(*runFnct)(Cmd*));
+            EmptyCmd(const char* name, CmdRunFunction);
             ~EmptyCmd();
 
             String getName();

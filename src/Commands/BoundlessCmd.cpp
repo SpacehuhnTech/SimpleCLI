@@ -1,10 +1,9 @@
 #include "BoundlessCmd.h"
 
 namespace simpleCLI {
-    BoundlessCmd::BoundlessCmd(const char* name, void(*runFnct)(Cmd*)) {
-        BoundlessCmd::runFnct = runFnct;
-
-        BoundlessCmd::name = name;
+    BoundlessCmd::BoundlessCmd(const char* name, CmdRunFunction) {
+        this->runFnct = runFnct;
+        this->name    = name;
 
         reset();
     }

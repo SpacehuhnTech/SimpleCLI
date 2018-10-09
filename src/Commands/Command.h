@@ -6,7 +6,7 @@
 namespace simpleCLI {
     class Command : public Cmd {
         public:
-            Command(const char* name, void(*runFnct)(Cmd*));
+            Command(const char* name, CmdRunFunction);
             ~Command();
 
             String getName();

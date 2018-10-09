@@ -1,10 +1,9 @@
 #include "SingleArgCmd.h"
 
 namespace simpleCLI {
-    SingleArgCmd::SingleArgCmd(const char* name, void(*runFnct)(Cmd*)) {
-        SingleArgCmd::runFnct = runFnct;
-
-        SingleArgCmd::name = name;
+    SingleArgCmd::SingleArgCmd(const char* name, CmdRunFunction) {
+        this->runFnct = runFnct;
+        this->name    = name;
 
         reset();
     }

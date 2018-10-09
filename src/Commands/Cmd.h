@@ -13,6 +13,11 @@
 #include "Arguments/TemplateReqArg.h"
 #include "Arguments/TemplateOptArg.h"
 
+#include <functional>
+#define CmdRunFunction std::function<void(Cmd* cmd)>runFnct
+
+// #define CmdRunFunction void (* runFnct)(Cmd*)
+
 namespace simpleCLI {
     class Cmd {
         public:
@@ -42,12 +47,15 @@ namespace simpleCLI {
             virtual String toString() = 0;
 
             virtual inline bool run(Cmd* cmd) {
-                if (runFnct) runFnct(cmd);
-                return runFnct;
+                if (runFnct) {
+                    runFnct(cmd);
+                    return true;
+                }
+                return false;
             }
 
         protected:
-            void (* runFnct)(Cmd*) = NULL;
+            CmdRunFunction = NULL;
     };
 }
 

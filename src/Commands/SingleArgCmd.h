@@ -6,7 +6,7 @@
 namespace simpleCLI {
     class SingleArgCmd : public Cmd {
         public:
-            SingleArgCmd(const char* name, void(*runFnct)(Cmd*));
+            SingleArgCmd(const char* name, CmdRunFunction);
             ~SingleArgCmd();
 
             String getName();

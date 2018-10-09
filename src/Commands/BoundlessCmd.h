@@ -6,7 +6,7 @@
 namespace simpleCLI {
     class BoundlessCmd : public Cmd {
         public:
-            BoundlessCmd(const char* name, void(*runFnct)(Cmd*));
+            BoundlessCmd(const char* name, CmdRunFunction);
             ~BoundlessCmd();
 
             String getName();
