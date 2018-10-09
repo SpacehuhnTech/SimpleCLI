@@ -2,13 +2,13 @@
 
 namespace simpleCLI {
     AnonymOptArg::AnonymOptArg() {
-        AnonymOptArg::defaultValue = NULL;
+        this->defaultValue = NULL;
 
         reset();
     }
 
     AnonymOptArg::AnonymOptArg(const char* defaultValue) {
-        AnonymOptArg::defaultValue = defaultValue;
+        this->defaultValue = defaultValue;
 
         reset();
     }
@@ -29,11 +29,11 @@ namespace simpleCLI {
 
     void AnonymOptArg::setValue(String value) {
         if (value.length() > 0) {
-            if (AnonymOptArg::value) delete AnonymOptArg::value;
+            if (this->value) delete this->value;
 
             int strLen = value.length() + 1;
-            AnonymOptArg::value = new char[strLen];
-            value.toCharArray(AnonymOptArg::value, strLen);
+            this->value = new char[strLen];
+            value.toCharArray(this->value, strLen);
 
             set = true;
         }

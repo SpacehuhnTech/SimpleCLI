@@ -2,7 +2,7 @@
 
 namespace simpleCLI {
     TemplateReqArg::TemplateReqArg(const char* _template) {
-        TemplateReqArg::_template = _template;
+        this->_template = _template;
 
         reset();
     }
@@ -35,11 +35,11 @@ namespace simpleCLI {
             index = simpleCLI::equals(value.c_str(), tmpTemplate);
 
             if (index >= 0) {
-                if (TemplateReqArg::value) delete TemplateReqArg::value;
+                if (this->value) delete this->value;
 
                 int strLen = value.length() + 1;
-                TemplateReqArg::value = new char[strLen];
-                value.toCharArray(TemplateReqArg::value, strLen);
+                this->value = new char[strLen];
+                value.toCharArray(this->value, strLen);
 
                 set = true;
             }

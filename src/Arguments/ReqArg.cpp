@@ -2,7 +2,7 @@
 
 namespace simpleCLI {
     ReqArg::ReqArg(const char* name) {
-        ReqArg::name = name;
+        this->name = name;
     }
 
     ReqArg::~ReqArg() {
@@ -26,18 +26,18 @@ namespace simpleCLI {
 
         strLen = strlen_P(ReqArg::name);
         char tmpKeyword[strLen + 1];
-        strcpy_P(tmpKeyword, ReqArg::name);
+        strcpy_P(tmpKeyword, this->name);
         tmpKeyword[strLen] = '\0';
 
         return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool ReqArg::equals(String name) {
-        if (!ReqArg::name) return false;
+        if (!this->name) return false;
 
         int  strLen = strlen_P(ReqArg::name);
         char tmpKeyword[strLen + 1];
-        strcpy_P(tmpKeyword, ReqArg::name);
+        strcpy_P(tmpKeyword, this->name);
         tmpKeyword[strLen] = '\0';
 
         return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
@@ -45,11 +45,11 @@ namespace simpleCLI {
 
     void ReqArg::setValue(String value) {
         if (value.length() > 0) {
-            if (ReqArg::value) delete ReqArg::value;
+            if (this->value) delete this->value;
 
             int strLen = value.length() + 1;
-            ReqArg::value = new char[strLen];
-            value.toCharArray(ReqArg::value, strLen);
+            this->value = new char[strLen];
+            value.toCharArray(this->value, strLen);
 
             set = true;
         }

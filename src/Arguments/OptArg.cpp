@@ -2,15 +2,15 @@
 
 namespace simpleCLI {
     OptArg::OptArg(const char* name) {
-        OptArg::name         = name;
-        OptArg::defaultValue = NULL;
+        this->name         = name;
+        this->defaultValue = NULL;
 
         reset();
     }
 
     OptArg::OptArg(const char* name, const char* defaultValue) {
-        OptArg::name         = name;
-        OptArg::defaultValue = defaultValue;
+        this->name         = name;
+        this->defaultValue = defaultValue;
 
         reset();
     }
@@ -24,9 +24,9 @@ namespace simpleCLI {
     bool OptArg::equals(const char* name) {
         if (!name) return false;
 
-        if (!OptArg::name) return false;
+        if (!this->name) return false;
 
-        if (name == OptArg::name) return true;
+        if (name == this->name) return true;
 
         int strLen;
         strLen = strlen_P(name);
@@ -36,18 +36,18 @@ namespace simpleCLI {
 
         strLen = strlen_P(OptArg::name);
         char tmpKeyword[strLen + 1];
-        strcpy_P(tmpKeyword, OptArg::name);
+        strcpy_P(tmpKeyword, this->name);
         tmpKeyword[strLen] = '\0';
 
         return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool OptArg::equals(String name) {
-        if (!OptArg::name) return false;
+        if (!this->name) return false;
 
-        int  strLen = strlen_P(OptArg::name);
+        int  strLen = strlen_P(this->name);
         char tmpKeyword[strLen + 1];
-        strcpy_P(tmpKeyword, OptArg::name);
+        strcpy_P(tmpKeyword, this->name);
         tmpKeyword[strLen] = '\0';
 
         return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
@@ -55,11 +55,11 @@ namespace simpleCLI {
 
     void OptArg::setValue(String value) {
         if (value.length() > 0) {
-            if (OptArg::value) delete OptArg::value;
+            if (this->value) delete this->value;
 
             int strLen = value.length() + 1;
-            OptArg::value = new char[strLen];
-            value.toCharArray(OptArg::value, strLen);
+            this->value = new char[strLen];
+            value.toCharArray(this->value, strLen);
 
             set = true;
         }

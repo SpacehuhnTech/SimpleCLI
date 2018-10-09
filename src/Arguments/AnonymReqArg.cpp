@@ -21,11 +21,11 @@ namespace simpleCLI {
 
     void AnonymReqArg::setValue(String value) {
         if (value.length() > 0) {
-            if (AnonymReqArg::value) delete AnonymReqArg::value;
+            if (this->value) delete this->value;
 
             int strLen = value.length() + 1;
-            AnonymReqArg::value = new char[strLen];
-            value.toCharArray(AnonymReqArg::value, strLen);
+            this->value = new char[strLen];
+            value.toCharArray(this->value, strLen);
 
             set = true;
         }
