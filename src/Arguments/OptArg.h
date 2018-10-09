@@ -8,7 +8,6 @@ namespace simpleCLI {
         public:
             OptArg(const char* name);
             OptArg(const char* name, const char* defaultValue);
-            OptArg(String name, String defaultValue);
             ~OptArg();
 
             bool equals(const char* name);
@@ -22,9 +21,10 @@ namespace simpleCLI {
             String toString();
 
         private:
-            char* name         = NULL;
-            char* defaultValue = NULL;
-            char* value        = NULL;
+            const char* name         = NULL;
+            const char* defaultValue = NULL;
+            char* value              = NULL;
     };
 }
+
 #endif // ifndef OptArg_h

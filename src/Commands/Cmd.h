@@ -13,7 +13,6 @@
 #include "Arguments/TemplateReqArg.h"
 #include "Arguments/TemplateOptArg.h"
 
-#include "Arguments/OptArg_P.h"
 #include "Arguments/ReqArg_P.h"
 #include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg_P.h"

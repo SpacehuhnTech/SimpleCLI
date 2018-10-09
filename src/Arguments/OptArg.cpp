@@ -2,53 +2,20 @@
 
 namespace simpleCLI {
     OptArg::OptArg(const char* name) {
-        if (name) {
-            int strLen = strlen(name);
-            OptArg::name = new char[strLen + 1];
-            strcpy(OptArg::name, name);
-            OptArg::name[strLen] = '\0';
-        }
+        OptArg::name         = name;
+        OptArg::defaultValue = NULL;
 
         reset();
     }
 
     OptArg::OptArg(const char* name, const char* defaultValue) {
-        if (name) {
-            int strLen = strlen(name);
-            OptArg::name = new char[strLen + 1];
-            strcpy(OptArg::name, name);
-            OptArg::name[strLen] = '\0';
-        }
-
-        if (defaultValue) {
-            int strLen = strlen(defaultValue);
-            OptArg::defaultValue = new char[strLen + 1];
-            strcpy(OptArg::defaultValue, defaultValue);
-            OptArg::defaultValue[strLen] = '\0';
-        }
-
-        reset();
-    }
-
-    OptArg::OptArg(String name, String defaultValue) {
-        int strLen;
-
-        strLen       = name.length() + 1;
-        OptArg::name = new char[strLen];
-        name.toCharArray(OptArg::name, strLen);
-
-        strLen               = defaultValue.length() + 1;
-        OptArg::defaultValue = new char[strLen];
-        defaultValue.toCharArray(OptArg::defaultValue, strLen);
+        OptArg::name         = name;
+        OptArg::defaultValue = defaultValue;
 
         reset();
     }
 
     OptArg::~OptArg() {
-        if (name) delete name;
-
-        if (defaultValue) delete defaultValue;
-
         if (value) delete value;
 
         if (next) delete next;
@@ -61,11 +28,29 @@ namespace simpleCLI {
 
         if (name == OptArg::name) return true;
 
-        return simpleCLI::equals(name, OptArg::name) >= 0;
+        int strLen;
+        strLen = strlen_P(name);
+        char tmpName[strLen + 1];
+        strcpy_P(tmpName, name);
+        tmpName[strLen] = '\0';
+
+        strLen = strlen_P(OptArg::name);
+        char tmpKeyword[strLen + 1];
+        strcpy_P(tmpKeyword, OptArg::name);
+        tmpKeyword[strLen] = '\0';
+
+        return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool OptArg::equals(String name) {
-        return simpleCLI::equals(name.c_str(), OptArg::name) >= 0;
+        if (!OptArg::name) return false;
+
+        int  strLen = strlen_P(OptArg::name);
+        char tmpKeyword[strLen + 1];
+        strcpy_P(tmpKeyword, OptArg::name);
+        tmpKeyword[strLen] = '\0';
+
+        return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void OptArg::setValue(String value) {
@@ -87,9 +72,9 @@ namespace simpleCLI {
         }
 
         if (defaultValue) {
-            int strLen = strlen(defaultValue);
+            int strLen = strlen_P(defaultValue);
             value = new char[strLen + 1];
-            strcpy(value, defaultValue);
+            strcpy_P(value, defaultValue);
             value[strLen] = '\0';
         }
 
@@ -109,7 +94,14 @@ namespace simpleCLI {
     }
 
     String OptArg::getDefaultValue() {
-        return defaultValue ? String(defaultValue) : String();
+        if (!defaultValue) return String();
+
+        int  strLen = strlen_P(defaultValue);
+        char tmpName[strLen + 1];
+        strcpy_P(tmpName, defaultValue);
+        tmpName[strLen] = '\0';
+
+        return String(tmpName);
     }
 
     String OptArg::toString() {

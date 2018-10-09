@@ -76,7 +76,7 @@ namespace simpleCLI {
 
             // add argument to list
             if ((argName.charAt(0) == '-') && (argName.length() > 1)) {
-                Arg* tmpArg = new OptArg(argName.substring(1), String());
+                Arg* tmpArg = new OptArg(argName.substring(1).c_str());
 
                 if (lastArg) lastArg->next = tmpArg;
                 else firstArg = tmpArg;
@@ -88,7 +88,7 @@ namespace simpleCLI {
                 bool set = lastArg ? lastArg->isSet() : true;
 
                 if (set) {
-                    Arg* tmpArg = new OptArg(String(), String());
+                    Arg* tmpArg = new OptArg(NULL);
 
                     if (lastArg) lastArg->next = tmpArg;
                     else firstArg = tmpArg;
