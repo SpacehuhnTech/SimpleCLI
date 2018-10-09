@@ -46,13 +46,7 @@ namespace simpleCLI {
 
             virtual String toString() = 0;
 
-            virtual inline bool run(Cmd* cmd) {
-                if (runFnct) {
-                    runFnct(cmd);
-                    return true;
-                }
-                return false;
-            }
+            virtual bool run(Cmd* cmd);
 
         protected:
             CmdRunFunction = NULL;

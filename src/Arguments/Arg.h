@@ -14,25 +14,16 @@ namespace simpleCLI {
             virtual void setValue(String value)   = 0;
             virtual bool equals(String name)      = 0;
             virtual bool equals(const char* name) = 0;
-            virtual bool isRequired() = 0;
+            virtual bool isRequired()             = 0;
 
             virtual String toString() = 0;
 
-            virtual void reset() {
-                set = false;
-            }
+            virtual void reset();
 
-            virtual String getName() {
-                return String();
-            }
+            virtual String getName();
+            virtual String getValue();
 
-            virtual String getValue() {
-                return String();
-            }
-
-            bool isSet() {
-                return set;
-            }
+            virtual bool isSet();
 
         protected:
             bool set = false;

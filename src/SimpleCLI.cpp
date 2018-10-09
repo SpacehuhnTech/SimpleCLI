@@ -200,7 +200,7 @@ namespace simpleCLI {
     }
 
     void SimpleCLI::setCaseSensetive() {
-        this->caseSensetive = true;
+        caseSensetive = true;
     }
 
     String SimpleCLI::toString() {
