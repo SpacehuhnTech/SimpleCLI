@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class TemplateOptArg : public Arg {
         public:
             TemplateOptArg(const char* _template);

@@ -1,6 +1,6 @@
 #include "OptArg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     OptArg::OptArg(const char* name) {
         this->name         = name;
         this->defaultValue = NULL;

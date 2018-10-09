@@ -1,6 +1,6 @@
 #include "TemplateReqArg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     TemplateReqArg::TemplateReqArg(const char* _template) {
         this->_template = _template;
 

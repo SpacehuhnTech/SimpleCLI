@@ -1,6 +1,6 @@
 #include "EmptyCmd.h"
 
-namespace simpleCLI {
+namespace simplecli {
     EmptyCmd::EmptyCmd(const char* name, CmdRunFunction) {
         this->runFnct = runFnct;
         this->name    = name;

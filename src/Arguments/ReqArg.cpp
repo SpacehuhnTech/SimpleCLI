@@ -1,6 +1,6 @@
 #include "ReqArg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     ReqArg::ReqArg(const char* name) {
         this->name = name;
     }

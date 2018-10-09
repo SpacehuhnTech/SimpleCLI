@@ -18,7 +18,7 @@
 
 // #define CmdRunFunction void (* runFnct)(Cmd*)
 
-namespace simpleCLI {
+namespace simplecli {
     class Cmd {
         public:
             Cmd* next = NULL;

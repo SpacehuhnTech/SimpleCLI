@@ -11,7 +11,7 @@
 #include "Commands/EmptyCmd.h"
 #include "Commands/SingleArgCmd.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class SimpleCLI {
         public:
             void (* onNotFound)(String cmdName) = NULL;

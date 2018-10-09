@@ -1,6 +1,6 @@
 #include "AnonymReqArg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     AnonymReqArg::AnonymReqArg() {
         reset();
     }

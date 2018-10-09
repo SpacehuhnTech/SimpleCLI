@@ -3,7 +3,7 @@
 
 #include "Cmd.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class BoundlessCmd : public Cmd {
         public:
             BoundlessCmd(const char* name, CmdRunFunction);

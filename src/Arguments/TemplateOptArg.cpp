@@ -1,6 +1,6 @@
 #include "TemplateOptArg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     TemplateOptArg::TemplateOptArg(const char* _template) {
         this->_template = _template;
 

@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class AnonymReqArg : public Arg {
         public:
             AnonymReqArg();

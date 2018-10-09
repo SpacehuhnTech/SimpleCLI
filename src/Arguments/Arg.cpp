@@ -1,6 +1,6 @@
 #include "Arg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     void Arg::reset() {
         set = false;
     }

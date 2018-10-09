@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "helper_functions.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class Arg {
         public:
             Arg* next = NULL;

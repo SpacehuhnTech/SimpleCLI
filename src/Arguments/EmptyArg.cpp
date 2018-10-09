@@ -1,6 +1,6 @@
 #include "EmptyArg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     EmptyArg::EmptyArg(const char* name) {
         this->name = name;
 

@@ -1,6 +1,6 @@
 #include "SimpleCLI.h"
 
-namespace simpleCLI {
+namespace simplecli {
     SimpleCLI::SimpleCLI() {}
 
     SimpleCLI::~SimpleCLI() {

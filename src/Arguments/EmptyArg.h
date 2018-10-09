@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class EmptyArg : public Arg {
         public:
             EmptyArg(const char* name);

@@ -1,6 +1,6 @@
 #include "Command.h"
 
-namespace simpleCLI {
+namespace simplecli {
     Command::Command(const char* name, CmdRunFunction) {
         this->runFnct = runFnct;
         this->name    = name;

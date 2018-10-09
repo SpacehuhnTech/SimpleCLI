@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class AnonymOptArg : public Arg {
         public:
             AnonymOptArg();

@@ -3,7 +3,7 @@
 
 #include "Cmd.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class Command : public Cmd {
         public:
             Command(const char* name, CmdRunFunction);

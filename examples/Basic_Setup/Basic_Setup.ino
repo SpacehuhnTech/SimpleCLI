@@ -1,7 +1,7 @@
 
 // Include library
 #include "SimpleCLI.h"
-using namespace simpleCLI;
+using namespace simplecli;
 
 // create an instance of it
 SimpleCLI* cli;

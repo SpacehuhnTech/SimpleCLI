@@ -3,7 +3,7 @@
 
 #include "Arg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class ReqArg : public Arg {
         public:
             ReqArg(const char* name);

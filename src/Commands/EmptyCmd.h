@@ -3,7 +3,7 @@
 
 #include "Cmd.h"
 
-namespace simpleCLI {
+namespace simplecli {
     class EmptyCmd : public Cmd {
         public:
             EmptyCmd(const char* name, CmdRunFunction);

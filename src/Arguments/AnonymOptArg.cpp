@@ -1,6 +1,6 @@
 #include "AnonymOptArg.h"
 
-namespace simpleCLI {
+namespace simplecli {
     AnonymOptArg::AnonymOptArg() {
         this->defaultValue = NULL;
 

@@ -1,6 +1,6 @@
 #include "BoundlessCmd.h"
 
-namespace simpleCLI {
+namespace simplecli {
     BoundlessCmd::BoundlessCmd(const char* name, CmdRunFunction) {
         this->runFnct = runFnct;
         this->name    = name;

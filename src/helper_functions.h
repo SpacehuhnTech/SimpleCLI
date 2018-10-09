@@ -1,7 +1,7 @@
 #ifndef helper_functions_h
 #define helper_functions_h
 
-namespace simpleCLI {
+namespace simplecli {
     static bool caseSensetive = false;
 
     inline int equals(const char* str, const char* keyword) {

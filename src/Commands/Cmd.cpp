@@ -1,6 +1,6 @@
 #include "Cmd.h"
 
-namespace simpleCLI {
+namespace simplecli {
     bool Cmd::run(Cmd* cmd) {
         if (runFnct) {
             runFnct(cmd);

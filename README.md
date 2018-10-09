@@ -6,9 +6,26 @@ This library goal is to make it easy to add custom commands, with arguments and 
 Because there are multiple ways of how can define the syntax of each command, there are different types of commands and arguments provided by this library.  
 
 **Please use it carefully, I'm still testing some functions and I'm sure I haven't found all the bugs yet!**  
-The documentation is also not finished yet.
+The documentation is not finished yet.
 
 **See the [Examples](https://github.com/spacehuhn/Arduino_CLI/tree/master/examples/) on how to use the different Commands and Arguments.** (not finished yet)  
+
+## Installation
+
+1) [Download](https://github.com/spacehuhn/SimpleCLI/archive/master.zip) the source code from GitHub.  
+2) Unzip and rename the Folder name to "SimpleCLI".  
+3) Paste it in your Library folder (Usually located somewhere at documents/Arduino/libraries).  
+4) Restart the Arduino IDE.  
+
+### Include & namespace
+
+To make use of the library in your Arduino sketch, you have to include it:  
+
+```
+#include <SimpleCLI.h>
+
+using namespace simplecli;
+```
 
 ### Commands
 
