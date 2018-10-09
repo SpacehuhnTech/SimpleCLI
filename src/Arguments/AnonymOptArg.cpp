@@ -2,39 +2,25 @@
 
 namespace simpleCLI {
     AnonymOptArg::AnonymOptArg() {
+        AnonymOptArg::defaultValue = NULL;
+
         reset();
     }
 
     AnonymOptArg::AnonymOptArg(const char* defaultValue) {
-        if (defaultValue) {
-            int strLen = strlen(defaultValue);
-            AnonymOptArg::defaultValue = new char[strLen + 1];
-            strcpy(AnonymOptArg::defaultValue, defaultValue);
-            AnonymOptArg::defaultValue[strLen] = '\0';
-        }
-
-        reset();
-    }
-
-    AnonymOptArg::AnonymOptArg(String defaultValue) {
-        int strLen = defaultValue.length() + 1;
-
-        AnonymOptArg::defaultValue = new char[strLen];
-        defaultValue.toCharArray(AnonymOptArg::defaultValue, strLen);
+        AnonymOptArg::defaultValue = defaultValue;
 
         reset();
     }
 
     AnonymOptArg::~AnonymOptArg() {
-        if (defaultValue) delete defaultValue;
-
         if (value) delete value;
 
         if (next) delete next;
     }
 
     bool AnonymOptArg::equals(const char* name) {
-        return strlen(name) == 0;
+        return strlen_P(name) == 0;
     }
 
     bool AnonymOptArg::equals(String name) {
@@ -60,9 +46,9 @@ namespace simpleCLI {
         }
 
         if (defaultValue) {
-            int strLen = strlen(defaultValue);
+            int strLen = strlen_P(defaultValue);
             value = new char[strLen + 1];
-            strcpy(value, defaultValue);
+            strcpy_P(value, defaultValue);
             value[strLen] = '\0';
         }
 
@@ -78,7 +64,14 @@ namespace simpleCLI {
     }
 
     String AnonymOptArg::getDefaultValue() {
-        return defaultValue ? String(defaultValue) : String();
+        if (!defaultValue) return String();
+
+        int  strLen = strlen_P(defaultValue);
+        char tmpName[strLen + 1];
+        strcpy_P(tmpName, defaultValue);
+        tmpName[strLen] = '\0';
+
+        return String(tmpName);
     }
 
     String AnonymOptArg::toString() {

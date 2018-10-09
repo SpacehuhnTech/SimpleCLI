@@ -1,10 +1,11 @@
 #include "Command_P.h"
 
 namespace simpleCLI {
-    Command_P::Command_P(const char* name, void (*runFnct)(Cmd*)) {
+    Command_P::Command_P(const char* name, void(*runFnct)(Cmd*)) {
         Command_P::runFnct = runFnct;
 
         Command_P::name = name;
+
         reset();
     }
 
@@ -171,10 +172,6 @@ namespace simpleCLI {
     }
 
     void Command_P::addArg(EmptyArg_P* newArg) {
-        addArg(static_cast<Arg*>(newArg));
-    }
-
-    void Command_P::addArg(AnonymOptArg_P* newArg) {
         addArg(static_cast<Arg*>(newArg));
     }
 

@@ -16,7 +16,6 @@
 #include "Arguments/OptArg_P.h"
 #include "Arguments/ReqArg_P.h"
 #include "Arguments/EmptyArg_P.h"
-#include "Arguments/AnonymOptArg_P.h"
 #include "Arguments/TemplateReqArg_P.h"
 #include "Arguments/TemplateOptArg_P.h"
 
@@ -27,10 +26,10 @@ namespace simpleCLI {
 
             virtual ~Cmd() = default;
 
-            virtual String getName() = 0;
-            virtual void   reset()   = 0;
+            virtual String getName()                              = 0;
+            virtual void   reset()                                = 0;
             virtual bool   parse(String argName, String argValue) = 0;
-            virtual int    argNum() = 0;
+            virtual int    argNum()                               = 0;
 
             virtual Arg* getArg(int i)            = 0;
             virtual Arg* getArg(const char* name) = 0;
@@ -54,7 +53,7 @@ namespace simpleCLI {
             }
 
         protected:
-            void (*runFnct)(Cmd*) = NULL;
+            void (* runFnct)(Cmd*) = NULL;
     };
 }
 

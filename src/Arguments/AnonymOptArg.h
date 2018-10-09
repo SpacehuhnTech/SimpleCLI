@@ -8,21 +8,20 @@ namespace simpleCLI {
         public:
             AnonymOptArg();
             AnonymOptArg(const char* defaultValue);
-            AnonymOptArg(String defaultValue);
             ~AnonymOptArg();
 
-            bool equals(const char* name);
-            bool equals(String name);
-            void setValue(String value);
-            void reset();
+            bool   equals(const char* name);
+            bool   equals(String name);
+            void   setValue(String value);
+            void   reset();
             String getValue();
-            bool isRequired();
+            bool   isRequired();
             String getDefaultValue();
             String toString();
 
         private:
-            char* value        = NULL;
-            char* defaultValue = NULL;
+            char* value              = NULL;
+            const char* defaultValue = NULL;
     };
 }
-#endif // ifndef AnonymOptArg_h
+#endif /* ifndef AnonymOptArg_h */

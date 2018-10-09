@@ -1,7 +1,7 @@
 #include "Command.h"
 
 namespace simpleCLI {
-    Command::Command(const char* name, void (*runFnct)(Cmd*)) {
+    Command::Command(const char* name, void(*runFnct)(Cmd*)) {
         Command::runFnct = runFnct;
 
         if (name) {
@@ -13,11 +13,12 @@ namespace simpleCLI {
         reset();
     }
 
-    Command::Command(String name, void (*runFnct)(Cmd*)) {
+    Command::Command(String name, void(*runFnct)(Cmd*)) {
         Command::runFnct = runFnct;
 
         int strLen = name.length() + 1;
         Command::name = new char[strLen];
+
         name.toCharArray(Command::name, strLen);
 
         reset();
@@ -188,10 +189,6 @@ namespace simpleCLI {
     }
 
     void Command::addArg(EmptyArg_P* newArg) {
-        addArg(static_cast<Arg*>(newArg));
-    }
-
-    void Command::addArg(AnonymOptArg_P* newArg) {
         addArg(static_cast<Arg*>(newArg));
     }
 

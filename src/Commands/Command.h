@@ -39,7 +39,6 @@ namespace simpleCLI {
             void addArg(ReqArg_P* newArg);
             void addArg(OptArg_P* newArg);
             void addArg(EmptyArg_P* newArg);
-            void addArg(AnonymOptArg_P* newArg);
             void addArg(TemplateReqArg_P* newArg);
             void addArg(TemplateOptArg_P* newArg);
 
