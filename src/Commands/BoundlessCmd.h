@@ -7,7 +7,6 @@ namespace simpleCLI {
     class BoundlessCmd : public Cmd {
         public:
             BoundlessCmd(const char* name, void(*runFnct)(Cmd*));
-            BoundlessCmd(String name, void(*runFnct)(Cmd*));
             ~BoundlessCmd();
 
             String getName();
@@ -32,10 +31,11 @@ namespace simpleCLI {
             String toString();
 
         private:
-            char* name    = NULL;
-            int args      = 0;
-            Arg* firstArg = NULL;
-            Arg* lastArg  = NULL;
+            const char* name = NULL;
+            int args         = 0;
+            Arg* firstArg    = NULL;
+            Arg* lastArg     = NULL;
     };
 }
+
 #endif // ifndef BoundlessCmd_h

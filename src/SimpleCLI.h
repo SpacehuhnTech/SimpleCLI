@@ -11,7 +11,6 @@
 #include "Commands/EmptyCmd.h"
 #include "Commands/SingleArgCmd.h"
 
-#include "Commands/BoundlessCmd_P.h"
 #include "Commands/Command_P.h"
 #include "Commands/EmptyCmd_P.h"
 #include "Commands/SingleArgCmd_P.h"
@@ -40,7 +39,6 @@ namespace simpleCLI {
             void addCmd(SingleArgCmd* newCmd);
 
             void addCmd(Command_P* newCmd);
-            void addCmd(BoundlessCmd_P* newCmd);
             void addCmd(EmptyCmd_P* newCmd);
             void addCmd(SingleArgCmd_P* newCmd);
 

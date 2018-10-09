@@ -1,30 +1,15 @@
 #include "BoundlessCmd.h"
 
 namespace simpleCLI {
-    BoundlessCmd::BoundlessCmd(const char* name, void (*runFnct)(Cmd*)) {
+    BoundlessCmd::BoundlessCmd(const char* name, void(*runFnct)(Cmd*)) {
         BoundlessCmd::runFnct = runFnct;
 
-        if (name) {
-            int strLen = strlen(name);
-            BoundlessCmd::name = new char[strLen + 1];
-            strcpy(BoundlessCmd::name, name);
-            BoundlessCmd::name[strLen] = '\0';
-        }
-        reset();
-    }
+        BoundlessCmd::name = name;
 
-    BoundlessCmd::BoundlessCmd(String name, void (*runFnct)(Cmd*)) {
-        BoundlessCmd::runFnct = runFnct;
-
-        int strLen = name.length() + 1;
-        BoundlessCmd::name = new char[strLen];
-        name.toCharArray(BoundlessCmd::name, strLen);
         reset();
     }
 
     BoundlessCmd::~BoundlessCmd() {
-        if (name) delete name;
-
         if (firstArg) delete firstArg;
 
         if (next) delete next;
