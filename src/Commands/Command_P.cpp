@@ -163,10 +163,6 @@ namespace simpleCLI {
         return true;
     }
 
-    void Command_P::addArg(ReqArg_P* newArg) {
-        addArg(static_cast<Arg*>(newArg));
-    }
-
     void Command_P::addArg(TemplateReqArg_P* newArg) {
         addArg(static_cast<Arg*>(newArg));
     }

@@ -180,10 +180,6 @@ namespace simpleCLI {
         return true;
     }
 
-    void Command::addArg(ReqArg_P* newArg) {
-        addArg(static_cast<Arg*>(newArg));
-    }
-
     void Command::addArg(TemplateReqArg_P* newArg) {
         addArg(static_cast<Arg*>(newArg));
     }

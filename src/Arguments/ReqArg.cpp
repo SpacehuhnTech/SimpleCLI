@@ -2,29 +2,10 @@
 
 namespace simpleCLI {
     ReqArg::ReqArg(const char* name) {
-        // copy name
-        if (name) {
-            int strLen = strlen(name);
-            ReqArg::name = new char[strLen + 1];
-            strcpy(ReqArg::name, name);
-            ReqArg::name[strLen] = '\0';
-        }
-
-        reset();
-    }
-
-    ReqArg::ReqArg(String name) {
-        int strLen = name.length() + 1;
-
-        ReqArg::name = new char[strLen];
-        name.toCharArray(ReqArg::name, strLen);
-
-        reset();
+        ReqArg::name = name;
     }
 
     ReqArg::~ReqArg() {
-        if (name) delete name;
-
         if (value) delete value;
 
         if (next) delete next;
@@ -37,11 +18,29 @@ namespace simpleCLI {
 
         if (name == ReqArg::name) return true;
 
-        return simpleCLI::equals(name, ReqArg::name) >= 0;
+        int strLen;
+        strLen = strlen_P(name);
+        char tmpName[strLen + 1];
+        strcpy_P(tmpName, name);
+        tmpName[strLen] = '\0';
+
+        strLen = strlen_P(ReqArg::name);
+        char tmpKeyword[strLen + 1];
+        strcpy_P(tmpKeyword, ReqArg::name);
+        tmpKeyword[strLen] = '\0';
+
+        return simpleCLI::equals(tmpName, tmpKeyword) >= 0;
     }
 
     bool ReqArg::equals(String name) {
-        return simpleCLI::equals(name.c_str(), ReqArg::name) >= 0;
+        if (!ReqArg::name) return false;
+
+        int  strLen = strlen_P(ReqArg::name);
+        char tmpKeyword[strLen + 1];
+        strcpy_P(tmpKeyword, ReqArg::name);
+        tmpKeyword[strLen] = '\0';
+
+        return simpleCLI::equals(name.c_str(), tmpKeyword) >= 0;
     }
 
     void ReqArg::setValue(String value) {
