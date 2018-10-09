@@ -36,8 +36,6 @@ namespace simpleCLI {
             void addArg(TemplateReqArg* newArg);
             void addArg(TemplateOptArg* newArg);
 
-            void addArg(TemplateReqArg_P* newArg);
-
             bool isSet();
 
             String toString();

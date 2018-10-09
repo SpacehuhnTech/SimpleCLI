@@ -2,34 +2,19 @@
 
 namespace simpleCLI {
     TemplateReqArg::TemplateReqArg(const char* _template) {
-        if (_template) {
-            int strLen = strlen(_template);
-            TemplateReqArg::_template = new char[strLen + 1];
-            strcpy(TemplateReqArg::_template, _template);
-            TemplateReqArg::_template[strLen] = '\0';
-        }
-        reset();
-    }
-
-    TemplateReqArg::TemplateReqArg(String _template) {
-        int strLen = _template.length() + 1;
-
-        TemplateReqArg::_template = new char[strLen];
-        _template.toCharArray(TemplateReqArg::_template, strLen);
+        TemplateReqArg::_template = _template;
 
         reset();
     }
 
     TemplateReqArg::~TemplateReqArg() {
-        if (_template) delete _template;
-
         if (value) delete value;
 
         if (next) delete next;
     }
 
     bool TemplateReqArg::equals(const char* name) {
-        return strlen(name) == 0;
+        return strlen_P(name) == 0;
     }
 
     bool TemplateReqArg::equals(String name) {
@@ -38,7 +23,16 @@ namespace simpleCLI {
 
     void TemplateReqArg::setValue(String value) {
         if (value.length() > 0) {
-            index = simpleCLI::equals(value.c_str(), _template);
+            char* tmpTemplate = NULL;
+
+            if (_template) {
+                int strLen = strlen_P(_template);
+                tmpTemplate = new char[strLen + 1];
+                strcpy_P(tmpTemplate, _template);
+                tmpTemplate[strLen] = '\0';
+            }
+
+            index = simpleCLI::equals(value.c_str(), tmpTemplate);
 
             if (index >= 0) {
                 if (TemplateReqArg::value) delete TemplateReqArg::value;
@@ -49,6 +43,8 @@ namespace simpleCLI {
 
                 set = true;
             }
+
+            delete tmpTemplate;
         }
     }
 

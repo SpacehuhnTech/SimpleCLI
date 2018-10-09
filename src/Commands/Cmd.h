@@ -13,8 +13,6 @@
 #include "Arguments/TemplateReqArg.h"
 #include "Arguments/TemplateOptArg.h"
 
-#include "Arguments/TemplateReqArg_P.h"
-
 namespace simpleCLI {
     class Cmd {
         public:
