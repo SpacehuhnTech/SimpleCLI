@@ -3,10 +3,9 @@ Control your Arduino devices with custom commands without much hassle!
 
 ## About
 This library goal is to make it easy to add custom commands, with arguments and all that sweet stuff, to your Arduino projects!  
-Because there are multiple ways of how can define the syntax of each command, there are different types of commands and arguments provided by this library.  
+Because there are multiple ways of how you can define the syntax of each command, there are different types of commands and arguments provided by this library.  
 
-**Please use it carefully, I'm still testing some functions and I'm sure I haven't found all the bugs yet!**  
-The documentation is not finished yet.
+Please note that the library is written for the ESP8266 and ESP32. Other platforms might not work without modifications.  
 
 **See the [Examples](https://github.com/spacehuhn/Arduino_CLI/tree/master/examples/) on how to use the different Commands and Arguments.** (not finished yet)  
 
@@ -36,18 +35,18 @@ using namespace simplecli;
 | BoundlessCmd | Saves user input after command name into a list of arguments. | When it doesn't matter what the user types after the command name, but you need it as a list of arguments. |
 | SingleArgCmd | Saves user input after command name into a single of argument value. | When it doesn't matter what the user types after the command name, but you need it as one string. |
 
-You can create a new command by:  
+Create a new command:  
 ```
 Cmd* myCommand = new Command("commandName", [](Cmd* myCommand){
   // do something
 })
 ```
 
-You can create a new progmem command by:  
+Create a new command using progmem strings:  
 ```
 const char CMD_NAME[] PROGMEM = "commandName";
 
-Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
+Cmd* myCommand = new Command(CMD_NAME, [](Cmd* myCommand){
   // do something
 })
 ```
@@ -64,12 +63,12 @@ Cmd* myCommand = new Command_P(CMD_NAME, [](Cmd* myCommand){
 | TemplateOptArg | (const char* template) | Optional | Can take different names, the first name is the default one. Has no value. | `scan`, `scan aps`, `scan stations` |
 | TemplateReqArg | (const char* template) | Required | Can take different names. Has no value. | `remove aps`, `remove stations` |
 
-You can create a new argument by:  
+Create an argument:  
 ```
 Arg* myArg = new OptArg("name", "world");
 ```
 
-You can create a new progmem argument by:  
+Create an argument using progmeme strings:  
 ```
 const char ARG_NAME[] PROGMEM = "name";
 const char ARG_VALUE[] PROGMEM = "world";
@@ -80,13 +79,13 @@ Arg* myArg = new OptArg(ARG_NAME, ARG_VALUE);
 ### Templates
 
 With a little trick, this library enables you to give a command or argument multiple names.  
-- A comma `,` separates multiple names.  
-- The `/` declares everything after it as optional (until the next comma, or the end of the string).  
+- A comma (`,`) separates multiple names.  
+- A forward slash (`/`) declares that everything after it is optional (until the next comma, or the end of the string).  
 
-You can also combine those together.  
+You can combine them together.  
 
-**This means you can not use `,` and `/` inside a command or argument name!**  
-These characters will always be interpreted as a separator!  
+**This means a command or argument name should not use `,` and `/` as a part of the regular name!**  
+These characters will always be interpreted as a separator.  
 
 Here are some examples:  
 
