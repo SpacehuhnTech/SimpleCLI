@@ -7,7 +7,6 @@ namespace simpleCLI {
     class TemplateOptArg : public Arg {
         public:
             TemplateOptArg(const char* _template);
-            TemplateOptArg(String _template);
             ~TemplateOptArg();
 
             bool equals(const char* name);
@@ -20,9 +19,9 @@ namespace simpleCLI {
             String toString();
 
         private:
-            char* value     = NULL;
-            char* _template = NULL;
-            int index       = -1;
+            char* value           = NULL;
+            const char* _template = NULL;
+            int index             = -1;
     };
 }
 #endif // ifndef TemplateOptArg_h

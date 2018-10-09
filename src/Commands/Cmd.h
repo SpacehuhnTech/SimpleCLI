@@ -14,7 +14,6 @@
 #include "Arguments/TemplateOptArg.h"
 
 #include "Arguments/TemplateReqArg_P.h"
-#include "Arguments/TemplateOptArg_P.h"
 
 namespace simpleCLI {
     class Cmd {

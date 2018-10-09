@@ -36,7 +36,6 @@ namespace simpleCLI {
             void addArg(TemplateOptArg* newArg);
 
             void addArg(TemplateReqArg_P* newArg);
-            void addArg(TemplateOptArg_P* newArg);
 
             bool isSet();
 

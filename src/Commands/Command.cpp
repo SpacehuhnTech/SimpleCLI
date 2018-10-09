@@ -184,10 +184,6 @@ namespace simpleCLI {
         addArg(static_cast<Arg*>(newArg));
     }
 
-    void Command::addArg(TemplateOptArg_P* newArg) {
-        addArg(static_cast<Arg*>(newArg));
-    }
-
     String Command::toString() {
         String s;
 
