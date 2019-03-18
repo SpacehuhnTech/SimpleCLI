@@ -1,270 +1,263 @@
+/*
+   Copyright (c) 2019 Stefan Kremser
+   This software is licensed under the MIT License. See the license file for details.
+   Source: github.com/spacehuhn/SimpleCLI
+ */
+
 #include "SimpleCLI.h"
 
-namespace simplecli {
-    SimpleCLI::SimpleCLI() {}
+extern "C" {
+#include "c/cmd.h"       // cmd
+#include "c/parser.h"    // parse_lines
+#include "c/cmd_error.h" // cmd_error_destroy
+}
 
-    SimpleCLI::~SimpleCLI() {
-        delete firstCmd;
-    }
+SimpleCLI::SimpleCLI(int commandQueueSize, int errorQueueSize) : commandQueueSize(commandQueueSize), errorQueueSize(errorQueueSize) {}
 
-    void SimpleCLI::parse(String input) {
-        if (input.length() > 0) parseLines(input);
-    }
+SimpleCLI::~SimpleCLI() {
+    cmd_destroy_rec(cmdList);
+    cmd_destroy_rec(cmdQueue);
+    cmd_error_destroy_rec(errorQueue);
+}
 
-    void SimpleCLI::parseLines(String& input) {
-        int strLen = input.length();
+void SimpleCLI::parse(String& input) {
+    parse(input.c_str(), input.length());
+}
 
-        if (strLen == 0) return;
+void SimpleCLI::parse(const char* input) {
+    if (input) parse(input, input.length());
+}
 
-        char c;
+void SimpleCLI::parse(const char* str, size_t len) {
+    // Split str into a list of lines
+    line_list* l = parse_lines(str, len);
 
-        String line;
+    // Go through all lines and try to find a matching command
+    line_node* n = l->first;
 
-        for (int i = 0; i < strLen; i++) {
-            c = input.charAt(i);
+    while (n) {
+        cmd* h       = cmdList;
+        bool success = false;
+        bool errored = false;
 
-            if ((c == ';') && (input.charAt(i + 1) == ';')) {
-                parseLine(line);
-                i++;
-                line = String();
-            } else if ((c == '\n') || (c == '\r')) {
-                parseLine(line);
-                line = String();
-            } else {
-                line += c;
-            }
-        }
+        while (h && !success && !errored) {
+            cmd_error* e = cmd_parse(h, n);
 
-        parseLine(line);
-    }
+            // When parsing was successful
+            if (e->mode == CMD_PARSE_SUCCESS) {
+                if (h->callback) h->callback(h);
+                else cmdQueue = cmd_push(cmdQueue, cmd_move(h), commandQueueSize);
 
-    void SimpleCLI::parseLine(String& input) {
-        int strLen = input.length();
-
-        if (strLen == 0) return;
-
-        String cmdName = readCmdName(input);
-
-        // search for command with given name
-        Cmd* cmd = getNextCmd(firstCmd, cmdName);
-
-        // when no command found, quick exit
-        if (!cmd) {
-            if (onNotFound) onNotFound(cmdName);
-            return;
-        }
-
-        // check for SingleArgCmd's
-        if (cmd->argNum() == -1) {
-            cmd->parse(String(), input);
-            cmd->run(cmd);
-            cmd->reset();
-            return;
-        }
-
-        // get arguments
-        String argName;
-        Arg  * firstArg = NULL;
-        Arg  * lastArg  = NULL;
-
-        while (input.length() > 0) {
-            // read argument from string
-            argName = getNextArg(input);
-
-            // when empty, continue
-            if (argName.length() == 0) continue;
-
-            // add argument to list
-            if ((argName.charAt(0) == '-') && (argName.length() > 1)) {
-                Arg* tmpArg = new OptArg(argName.substring(1).c_str());
-
-                if (lastArg) lastArg->next = tmpArg;
-                else firstArg = tmpArg;
-                lastArg = tmpArg;
+                success = true;
             }
 
-            // add value to argument
+            // When command name matches but something else went wrong, exit with error
+            else if (e->mode > CMD_NOT_FOUND) {
+                if (onError) onError(e);
+                else errorQueue = cmd_error_push(errorQueue, e, errorQueueSize);
+
+                errored = true;
+            }
+
+            // When command name does not match
             else {
-                bool set = lastArg ? lastArg->isSet() : true;
-
-                if (set) {
-                    Arg* tmpArg = new OptArg(NULL);
-
-                    if (lastArg) lastArg->next = tmpArg;
-                    else firstArg = tmpArg;
-                    lastArg = tmpArg;
-                    tmpArg->setValue(argName);
-                } else {
-                    lastArg->setValue(argName);
-                }
+                cmd_error_destroy(e);
             }
+
+            cmd_reset(h);
+            h = h->next;
         }
 
-        /*
-           Arg *h = firstArg;
+        // No error but no success either => Command could not be found
+        if (!errored && !success) {
+            cmd_error* e = cmd_error_create_not_found(NULL, n->words->first);
 
-           while (h) {
-            Serial.println("\"" + h->getName() + "\":\"" + h->getValue() +
-               "\"");
-            h = h->next;
-           }
-         */
+            if (onError) onError(e);
+            else errorQueue = cmd_error_push(errorQueue, e, errorQueueSize);
 
-        bool found = false;
-
-        do {
-            Arg* hArg = firstArg;
-
-            while (hArg) {
-                cmd->parse(hArg->getName(), hArg->getValue());
-                hArg = hArg->next;
-            }
-
-            if (cmd->isSet()) {
-                cmd->run(cmd);
-                found = true;
-            }
-            cmd->reset();
-
-            cmd = getNextCmd(cmd->next, cmdName);
-        } while (!found && cmd);
-
-        delete firstArg;
-
-        if (!found && onNotFound) onNotFound(cmdName);
-    }
-
-    Cmd* SimpleCLI::getCmd(int i) {
-        Cmd* h = firstCmd;
-        int  j = 0;
-
-        while (h && j < i) {
-            h = h->next;
-            j++;
+            errored = true;
         }
-        return h;
+
+        n = n->next;
     }
 
-    Cmd* SimpleCLI::getCmd(String cmdName) {
-        return getNextCmd(firstCmd, cmdName);
+    line_list_destroy(l);
+}
+
+bool SimpleCLI::available() const {
+    return cmdQueue;
+}
+
+bool SimpleCLI::errored() const {
+    return errorQueue;
+}
+
+int SimpleCLI::countCmdQueue() const {
+    cmd* h = cmdQueue;
+    int  i = 0;
+
+    while (h) {
+        h = h->next;
+        ++i;
     }
 
-    Cmd* SimpleCLI::getNextCmd(Cmd* begin, String cmdName) {
-        Cmd* h = begin;
+    return i;
+}
+
+int SimpleCLI::countErrorQueue() const {
+    cmd_error* h = errorQueue;
+    int i        = 0;
+
+    while (h) {
+        h = h->next;
+        ++i;
+    }
+
+    return i;
+}
+
+Command SimpleCLI::getCmd() {
+    if (!cmdQueue) return Command();
+
+    // "Pop" cmd pointer from queue
+    cmd* ptr = cmdQueue;
+
+    cmdQueue = cmdQueue->next;
+
+    // Create wrapper class and copy cmd
+    Command c(ptr, COMMAND_TEMPORARY);
+
+    // Destroy old cmd from queue
+    cmd_destroy(ptr);
+
+    return c;
+}
+
+Command SimpleCLI::getCmd(String name) {
+    return getCmd(name.c_str());
+}
+
+Command SimpleCLI::getCmd(const char* name) {
+    if (name) {
+        cmd* h = cmdList;
 
         while (h) {
-            if (equals(cmdName.c_str(), h->getName().c_str()) >= 0) return h;
-
+            if (cmd_name_equals(h, name, strlen(name), h->case_sensetive) == CMD_NAME_EQUALS) return Command(h);
             h = h->next;
         }
-        return h;
+    }
+    return Command();
+}
+
+Command SimpleCLI::getCommand() {
+    return getCmd();
+}
+
+Command SimpleCLI::getCommand(String name) {
+    return getCmd(name);
+}
+
+Command SimpleCLI::getCommand(const char* name) {
+    return getCmd(name);
+}
+
+CommandError SimpleCLI::getError() {
+    if (!errorQueue) return CommandError();
+
+    // "Pop" cmd_error pointer from queue
+    cmd_error* ptr = errorQueue;
+    errorQueue = errorQueue->next;
+
+    // Create wrapper class and copy cmd_error
+    CommandError e(ptr, COMMAND_ERROR_TEMPORARY);
+
+    // Destroy old cmd_error from queue
+    cmd_error_destroy(ptr);
+
+    return e;
+}
+
+void SimpleCLI::addCmd(Command& c) {
+    if (!cmdList) {
+        cmdList = c.cmdPointer;
+    } else {
+        cmd* h = cmdList;
+
+        while (h->next) h = h->next;
+        h->next = c.cmdPointer;
     }
 
-    Cmd* SimpleCLI::getCmd(const char* cmdName) {
-        return getNextCmd(firstCmd, cmdName);
+    c.setCaseSensetive(caseSensetive);
+    c.persistent = true;
+}
+
+Command SimpleCLI::addCmd(const char* name, void (* callback)(cmd* c)) {
+    Command c(cmd_create_default(name));
+
+    c.setCallback(callback);
+    addCmd(c);
+
+    return c;
+}
+
+Command SimpleCLI::addBoundlessCmd(const char* name, void (* callback)(cmd* c)) {
+    Command c(cmd_create_boundless(name));
+
+    c.setCallback(callback);
+    addCmd(c);
+
+    return c;
+}
+
+Command SimpleCLI::addSingleArgCmd(const char* name, void (* callback)(cmd* c)) {
+    Command c(cmd_create_single(name));
+
+    c.setCallback(callback);
+    addCmd(c);
+
+    return c;
+}
+
+Command SimpleCLI::addCommand(const char* name, void (* callback)(cmd* c)) {
+    return addCmd(name, callback);
+}
+
+Command SimpleCLI::addBoundlessCommand(const char* name, void (* callback)(cmd* c)) {
+    return addBoundlessCmd(name, callback);
+}
+
+Command SimpleCLI::addSingleArgumentCommand(const char* name, void (* callback)(cmd* c)) {
+    return addSingleArgCmd(name, callback);
+}
+
+String SimpleCLI::toString() const {
+    String s;
+
+    toString(s);
+    return s;
+}
+
+void SimpleCLI::toString(String& s) const {
+    cmd* h = cmdList;
+
+    while (h) {
+        Command(h).toString(s);
+        s += '\n';
+        h  = h->next;
     }
+}
 
-    Cmd* SimpleCLI::getNextCmd(Cmd* begin, const char* cmdName) {
-        Cmd* h = begin;
+void SimpleCLI::setCaseSensetive(bool caseSensetive) {
+    this->caseSensetive = caseSensetive;
 
-        while (h) {
-            if (equals(cmdName, h->getName().c_str()) >= 0) return h;
+    cmd* h = cmdList;
 
-            h = h->next;
-        }
-        return h;
+    while (h) {
+        h->case_sensetive = caseSensetive;
+        h                 = h->next;
     }
+}
 
-    void SimpleCLI::addCmd(Cmd* newCmd) {
-        if (lastCmd) lastCmd->next = newCmd;
-
-        if (!firstCmd) firstCmd = newCmd;
-        lastCmd = newCmd;
-        cmdNum++;
-    }
-
-    void SimpleCLI::addCmd(Command* newCmd) {
-        addCmd(static_cast<Cmd*>(newCmd));
-    }
-
-    void SimpleCLI::addCmd(BoundlessCmd* newCmd) {
-        addCmd(static_cast<Cmd*>(newCmd));
-    }
-
-    void SimpleCLI::addCmd(EmptyCmd* newCmd) {
-        addCmd(static_cast<Cmd*>(newCmd));
-    }
-
-    void SimpleCLI::addCmd(SingleArgCmd* newCmd) {
-        addCmd(static_cast<Cmd*>(newCmd));
-    }
-
-    void SimpleCLI::setCaseSensetive() {
-        caseSensetive = true;
-    }
-
-    String SimpleCLI::toString() {
-        String s;
-        Cmd  * h = firstCmd;
-
-        while (h != NULL) {
-            s += h->toString();
-            s += '\r';
-            s += '\n';
-            h  = h->next;
-        }
-
-        return s;
-    }
-
-    String SimpleCLI::readCmdName(String& input) {
-        char   c;
-        String cmdName;
-
-        while (input.length() > 0 && c != ' ') {
-            c = input.charAt(0);
-            input.remove(0, 1);
-
-            if (c != ' ') cmdName += c;
-        }
-
-        return cmdName;
-    }
-
-    String SimpleCLI::getNextArg(String& input) {
-        String arg;
-        char   c;
-        bool   escaped  = false;
-        bool   inQuotes = false;
-
-        while (input.length() > 0) {
-            c = input.charAt(0);
-            input.remove(0, 1);
-
-            // escape character BACKSLASH
-            if (c == '\\') {
-                escaped = !escaped;
-
-                if (escaped) continue;
-            }
-
-            // Quotes
-            else if ((c == '"') && !escaped) {
-                inQuotes = !inQuotes;
-                continue;
-            }
-
-            if (!escaped && !inQuotes && ((c == ' ') || (c == '\r') || (c == '\n'))) {
-                return arg;
-            }
-
-            // add chars to temp-string
-            else {
-                arg    += c;
-                escaped = false;
-            }
-        }
-
-        return arg;
-    }
+void SimpleCLI::setOnError(void (* onError)(cmd_error* e)) {
+    this->onError = onError;
 }
