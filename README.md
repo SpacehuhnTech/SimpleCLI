@@ -77,7 +77,7 @@ SimpleCLI cli;
 SimpleCLI cli(COMMAND_QUEUE_SIZE, ERROR_QUEUE_SIZE);
 ```
 
-COMMAND_QUEUE_SIZE and ERROR_QUEUE_SIZE are set to 10 commands and 10 errors by default.  
+`COMMAND_QUEUE_SIZE` and `ERROR_QUEUE_SIZE` are `int`s set to 10 commands and 10 errors by default.  
 The oldest command or error will be deleted automatically if the queue gets full.  
 You can most likely ignore the queue sizes, as those are just a safety mechanism and won't be important for most use cases.  
 
