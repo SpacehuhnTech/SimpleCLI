@@ -1,6 +1,17 @@
 # SimpleCLI
-**A Command Line Interface Library for Arduino**  
-Add commands to your project the easy way.  
+
+<p align="center"><img alt="SimpleCLI Logo" src="img/simplecli.gif" width="150"></p>
+
+<p align="center">
+<b>A Command Line Interface Library for Arduino!</b><br>
+Add commands to your project without hassle.<br><br>
+<br>🐦 <a href="https://twitter.com/spacehuhn">Twitter</a>
+| 📺 <a href="https://www.youtube.com/spacehuhn">YouTube</a>
+| 🌍 <a href="https://spacehuhn.com">spacehuhn.com</a><br>
+<br>
+Support this project and become a patron on <a href="https://patreon.com/spacehuhn">patreon.com/spacehuhn</a>.<br>
+Also available: <a href="https://www.tindie.com/products/Spacehuhn/spacehuhn-stickers/">Stickers</a></b>!
+</p>
 
 ![Cowsay command example](img/cowsay.gif)  
 
