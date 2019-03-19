@@ -25,7 +25,7 @@ void SimpleCLI::parse(String& input) {
 }
 
 void SimpleCLI::parse(const char* input) {
-    if (input) parse(input, input.length());
+    if (input) parse(input, strlen(input));
 }
 
 void SimpleCLI::parse(const char* str, size_t len) {
