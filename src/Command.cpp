@@ -195,7 +195,7 @@ Argument Command::getArgument(int i) const {
 }
 
 Argument Command::getArgument(const char* name) const {
-    if (!cmdPointer) return Argument();
+    if (!cmdPointer || !name) return Argument();
 
     arg* h = cmdPointer->arg_list;
     int  j = 0;
@@ -213,6 +213,10 @@ Argument Command::getArgument(String name) const {
     return getArgument(name.c_str());
 }
 
+Argument Command::getArgument(const Argument& a) const {
+    return getArgument(a.argPointer ? a.argPointer->name : NULL);
+}
+
 Argument Command::getArg(int i) const {
     return getArgument(i);
 }
@@ -223,6 +227,10 @@ Argument Command::getArg(const char* name) const {
 
 Argument Command::getArg(String name) const {
     return getArgument(name);
+}
+
+Argument Command::getArg(const Argument& a) const {
+    return getArgument(a);
 }
 
 String Command::toString() const {

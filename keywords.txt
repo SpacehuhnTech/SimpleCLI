@@ -36,6 +36,21 @@ toString	KEYWORD2
 setCaseSensetive	KEYWORD2
 setOnError	KEYWORD2
 
+# CommandError
+CommandError	KEYWORD2
+hasCommand	KEYWORD2
+hasArgument	KEYWORD2
+hasData	KEYWORD2
+hasCmd	KEYWORD2
+hasArg	KEYWORD2
+getType	KEYWORD2
+getArgument	KEYWORD2
+getData	KEYWORD2
+getMessage	KEYWORD2
+getCmd	KEYWORD2
+getArg	KEYWORD2
+getMsg	KEYWORD2
+
 # Command
 setCallback	KEYWORD2
 addArg	KEYWORD2
@@ -46,9 +61,7 @@ addPositionalArgument	KEYWORD2
 addFlagArgument	KEYWORD2
 getName	KEYWORD2
 countArgs	KEYWORD2
-getArgument	KEYWORD2
 getArg	KEYWORD2
-getType	KEYWORD2
 run	KEYWORD2
 
 # Argument
@@ -60,7 +73,6 @@ isReq	KEYWORD2
 isOpt	KEYWORD2
 getName	KEYWORD2
 getValue	KEYWORD2
-getType	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

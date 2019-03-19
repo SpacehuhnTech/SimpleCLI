@@ -65,10 +65,12 @@ class Command {
         Argument getArgument(int i = 0) const;
         Argument getArgument(const char* name) const;
         Argument getArgument(String name) const;
+        Argument getArgument(const Argument& a) const;
 
         Argument getArg(int i = 0) const;
         Argument getArg(const char* name) const;
         Argument getArg(String name) const;
+        Argument getArg(const Argument& a) const;
 
         CommandType getType() const;
 
