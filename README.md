@@ -2,6 +2,8 @@
 **A Command Line Interface Library for Arduino**  
 Add commands to your project the easy way.  
 
+![Cowsay command example](img/cowsay.gif)  
+
 ## Overview
 
 - [About](#about)
@@ -62,6 +64,8 @@ Here's a list of tested hardware (feel free to contribute by making a Pull-Reque
 
 Please check out the [example sketches](https://github.com/spacehuhn/SimpleCLI/tree/master/examples/), it's the quickest way to understand how this library works.  
 The following sections are for reference.  
+
+![Ping with arguments command example](img/ping.gif)  
 
 ### Include Library
 
