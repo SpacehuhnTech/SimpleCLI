@@ -71,6 +71,8 @@ Here's a list of tested hardware (feel free to contribute by making a Pull-Reque
 
 ## Usage
 
+[![SimpleCLI YouTube Tutorial](https://img.youtube.com/vi/UyW-wICdnKo/0.jpg)](https://www.youtube.com/watch?v=UyW-wICdnKo) 
+
 ### Examples
 
 Please check out the [example sketches](https://github.com/spacehuhn/SimpleCLI/tree/master/examples/), it's the quickest way to understand how this library works.  
