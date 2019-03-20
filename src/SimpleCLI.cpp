@@ -261,3 +261,7 @@ void SimpleCLI::setCaseSensetive(bool caseSensetive) {
 void SimpleCLI::setOnError(void (* onError)(cmd_error* e)) {
     this->onError = onError;
 }
+
+void SimpleCLI::setErrorCallback(void (* onError)(cmd_error* e)) {
+    setOnError(onError);
+}

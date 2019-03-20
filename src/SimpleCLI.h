@@ -66,6 +66,7 @@ class SimpleCLI {
 
         void setCaseSensetive(bool caseSensetive = true);
         void setOnError(void (* onError)(cmd_error* e));
+        void setErrorCallback(void (* onError)(cmd_error* e));
 };
 
 #endif // ifndef SimpleCLI_h
