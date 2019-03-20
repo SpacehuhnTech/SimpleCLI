@@ -57,7 +57,7 @@ void setup() {
 
 void loop() {
     if (Serial.available()) {
-        String input = Serial.readString(); // Until('\n');
+        String input = Serial.readStringUntil('\n');
 
         if (input.length() > 0) {
             Serial.print("# ");

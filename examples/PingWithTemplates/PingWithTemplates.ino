@@ -81,10 +81,7 @@ void loop() {
     // Check if user typed something into the serial monitor
     if (Serial.available()) {
         // Read out string from the serial monitor
-        String input = Serial.readString();
-
-        // Faster method, if you set Newline in the serial monitor
-        // String input = Serial.readStringUntil('\n');
+        String input = Serial.readStringUntil('\n');
 
         // Echo the user input
         Serial.print("# ");
