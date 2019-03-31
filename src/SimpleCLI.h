@@ -33,7 +33,7 @@ class SimpleCLI {
         SimpleCLI(int commandQueueSize = 10, int errorQueueSize = 10);
         ~SimpleCLI();
 
-        void parse(String& input);
+        void parse(const String& input);
         void parse(const char* input);
         void parse(const char* input, size_t input_len);
 

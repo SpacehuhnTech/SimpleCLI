@@ -20,7 +20,7 @@ SimpleCLI::~SimpleCLI() {
     cmd_error_destroy_rec(errorQueue);
 }
 
-void SimpleCLI::parse(String& input) {
+void SimpleCLI::parse(const String& input) {
     parse(input.c_str(), input.length());
 }
 
