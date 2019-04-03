@@ -4,12 +4,15 @@
    Soruce: github.com/spacehuhn/SimpleCLI
  */
 
-#include "c/cmd.h"
-
 #include <stdlib.h>       // malloc
 #include <string.h>       // strlen
 
 #include "c/comparator.h" // compare
+
+#include "c/cmd.h"
+
+#include "c/cmd_error.h"
+#include "c/arg.h"
 
 // ===== CMD ===== //
 
@@ -160,7 +163,8 @@ cmd* cmd_add_arg(cmd* c, arg* a) {
 void cmd_reset(cmd* c) {
     if (c) {
         if (c->mode == CMD_BOUNDLESS) {
-            c->arg_list = arg_destroy_rec(c->arg_list);
+            arg_destroy_rec(c->arg_list);
+            c->arg_list = NULL;
         } else {
             arg_reset_rec(c->arg_list);
         }
@@ -202,7 +206,8 @@ cmd_error* cmd_parse(cmd* c, line_node* n) {
     // When command boundless, set all words as anonymous args
     if (c->mode == CMD_BOUNDLESS) {
         // Delete all old args
-        c->arg_list = arg_destroy_rec(c->arg_list);
+        arg_destroy_rec(c->arg_list);
+        c->arg_list = NULL;
 
         // Fill command with an anonymous arg for each word
         word_node* w = first_arg;
@@ -219,7 +224,7 @@ cmd_error* cmd_parse(cmd* c, line_node* n) {
 
     // When command single-arg, set full string as first arg
     if (c->mode == CMD_SINGLE) {
-        if (!c->arg_list) c->arg_list = arg_create_opt_positional(NULL);
+        if (!c->arg_list) c->arg_list = arg_create_opt_positional(NULL, NULL);
         if (wl->size > 1) arg_set_value(c->arg_list, first_arg->str, n->len - cmd_name->len - 1);
         return cmd_error_create_parse_success(c);
     }
@@ -254,7 +259,7 @@ cmd_error* cmd_parse(cmd* c, line_node* n) {
 
             // Default Arg -> value in next word
             case ARG_DEFAULT:
-                if (!nw) return cmd_error_create_missing_arg(c, w);
+                if (!nw) return cmd_error_create_missing_arg(c, a);
                 if (arg_set_value(a, nw->str, nw->len) == ARG_VALUE_FAIL) return cmd_error_create_unclosed_quote(c, a, nw);
                 w  = w->next;
                 nw = w ? w->next : NULL;

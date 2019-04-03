@@ -5,6 +5,8 @@
  */
 
 #include "c/cmd_error.h"
+#include <stdlib.h> // malloc, memcpy
+#include <string.h> // strlen, strcpy
 
 // ===== CMD Parse Error ===== //
 
@@ -123,7 +125,7 @@ cmd_error* cmd_error_push(cmd_error* l, cmd_error* e, int max_size) {
 
     // Remove first element if list is too big
     if (i > max_size) {
-        cmd* ptr = l;
+        cmd_error* ptr = l;
         l = l->next;
         cmd_error_destroy(ptr);
     }

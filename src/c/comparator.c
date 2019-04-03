@@ -4,10 +4,17 @@
    Source: github.com/spacehuhn/SimpleCLI
  */
 
+#include <string.h> // strlen
+
 #include "c/comparator.h"
 
-#include <string.h> // strlen
-#include <ctype.h>  // tolower
+// My own implementation, because the default one in ctype.h make problems on older ESP8266 SDKs
+char to_lower(char c) {
+    if ((c >= 65) && (c <= 90)) {
+        return (char)(c + 32);
+    }
+    return c;
+}
 
 int compare(const char* user_str, size_t user_str_len, const char* templ_str, int case_sensetive) {
     if (user_str == templ_str) return COMPARE_EQUAL;
@@ -25,7 +32,7 @@ int compare(const char* user_str, size_t user_str_len, const char* templ_str, in
             if (case_sensetive == COMPARE_CASE_SENSETIVE) {
                 if (user_str[i] != templ_str[i]) return COMPARE_UNEQUAL;
             } else {
-                if (tolower(user_str[i]) != tolower(templ_str[i])) return COMPARE_UNEQUAL;
+                if (to_lower(user_str[i]) != to_lower(templ_str[i])) return COMPARE_UNEQUAL;
             }
         }
         return COMPARE_EQUAL;
@@ -54,7 +61,7 @@ int compare(const char* user_str, size_t user_str_len, const char* templ_str, in
         if (case_sensetive == COMPARE_CASE_SENSETIVE) {
             if (user_str[a] != templ_str[b]) res = 0;
         } else {
-            if (tolower(user_str[a]) != tolower(templ_str[b])) res = 0;
+            if (to_lower(user_str[a]) != to_lower(templ_str[b])) res = 0;
         }
 
         // comparison incorrect or string checked until the end and templ_str not checked until the end
