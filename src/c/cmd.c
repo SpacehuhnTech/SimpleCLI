@@ -182,7 +182,7 @@ void cmd_reset_rec(cmd* c) {
 int cmd_name_equals(cmd* c, const char* name, size_t name_len, int case_sensetive) {
     if (!c || !name) return CMD_NAME_UNEQUALS;
     if (c->name == name) return CMD_NAME_EQUALS;
-    return compare(name, name_len, c->name, c->case_sensetive) == COMPARE_EQUAL ? CMD_NAME_EQUALS : CMD_NAME_UNEQUALS;
+    return compare(name, name_len, c->name, case_sensetive) == COMPARE_EQUAL ? CMD_NAME_EQUALS : CMD_NAME_UNEQUALS;
 }
 
 int cmd_equals(cmd* a, cmd* b, int case_sensetive) {

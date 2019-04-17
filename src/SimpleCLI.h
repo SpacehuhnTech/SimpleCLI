@@ -9,7 +9,10 @@
 
 #include "CommandError.h" // CommandError, Command, Argument
 
-#define SIMPLECLI_V_1_0_0
+#define SIMPLECLI_VERSION "1.0.2"
+#define SIMPLECLI_VERSION_MAJOR 1
+#define SIMPLECLI_VERSION_MINOR 0
+#define SIMPLECLI_VERSION_REVISION 2
 
 class SimpleCLI {
     private:
