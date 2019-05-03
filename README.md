@@ -15,6 +15,11 @@ Also available: <a href="https://www.tindie.com/products/Spacehuhn/spacehuhn-sti
 
 ![Cowsay command example](img/cowsay.gif)  
 
+## Projects
+A list of projects that make use of this library:  
+- [The Chicken Man Game](https://github.com/skickar/ChickenManGame)
+- [Control ESP32 with Command Line Interface Over the Internet](https://www.hackster.io/donowak/control-esp32-with-command-line-interface-over-the-internet-fa9634)
+
 ## Overview
 
 - [About](#about)
