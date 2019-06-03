@@ -4,8 +4,10 @@
 
 <p align="center">
 <b>A Command Line Interface Library for Arduino!</b><br>
-Add commands to your project without hassle.<br><br>
-<br>🐦 <a href="https://twitter.com/spacehuhn">Twitter</a>
+Add commands to your project without hassle.<br>
+<img alt="Ardu Badge for SimpleCLI Library" src="https://www.ardu-badge.com/badge/SimpleCLI.svg"><br>
+<br>
+  🐦 <a href="https://twitter.com/spacehuhn">Twitter</a>
 | 📺 <a href="https://www.youtube.com/spacehuhn">YouTube</a>
 | 🌍 <a href="https://spacehuhn.com">spacehuhn.com</a><br>
 <br>
