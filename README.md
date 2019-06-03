@@ -6,7 +6,7 @@
 <b>A Command Line Interface Library for Arduino!</b><br>
 Add commands to your project without hassle.<br>
 <br>
-<img alt="Ardu Badge for SimpleCLI Library" src="https://www.ardu-badge.com/badge/SimpleCLI.svg"><br>
+<a href="https://www.ardu-badge.com/SimpleCLI" target="_blank"><img alt="Ardu Badge for SimpleCLI Library" src="https://www.ardu-badge.com/badge/SimpleCLI.svg"></a><br>
 <br>
   🐦 <a href="https://twitter.com/spacehuhn">Twitter</a>
 | 📺 <a href="https://www.youtube.com/spacehuhn">YouTube</a>
