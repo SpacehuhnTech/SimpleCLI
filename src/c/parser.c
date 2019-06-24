@@ -81,15 +81,6 @@ word_node* word_list_get(word_list* l, size_t i) {
 line_node* line_node_create(const char* str, size_t len) {
     line_node* n = (line_node*)malloc(sizeof(line_node));
 
-    while (str[0] == ' ') {
-        ++str;
-        --len;
-    }
-
-    while (str[len-1] == ' ') {
-        --len;
-    }
-
     n->str   = str;
     n->len   = len;
     n->words = NULL;
