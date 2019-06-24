@@ -100,9 +100,9 @@ void loop() {
             Argument a   = c.getArgument("a");
             bool     set = a.isSet();
             if (a.isSet()) {
-                Serial.println("Listing directories");
-            } else {
                 Serial.println("Listing all directories");
+            } else {
+                Serial.println("Listing directories");
             }
         } else if (c == cmdBoundless) {
             Serial.print("Boundless: ");
