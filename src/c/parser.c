@@ -60,7 +60,7 @@ void word_list_push(word_list* l, word_node* n) {
         }
 
         l->last = n;
-        ++l->size;
+        ++(l->size);
     }
 }
 
@@ -133,7 +133,8 @@ void line_list_push(line_list* l, line_node* n) {
         }
 
         l->last = n;
-        ++l->size;
+
+        ++(l->size);
     }
 }
 
@@ -193,7 +194,7 @@ line_list* parse_lines(const char* str, size_t len) {
 
     if (len == 0) return l;
 
-    // Go through string and look for \r and \n to split it into lines
+    // Go through string and look for /r and /n to split it into lines
     line_node* n = NULL;
 
     size_t i = 0; // current index

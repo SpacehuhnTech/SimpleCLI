@@ -48,6 +48,8 @@ void SimpleCLI::parse(const char* str, size_t len) {
                 if (h->callback) h->callback(h);
                 else cmdQueue = cmd_push(cmdQueue, cmd_move(h), commandQueueSize);
 
+                cmd_error_destroy(e);
+
                 success = true;
             }
 
@@ -60,11 +62,12 @@ void SimpleCLI::parse(const char* str, size_t len) {
             }
 
             // When command name does not match
-            else {
+            else /*(e->mode <= CMD_NOT_FOUND)*/ {
                 cmd_error_destroy(e);
             }
 
             cmd_reset(h);
+
             h = h->next;
         }
 
