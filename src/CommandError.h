@@ -7,12 +7,18 @@
 #ifndef CommandError_h
 #define CommandError_h
 
-#include "Arduino.h"             // String
-#include "Command.h"             // Command
+#include "Arduino.h" // String
+#include "Command.h" // Command
 
+#ifdef __cplusplus
 extern "C" {
-  #include "c/cmd_error_types.h" // cmd_error
+#endif // ifdef __cplusplus
+
+#include "c/cmd_error_types.h" // cmd_error
+
+#ifdef __cplusplus
 }
+#endif // ifdef __cplusplus
 
 #define COMMAND_ERROR_TEMPORARY false
 #define COMMAND_ERROR_PERSISTENT true

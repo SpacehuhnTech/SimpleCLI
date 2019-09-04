@@ -6,11 +6,17 @@
 
 #include "SimpleCLI.h"
 
+#ifdef __cplusplus
 extern "C" {
+#endif // ifdef __cplusplus
+
 #include "c/cmd.h"       // cmd
 #include "c/parser.h"    // parse_lines
 #include "c/cmd_error.h" // cmd_error_destroy
+
+#ifdef __cplusplus
 }
+#endif // ifdef __cplusplus
 
 SimpleCLI::SimpleCLI(int commandQueueSize, int errorQueueSize) : commandQueueSize(commandQueueSize), errorQueueSize(errorQueueSize) {}
 

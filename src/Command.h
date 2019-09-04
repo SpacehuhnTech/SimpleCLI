@@ -7,12 +7,18 @@
 #ifndef Command_h
 #define Command_h
 
-#include "Arduino.h"     // String
-#include "Argument.h"    // Argument
+#include "Arduino.h"  // String
+#include "Argument.h" // Argument
 
+#ifdef __cplusplus
 extern "C" {
+#endif // ifdef __cplusplus
+
 #include "c/cmd_types.h" // cmd
+
+#ifdef __cplusplus
 }
+#endif // ifdef __cplusplus
 
 #define COMMAND_TEMPORARY false
 #define COMMAND_PERSISTENT true

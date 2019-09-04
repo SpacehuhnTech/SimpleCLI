@@ -6,10 +6,16 @@
 
 #include "Command.h"
 
+#ifdef __cplusplus
 extern "C" {
+#endif // ifdef __cplusplus
+
 #include "c/cmd.h"
 #include "c/arg.h"
+
+#ifdef __cplusplus
 }
+#endif // ifdef __cplusplus
 
 Command::Command(cmd* cmdPointer, bool persistent) : cmdPointer(cmdPointer), persistent(persistent) {
     if (!persistent) this->cmdPointer = cmd_copy(cmdPointer);

@@ -7,11 +7,17 @@
 #ifndef Argument_h
 #define Argument_h
 
-#include "Arduino.h"     // String
+#include "Arduino.h" // String
 
+#ifdef __cplusplus
 extern "C" {
+#endif // ifdef __cplusplus
+
 #include "c/arg_types.h" // arg
+
+#ifdef __cplusplus
 }
+#endif // ifdef __cplusplus
 
 #define ARGUMENT_TEMPORARY false
 #define ARGUMENT_PERSISTENT true

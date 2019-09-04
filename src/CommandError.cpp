@@ -6,9 +6,15 @@
 
 #include "CommandError.h"
 
+#ifdef __cplusplus
 extern "C" {
-  #include "c/cmd_error.h" // cmd_error_create, cmd_error_destroy
+#endif // ifdef __cplusplus
+
+#include "c/cmd_error.h" // cmd_error_create, cmd_error_destroy
+
+#ifdef __cplusplus
 }
+#endif // ifdef __cplusplus
 
 CommandError::CommandError(cmd_error* errorPointer, bool persistent) : errorPointer(errorPointer), persistent(persistent) {
     if (!persistent) this->errorPointer = cmd_error_copy(errorPointer);
