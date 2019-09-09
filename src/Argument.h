@@ -7,7 +7,7 @@
 #ifndef Argument_h
 #define Argument_h
 
-#include "Arduino.h" // String
+#include "StringCLI.h"
 
 #ifdef __cplusplus
 extern "C" {

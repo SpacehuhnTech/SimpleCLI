@@ -7,7 +7,7 @@
 #ifndef Command_h
 #define Command_h
 
-#include "Arduino.h"  // String
+#include "StringCLI.h"
 #include "Argument.h" // Argument
 
 #ifdef __cplusplus

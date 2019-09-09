@@ -7,7 +7,7 @@
 #ifndef CommandError_h
 #define CommandError_h
 
-#include "Arduino.h" // String
+#include "StringCLI.h"
 #include "Command.h" // Command
 
 #ifdef __cplusplus
