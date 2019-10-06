@@ -9,15 +9,9 @@
 
 #include "StringCLI.h"
 
-#ifdef __cplusplus
 extern "C" {
-#endif // ifdef __cplusplus
-
 #include "c/arg_types.h" // arg
-
-#ifdef __cplusplus
 }
-#endif // ifdef __cplusplus
 
 #define ARGUMENT_TEMPORARY false
 #define ARGUMENT_PERSISTENT true

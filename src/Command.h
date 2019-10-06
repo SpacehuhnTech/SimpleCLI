@@ -10,15 +10,9 @@
 #include "StringCLI.h"
 #include "Argument.h" // Argument
 
-#ifdef __cplusplus
 extern "C" {
-#endif // ifdef __cplusplus
-
 #include "c/cmd_types.h" // cmd
-
-#ifdef __cplusplus
 }
-#endif // ifdef __cplusplus
 
 #define COMMAND_TEMPORARY false
 #define COMMAND_PERSISTENT true

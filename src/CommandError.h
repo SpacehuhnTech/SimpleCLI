@@ -10,15 +10,9 @@
 #include "StringCLI.h"
 #include "Command.h" // Command
 
-#ifdef __cplusplus
 extern "C" {
-#endif // ifdef __cplusplus
-
-#include "c/cmd_error_types.h" // cmd_error
-
-#ifdef __cplusplus
+  #include "c/cmd_error_types.h" // cmd_error
 }
-#endif // ifdef __cplusplus
 
 #define COMMAND_ERROR_TEMPORARY false
 #define COMMAND_ERROR_PERSISTENT true

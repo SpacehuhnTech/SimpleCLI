@@ -6,15 +6,9 @@
 
 #include "Argument.h"
 
-#ifdef __cplusplus
 extern "C" {
-#endif // ifdef __cplusplus
-
 #include "c/arg.h"
-
-#ifdef __cplusplus
 }
-#endif // ifdef __cplusplus
 
 Argument::Argument(arg* argPointer, bool persistent) : argPointer(argPointer), persistent(persistent) {
     if (!persistent) argPointer = arg_copy(argPointer);
