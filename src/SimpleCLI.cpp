@@ -48,23 +48,27 @@ void SimpleCLI::parse(const char* str, size_t len) {
                 if (h->callback) h->callback(h);
                 else cmdQueue = cmd_push(cmdQueue, cmd_move(h), commandQueueSize);
 
-                cmd_error_destroy(e);
-
                 success = true;
             }
 
             // When command name matches but something else went wrong, exit with error
             else if (e->mode > CMD_NOT_FOUND) {
-                if (onError) onError(e);
-                else errorQueue = cmd_error_push(errorQueue, e, errorQueueSize);
+                if (onError) {
+                    onError(e);
+                } else {
+                    errorQueue = cmd_error_push(errorQueue, cmd_error_copy(e), errorQueueSize);
+                }
 
                 errored = true;
             }
 
             // When command name does not match
-            else /*(e->mode <= CMD_NOT_FOUND)*/ {
-                cmd_error_destroy(e);
-            }
+
+            /*else (e->mode <= CMD_NOT_FOUND) {
+
+               }*/
+
+            cmd_error_destroy(e);
 
             cmd_reset(h);
 
@@ -75,8 +79,13 @@ void SimpleCLI::parse(const char* str, size_t len) {
         if (!errored && !success) {
             cmd_error* e = cmd_error_create_not_found(NULL, n->words->first);
 
-            if (onError) onError(e);
-            else errorQueue = cmd_error_push(errorQueue, e, errorQueueSize);
+            if (onError) {
+                onError(e);
+            } else {
+                errorQueue = cmd_error_push(errorQueue, cmd_error_copy(e), errorQueueSize);
+            }
+
+            cmd_error_destroy(e);
 
             errored = true;
         }
