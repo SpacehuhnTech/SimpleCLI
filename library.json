@@ -1,6 +1,6 @@
 {
   "name": "SimpleCLI",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "keywords": "cli, parser, command, line, interface",
   "description": "Add a command line interface to your project the easy way",
   "repository": {
