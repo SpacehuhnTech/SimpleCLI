@@ -10,7 +10,7 @@ Add commands to your project without hassle.<br>
 <br>
   🐦 <a href="https://twitter.com/spacehuhn">Twitter</a>
 | 📺 <a href="https://www.youtube.com/spacehuhn">YouTube</a>
-| 🌍 <a href="https://spacehuhn.com">spacehuhn.com</a><br>
+| 🌍 <a href="https://spacehuhn.io">spacehuhn.io</a><br>
 <br>
 Support this project and become a patron on <a href="https://patreon.com/spacehuhn">patreon.com/spacehuhn</a>.<br>
 Also available: <a href="https://www.tindie.com/products/Spacehuhn/spacehuhn-stickers/">Stickers</a></b>!
@@ -22,6 +22,7 @@ Also available: <a href="https://www.tindie.com/products/Spacehuhn/spacehuhn-sti
 A list of projects that make use of this library:  
 - [The Chicken Man Game](https://github.com/skickar/ChickenManGame)
 - [Control ESP32 with Command Line Interface Over the Internet](https://www.hackster.io/donowak/control-esp32-with-command-line-interface-over-the-internet-fa9634)
+- [WiFiDuck](https://github.com/spacehuhn/WiFiDuck)
 
 ## Overview
 
