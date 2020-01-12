@@ -33,32 +33,32 @@ void setup() {
 
     cmdPing = cli.addCmd("ping");
     cmdPing.addArg("n", "10");
-    cmdPing.setDescription("Responds with a ping n-times");
+    cmdPing.setDescription(" Responds with a ping n-times");
 
     cmdMycommand = cli.addCmd("mycommand");
     cmdMycommand.addArg("o");
-    cmdMycommand.setDescription("Says hi to o");
+    cmdMycommand.setDescription(" Says hi to o");
 
     cmdEcho = cli.addCmd("echo");
     cmdEcho.addPosArg("text", "something");
-    cmdEcho.setDescription("Echos what you said");
+    cmdEcho.setDescription(" Echos what you said");
 
     cmdRm = cli.addCmd("rm");
     cmdRm.addPosArg("file");
-    cmdRm.setDescription("Removes specified file (but not actually)");
+    cmdRm.setDescription(" Removes specified file (but not actually)");
 
     cmdLs = cli.addCmd("ls");
     cmdLs.addFlagArg("a");
-    cmdLs.setDescription("Lists files in directory (-a for all)");
+    cmdLs.setDescription(" Lists files in directory (-a for all)");
 
     cmdBoundless = cli.addBoundlessCmd("boundless");
-    cmdBoundless.setDescription("A boundless command that echos your input");
+    cmdBoundless.setDescription(" A boundless command that echos your input");
 
     cmdSingle = cli.addSingleArgCmd("single");
-    cmdSingle.setDescription("A single command that echos your input");
+    cmdSingle.setDescription(" A single command that echos your input");
 
     cmdHelp = cli.addCommand("help");
-    cmdHelp.setDescription("Get help!");
+    cmdHelp.setDescription(" Get help!");
 
     Serial.println("Started!");
 }

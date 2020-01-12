@@ -288,7 +288,7 @@ void Command::toString(String& s) const {
         }
 
         if (hasDescription()) {
-            s += "\n  "+ getDescription() + '\n';
+            s += '\n' + getDescription() + '\n';
         }
     }
 }
