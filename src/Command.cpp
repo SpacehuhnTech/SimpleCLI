@@ -75,6 +75,10 @@ bool Command::setCallback(void (* callback)(cmd* c)) {
     return false;
 }
 
+void Command::setDescription(const char* description) {
+    cmd_set_description(cmdPointer, description);
+}
+
 Argument Command::addArg(const char* name, const char* defaultValue) {
     if (cmdPointer && (cmdPointer->mode == CMD_DEFAULT)) {
         arg* a = arg_create_opt(name, defaultValue);
@@ -254,6 +258,14 @@ CommandType Command::getType() const {
     return CommandType::NORMAL;
 }
 
+bool Command::hasDescription() const {
+    return cmdPointer && cmdPointer->description;
+}
+
+String Command::getDescription() const {
+    return String(cmd_get_description(cmdPointer));
+}
+
 void Command::toString(String& s) const {
     if (cmdPointer) {
         s += String(cmdPointer->name);
@@ -273,6 +285,10 @@ void Command::toString(String& s) const {
 
                 h = h->next;
             }
+        }
+
+        if (hasDescription()) {
+            s += "\n  "+ getDescription() + '\n';
         }
     }
 }

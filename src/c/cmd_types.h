@@ -25,6 +25,7 @@ typedef struct cmd {
     struct arg * arg_list;
     unsigned int case_sensetive : 1;
     void (* callback)(struct cmd* c);
+    const char* description;
     struct cmd* next;
 } cmd;
 

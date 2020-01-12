@@ -8,7 +8,7 @@
 #define Command_h
 
 #include "StringCLI.h"
-#include "Argument.h" // Argument
+#include "Argument.h"    // Argument
 
 extern "C" {
 #include "c/cmd_types.h" // cmd
@@ -43,6 +43,8 @@ class Command {
         bool setCaseSensetive(bool caseSensetive = true);
         bool setCallback(void (* callback)(cmd* c));
 
+        void setDescription(const char* description);
+
         Argument addArg(const char* name, const char* defaultValue);
         Argument addArg(const char* name);
         Argument addPosArg(const char* name, const char* defaultValue);
@@ -73,6 +75,9 @@ class Command {
         Argument getArg(const Argument& a) const;
 
         CommandType getType() const;
+
+        bool hasDescription() const;
+        String getDescription() const;
 
         String toString() const;
         void toString(String& s) const;

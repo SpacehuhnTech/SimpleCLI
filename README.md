@@ -79,7 +79,7 @@ Here's a list of tested hardware (feel free to contribute by making a Pull-Reque
 
 ## Usage
 
-[![SimpleCLI YouTube Tutorial](https://img.youtube.com/vi/UyW-wICdnKo/0.jpg)](https://www.youtube.com/watch?v=UyW-wICdnKo) 
+[![SimpleCLI YouTube Tutorial](https://img.youtube.com/vi/UyW-wICdnKo/0.jpg)](https://www.youtube.com/watch?v=UyW-wICdnKo)
 
 ### Examples
 
@@ -356,6 +356,8 @@ operator bool() const;
 bool setCaseSensetive(bool caseSensetive = true);
 bool setCallback(void (* callback)(cmd* c));
 
+void setDescription(const char* description);
+
 Argument addArg(const char* name, const char* defaultValue);
 Argument addArg(const char* name);
 Argument addPosArg(const char* name, const char* defaultValue);
@@ -378,12 +380,17 @@ int countArgs() const;
 Argument getArgument(int i = 0) const;
 Argument getArgument(const char* name) const;
 Argument getArgument(String name) const;
+Argument getArgument(const Argument& a) const;
 
 Argument getArg(int i = 0) const;
 Argument getArg(const char* name) const;
 Argument getArg(String name) const;
+Argument getArg(const Argument& a) const;
 
 CommandType getType() const;
+
+bool hasDescription() const;
+String getDescription() const;
 
 String toString() const;
 void toString(String& s) const;

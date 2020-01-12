@@ -44,4 +44,10 @@ int cmd_equals(cmd* a, cmd* b, int case_sensetive);
 // Parser
 cmd_error* cmd_parse(cmd* c, line_node* n);
 
+// Getter
+const char* cmd_get_description(cmd* c);
+
+// Setter
+void cmd_set_description(cmd* c, const char* description);
+
 #endif /* ifndef cmd_h */

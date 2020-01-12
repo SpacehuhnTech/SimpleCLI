@@ -27,6 +27,7 @@ cmd* cmd_create(const char* name, unsigned int mode) {
     c->arg_list       = NULL;
     c->case_sensetive = COMPARE_CASE_INSENSETIVE;
     c->callback       = NULL;
+    c->description    = NULL;
     c->next           = NULL;
 
     return c;
@@ -58,6 +59,7 @@ cmd* cmd_copy(cmd* c) {
     nc->arg_list       = arg_copy_rec(c->arg_list);
     nc->case_sensetive = c->case_sensetive;
     nc->callback       = c->callback;
+    nc->description    = c->description;
     nc->next           = NULL;
 
     return nc;
@@ -82,6 +84,7 @@ cmd* cmd_move(cmd* c) {
     nc->arg_list       = arg_move_rec(c->arg_list);
     nc->case_sensetive = c->case_sensetive;
     nc->callback       = c->callback;
+    nc->description    = c->description;
     nc->next           = NULL;
 
     return nc;
@@ -289,4 +292,17 @@ cmd_error* cmd_parse(cmd* c, line_node* n) {
     }
 
     return cmd_error_create_parse_success(c);
+}
+
+// Getter
+const char* cmd_get_description(cmd* c) {
+    if (!c) return NULL;
+    return c->description;
+}
+
+// Setter
+void cmd_set_description(cmd* c, const char* description) {
+    if (c) {
+        c->description = description;
+    }
 }
