@@ -79,8 +79,8 @@ class Command {
         bool hasDescription() const;
         String getDescription() const;
 
-        String toString() const;
-        void toString(String& s) const;
+        String toString(bool description          = true) const;
+        void toString(String& s, bool description = true) const;
 
         void run() const;
 };

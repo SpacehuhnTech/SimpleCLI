@@ -326,8 +326,8 @@ Command addCommand(const char* name, void (* callback)(cmd* c)               = N
 Command addBoundlessCommand(const char* name, void (* callback)(cmd* c)      = NULL);
 Command addSingleArgumentCommand(const char* name, void (* callback)(cmd* c) = NULL);
 
-String toString() const;
-void toString(String& s) const;
+String toString(bool descriptions          = true) const;
+void toString(String& s, bool descriptions = true) const;
 
 void setCaseSensetive(bool caseSensetive = true);
 void setOnError(void (* onError)(cmd_error* e));
@@ -393,8 +393,8 @@ CommandType getType() const;
 bool hasDescription() const;
 String getDescription() const;
 
-String toString() const;
-void toString(String& s) const;
+String toString(bool description          = true) const;
+void toString(String& s, bool description = true) const;
 
 void run() const;
 ```

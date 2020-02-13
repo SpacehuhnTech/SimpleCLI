@@ -237,10 +237,10 @@ Argument Command::getArg(const Argument& a) const {
     return getArgument(a);
 }
 
-String Command::toString() const {
+String Command::toString(bool description) const {
     String s;
 
-    toString(s);
+    toString(s, description);
     return s;
 }
 
@@ -266,7 +266,7 @@ String Command::getDescription() const {
     return String(cmd_get_description(cmdPointer));
 }
 
-void Command::toString(String& s) const {
+void Command::toString(String& s, bool description) const {
     if (cmdPointer) {
         s += String(cmdPointer->name);
 
@@ -287,7 +287,7 @@ void Command::toString(String& s) const {
             }
         }
 
-        if (hasDescription()) {
+        if (description && hasDescription()) {
             s += '\n' + getDescription();
         }
     }

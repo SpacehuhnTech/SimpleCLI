@@ -242,18 +242,18 @@ Command SimpleCLI::addSingleArgumentCommand(const char* name, void (* callback)(
     return addSingleArgCmd(name, callback);
 }
 
-String SimpleCLI::toString() const {
+String SimpleCLI::toString(bool descriptions) const {
     String s;
 
-    toString(s);
+    toString(s, descriptions);
     return s;
 }
 
-void SimpleCLI::toString(String& s) const {
+void SimpleCLI::toString(String& s, bool descriptions) const {
     cmd* h = cmdList;
 
     while (h) {
-        Command(h).toString(s);
+        Command(h).toString(s, descriptions);
         s += '\n';
         h  = h->next;
     }
