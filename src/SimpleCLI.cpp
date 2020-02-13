@@ -254,7 +254,7 @@ void SimpleCLI::toString(String& s) const {
 
     while (h) {
         Command(h).toString(s);
-        s += '\n';
+        s += "\r\n";
         h  = h->next;
     }
 }
