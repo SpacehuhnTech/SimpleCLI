@@ -253,8 +253,8 @@ void SimpleCLI::toString(String& s, bool descriptions) const {
     cmd* h = cmdList;
 
     while (h) {
-        Command(h).toString(s, descriptions);
-        s += '\n';
+        Command(h).toString(s);
+        s += "\r\n";
         h  = h->next;
     }
 }

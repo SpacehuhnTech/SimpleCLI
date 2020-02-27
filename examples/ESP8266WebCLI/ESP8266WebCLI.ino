@@ -89,18 +89,18 @@ void handleRoot() {
 }
 
 void handleNotFound() {
-    String message = "File Not Found\n\n";
+    String message = "File Not Found\r\n\r\n";
 
     message += "URI: ";
     message += server.uri();
-    message += "\nMethod: ";
+    message += "\r\nMethod: ";
     message += (server.method() == HTTP_GET) ? "GET" : "POST";
-    message += "\nArguments: ";
+    message += "\r\nArguments: ";
     message += server.args();
-    message += "\n";
+    message += "\r\n";
 
     for (uint8_t i = 0; i < server.args(); i++) {
-        message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
+        message += " " + server.argName(i) + ": " + server.arg(i) + "\r\n";
     }
     server.send(404, "text/plain", message);
 }
