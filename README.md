@@ -397,6 +397,8 @@ String toString(bool description          = true) const;
 void toString(String& s, bool description = true) const;
 
 void run() const;
+
+cmd* getPtr();
 ```
 
 ### CommandErrorType
@@ -447,6 +449,8 @@ String getMsg() const;
 
 String toString() const;
 void toString(String& s) const;
+
+cmd_error* getPtr();
 ```
 
 ### ArgumentType
@@ -489,6 +493,8 @@ void toString(String& s) const;
 bool equals(String name, bool caseSensetive       = false) const;
 bool equals(const char* name, bool caseSensetive  = false) const;
 bool equals(const Argument& a, bool caseSensetive = false) const;
+
+arg* getPtr();
 ```
 
 ## License

@@ -296,3 +296,7 @@ void Command::toString(String& s, bool description) const {
 void Command::run() const {
     if (cmdPointer && cmdPointer->callback) cmdPointer->callback(cmdPointer);
 }
+
+cmd* Command::getPtr() {
+    return cmdPointer;
+}

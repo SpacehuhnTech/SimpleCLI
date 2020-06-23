@@ -60,6 +60,8 @@ class Argument {
         bool equals(String name, bool caseSensetive       = false) const;
         bool equals(const char* name, bool caseSensetive  = false) const;
         bool equals(const Argument& a, bool caseSensetive = false) const;
+
+        arg* getPtr();
 };
 
 #endif /* ifndef Argument_h */

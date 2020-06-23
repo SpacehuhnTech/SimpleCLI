@@ -83,6 +83,8 @@ class Command {
         void toString(String& s, bool description = true) const;
 
         void run() const;
+
+        cmd* getPtr();
 };
 
 #endif /* ifndef Command_h */

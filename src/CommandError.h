@@ -65,6 +65,8 @@ class CommandError {
 
         String toString() const;
         void toString(String& s) const;
+
+        cmd_error* getPtr();
 };
 
 #endif /* ifndef CommandError_h */

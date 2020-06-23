@@ -145,3 +145,7 @@ bool Argument::equals(const char* name, bool caseSensetive) const {
 bool Argument::equals(const Argument& a, bool caseSensetive) const {
     return argPointer && a.argPointer && arg_equals(argPointer, a.argPointer, caseSensetive);
 }
+
+arg* Argument::getPtr() {
+    return argPointer;
+}

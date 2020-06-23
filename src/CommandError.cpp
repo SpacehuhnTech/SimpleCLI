@@ -167,3 +167,7 @@ void CommandError::toString(String& s) const {
     if (hasArgument()) s += String(F(" at argument '")) + getArgument().toString() + String(F("'"));
     if (hasData()) s += String(F(" at '")) + getData() + String(F("'"));
 }
+
+cmd_error* CommandError::getPtr() {
+    return errorPointer;
+}
