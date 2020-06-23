@@ -4,8 +4,9 @@ on:
   push:
     tags:
       - '*'
-      
-version-check:
+
+jobs:
+  version-check:
     name: "Check version number"
     runs-on: ubuntu-latest
     steps:
