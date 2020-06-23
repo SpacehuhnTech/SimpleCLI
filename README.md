@@ -298,12 +298,16 @@ Here is a plain overview of all classes and their methods:
 ```c++
 SimpleCLI(int commandQueueSize = 10, int errorQueueSize = 10);
 
+void pause();
+void unpause();
+
 void parse(String& input);
 void parse(const char* input);
 void parse(const char* input, size_t input_len);
 
 bool available() const;
 bool errored() const;
+bool paused() const;
 
 int countCmdQueue() const;
 int countErrorQueue() const;

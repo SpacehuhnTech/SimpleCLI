@@ -17,6 +17,7 @@
 class SimpleCLI {
     private:
         bool caseSensetive { false };
+        bool pauseParsing { false };
 
         cmd* cmdList { NULL };          // List of accessible commands
         cmd* cmdQueue { NULL };         // Queue with parsed commands the user has typed in
@@ -36,12 +37,16 @@ class SimpleCLI {
         SimpleCLI(int commandQueueSize = 10, int errorQueueSize = 10);
         ~SimpleCLI();
 
+        void pause();
+        void unpause();
+
         void parse(const String& input);
         void parse(const char* input);
         void parse(const char* input, size_t input_len);
 
         bool available() const;
         bool errored() const;
+        bool paused() const;
 
         int countCmdQueue() const;
         int countErrorQueue() const;

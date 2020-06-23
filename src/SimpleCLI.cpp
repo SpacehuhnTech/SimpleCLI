@@ -20,6 +20,41 @@ SimpleCLI::~SimpleCLI() {
     cmd_error_destroy_rec(errorQueue);
 }
 
+void SimpleCLI::pause() {
+    pauseParsing = true;
+}
+
+void SimpleCLI::unpause() {
+    pauseParsing = false;
+
+    // Go through queued errors
+    while (onError && errored()) {
+        onError(getError().getPtr());
+    }
+
+    // Go through queued commands
+    if(available()) {
+        cmd* prev = NULL;
+        cmd* current = cmdQueue;
+        cmd* next = NULL;
+
+        while(current) {
+            next = current->next;
+
+            // Has callback, then run it and remove from queue
+            if(current->callback) {
+                current->callback(current);
+                if(prev) prev->next = next;
+                cmd_destroy(current);
+            } else {
+                prev = current;
+            }
+
+            current = next;
+        }
+    }
+}
+
 void SimpleCLI::parse(const String& input) {
     parse(input.c_str(), input.length());
 }
@@ -45,7 +80,7 @@ void SimpleCLI::parse(const char* str, size_t len) {
 
             // When parsing was successful
             if (e->mode == CMD_PARSE_SUCCESS) {
-                if (h->callback) h->callback(h);
+                if (h->callback && !pauseParsing) h->callback(h);
                 else cmdQueue = cmd_push(cmdQueue, cmd_move(h), commandQueueSize);
 
                 success = true;
@@ -53,7 +88,7 @@ void SimpleCLI::parse(const char* str, size_t len) {
 
             // When command name matches but something else went wrong, exit with error
             else if (e->mode > CMD_NOT_FOUND) {
-                if (onError) {
+                if (onError && !pauseParsing) {
                     onError(e);
                 } else {
                     errorQueue = cmd_error_push(errorQueue, cmd_error_copy(e), errorQueueSize);
@@ -79,7 +114,7 @@ void SimpleCLI::parse(const char* str, size_t len) {
         if (!errored && !success) {
             cmd_error* e = cmd_error_create_not_found(NULL, n->words->first);
 
-            if (onError) {
+            if (onError && !pauseParsing) {
                 onError(e);
             } else {
                 errorQueue = cmd_error_push(errorQueue, cmd_error_copy(e), errorQueueSize);
@@ -102,6 +137,10 @@ bool SimpleCLI::available() const {
 
 bool SimpleCLI::errored() const {
     return errorQueue;
+}
+
+bool SimpleCLI::paused() const {
+    return pauseParsing;
 }
 
 int SimpleCLI::countCmdQueue() const {
