@@ -23,6 +23,7 @@ A list of projects that make use of this library:
 - [The Chicken Man Game](https://github.com/skickar/ChickenManGame)
 - [Control ESP32 with Command Line Interface Over the Internet](https://www.hackster.io/donowak/control-esp32-with-command-line-interface-over-the-internet-fa9634)
 - [WiFiDuck](https://github.com/spacehuhn/WiFiDuck)
+- [ESP8266 Deauther V3](https://github.com/SpacehuhnTech/esp8266_deauther/tree/v3)
 
 ## Overview
 
