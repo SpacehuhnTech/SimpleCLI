@@ -81,7 +81,7 @@ void SimpleCLI::parse(const char* str, size_t len) {
             // When parsing was successful
             if (e->mode == CMD_PARSE_SUCCESS) {
                 if (h->callback && !pauseParsing) h->callback(h);
-                else cmdQueue = cmd_push(cmdQueue, cmd_move(h), commandQueueSize);
+                else cmdQueue = cmd_push(cmdQueue, cmd_copy(h), commandQueueSize);
 
                 success = true;
             }
