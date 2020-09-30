@@ -4,7 +4,7 @@
    Source: github.com/spacehuhn/SimpleCLI
  */
 
-// Inlcude Library
+// Include Library
 #include <SimpleCLI.h>
 
 // Create CLI Object

@@ -11,7 +11,7 @@
    PLEASE NOTE: 115200 is the baud rate and Newline is enabled in the serial monitor
  */
 
-// Inlcude Library
+// Include Library
 #include <SimpleCLI.h>
 
 // Create CLI Object
