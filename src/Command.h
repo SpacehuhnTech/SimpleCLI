@@ -41,6 +41,7 @@ class Command {
         operator bool() const;
 
         bool setCaseSensetive(bool caseSensetive = true);
+        bool setCaseSensitive(bool caseSensitive = true);
         bool setCallback(void (* callback)(cmd* c));
 
         void setDescription(const char* description);

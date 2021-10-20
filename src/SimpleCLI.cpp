@@ -310,6 +310,10 @@ void SimpleCLI::setCaseSensetive(bool caseSensetive) {
     }
 }
 
+void SimpleCLI::setCaseSensitive(bool caseSensitive) {
+    setCaseSensetive(caseSensitive);
+}
+
 void SimpleCLI::setOnError(void (* onError)(cmd_error* e)) {
     this->onError = onError;
 }

@@ -67,6 +67,10 @@ bool Command::setCaseSensetive(bool caseSensetive) {
     return false;
 }
 
+bool Command::setCaseSensitive(bool caseSensitive) {
+    return setCaseSensetive(caseSensitive);
+}
+
 bool Command::setCallback(void (* callback)(cmd* c)) {
     if (cmdPointer && callback) {
         cmdPointer->callback = callback;

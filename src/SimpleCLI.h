@@ -73,6 +73,7 @@ class SimpleCLI {
         void toString(String& s, bool descriptions = true) const;
 
         void setCaseSensetive(bool caseSensetive = true);
+        void setCaseSensitive(bool caseSensitive = true);
         void setOnError(void (* onError)(cmd_error* e));
         void setErrorCallback(void (* onError)(cmd_error* e));
 };
