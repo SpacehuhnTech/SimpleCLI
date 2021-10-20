@@ -8,19 +8,13 @@ Add commands to your project without hassle.<br>
 <br>
 <a href="https://www.ardu-badge.com/SimpleCLI" target="_blank"><img alt="Ardu Badge for SimpleCLI Library" src="https://www.ardu-badge.com/badge/SimpleCLI.svg"></a><br>
 <br>
-  🐦 <a href="https://twitter.com/spacehuhn">Twitter</a>
-| 📺 <a href="https://www.youtube.com/spacehuhn">YouTube</a>
-| 🌍 <a href="https://spacehuhn.io">spacehuhn.io</a><br>
-<br>
-Support this project and become a patron on <a href="https://patreon.com/spacehuhn">patreon.com/spacehuhn</a>.<br>
-Also available: <a href="https://www.tindie.com/products/Spacehuhn/spacehuhn-stickers/">Stickers</a></b>!
+<a href='https://ko-fi.com/G2G75FA4V' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 </p>
 
 ![Cowsay command example](img/cowsay.gif)  
 
 ## Projects
 A list of projects that make use of this library:  
-- [The Chicken Man Game](https://github.com/skickar/ChickenManGame)
 - [Control ESP32 with Command Line Interface Over the Internet](https://www.hackster.io/donowak/control-esp32-with-command-line-interface-over-the-internet-fa9634)
 - [WiFiDuck](https://github.com/spacehuhn/WiFiDuck)
 - [ESP8266 Deauther V3](https://github.com/SpacehuhnTech/esp8266_deauther/tree/v3)
