@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2019 Stefan Kremser
+   Copyright (c) 2021 Spacehuhn Technologies
    This software is licensed under the MIT License. See the license file for details.
    Source: github.com/spacehuhn/SimpleCLI
  */
@@ -9,10 +9,10 @@
 
 #include "CommandError.h" // CommandError, Command, Argument
 
-#define SIMPLECLI_VERSION "1.1.1"
+#define SIMPLECLI_VERSION "1.1.2"
 #define SIMPLECLI_VERSION_MAJOR 1
 #define SIMPLECLI_VERSION_MINOR 1
-#define SIMPLECLI_VERSION_REVISION 1
+#define SIMPLECLI_VERSION_REVISION 2
 
 class SimpleCLI {
     private:
