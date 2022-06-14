@@ -105,7 +105,7 @@ void SimpleCLI::parse(const char* str, size_t len) {
 
             cmd_error_destroy(e);
 
-            cmd_reset(h);
+            cmd_reset_cli(h);
 
             h = h->next;
         }

@@ -9,7 +9,7 @@
 
 #include "CommandError.h" // CommandError, Command, Argument
 
-#define SIMPLECLI_VERSION "1.1.3"
+#define SIMPLECLI_VERSION "1.1.4"
 #define SIMPLECLI_VERSION_MAJOR 1
 #define SIMPLECLI_VERSION_MINOR 1
 #define SIMPLECLI_VERSION_REVISION 3

@@ -163,7 +163,7 @@ cmd* cmd_add_arg(cmd* c, arg* a) {
 }
 
 // Reset CMD
-void cmd_reset(cmd* c) {
+void cmd_reset_cli(cmd* c) {
     if (c) {
         if (c->mode == CMD_BOUNDLESS) {
             arg_destroy_rec(c->arg_list);
@@ -174,10 +174,10 @@ void cmd_reset(cmd* c) {
     }
 }
 
-void cmd_reset_rec(cmd* c) {
+void cmd_reset_cli_rec(cmd* c) {
     if (c) {
-        cmd_reset(c);
-        cmd_reset_rec(c->next);
+        cmd_reset_cli(c);
+        cmd_reset_cli_rec(c->next);
     }
 }
 

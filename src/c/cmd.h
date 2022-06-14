@@ -34,8 +34,8 @@ cmd* cmd_push(cmd* l, cmd* c, int max_size);
 cmd* cmd_add_arg(cmd* c, arg* a);
 
 // Reset CMD
-void cmd_reset(cmd* c);
-void cmd_reset_rec(cmd* c);
+void cmd_reset_cli(cmd* c);
+void cmd_reset_cli_rec(cmd* c);
 
 // Comparisons
 int cmd_name_equals(cmd* c, const char* name, size_t name_len, int case_sensetive);
